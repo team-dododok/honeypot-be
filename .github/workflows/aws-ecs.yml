@@ -66,8 +66,9 @@ jobs:
 
     - name: 🐿 task-definition.json 파일을 생성 합니다.
       run: |
-        touch ./task-definition-dev.json
-        echo "${{ secrets.ECS_TASK_DEFINITION_DEV }}" > ./task-definition-dev.json
+        cat <<EOF > ./task-definition-dev.json
+        ${{ secrets.ECS_TASK_DEFINITION_DEV }}
+        EOF
 
     - name: 🐿gradle build를 위한 권한을 부여합니다.
       run: chmod +x gradlew
