@@ -24,7 +24,7 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: Deploy to Amazon ECS
+name: 🫴 Deploy to Amazon ECS
 
 on:
   push:
@@ -47,26 +47,32 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy
+    name: 🐿 Deploy
     runs-on: ubuntu-latest
     environment: production
 
     steps:
-    - name: Checkout
+    - name: 🐿 Checkout
       uses: actions/checkout@v4
 
-    - name: Configure AWS credentials
+    - name: 🐿gradle build를 위한 권한을 부여합니다.
+      run: chmod +x gradlew
+
+    - name: 🐧 gradle build 중입니다.
+      run: ./gradlew build -x test
+
+    - name: 🐿 AWS 권한을 설정합니다.
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Login to Amazon ECR
+    - name: 🐿 아마존 ECR에 로그인 합니다.
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build, tag, and push image to Amazon ECR
+    - name: 🐿 이미지를 빌드하고 ECR에 푸시합니다.
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -79,7 +85,7 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-    - name: Fill in the new image ID in the Amazon ECS task definition
+    - name: 🐿 새로운 이미지에 대한 ECR 테스크 정의를 진행합니다.
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
@@ -87,7 +93,7 @@ jobs:
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
 
-    - name: Deploy Amazon ECS task definition
+    - name: 🐿 ECS에 새로 배포된 이미지를 배포합니다.
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
