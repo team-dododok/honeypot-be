@@ -24,7 +24,7 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: 🫴 DEV Deploy to Amazon ECS
+name: 🙏 DEV Deploy to Amazon ECS
 
 on:
   push:
@@ -37,7 +37,7 @@ env:
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}           # set this to your Amazon ECR repository name
   ECS_SERVICE: ${{ secrets.ECS_SERVICE }}                 # set this to your Amazon ECS service name
   ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: ./src/main/resources/task-definition.json # set this to the path to your Amazon ECS task definition
+  ECS_TASK_DEFINITION: task-definition-dev.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
@@ -59,20 +59,20 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: 🐧 application.yml 파일을 생성 합니다.
+    - name: 🐿 application.yml 파일을 생성 합니다.
       run: |
         touch ./src/main/resources/application-dev.yml
         echo "${{ secrets.APPLICATION_DEV }}" > ./src/main/resources/application-dev.yml
 
-    - name: 🐧 task-definition.json 파일을 생성 합니다.
+    - name: 🐿 task-definition.json 파일을 생성 합니다.
       run: |
-        touch ./src/main/resources/task-definition.json
-        echo "${{ secrets.ECS_TASK_DEFINITION }}" > ./src/main/resources/task-definition.json
+        touch .task-definition-dev.json
+        echo "${{ secrets.ECS_TASK_DEFINITION_DEV }}" > .task-definition-dev.json
 
     - name: 🐿gradle build를 위한 권한을 부여합니다.
       run: chmod +x gradlew
 
-    - name: 🐧 gradle build 중입니다.
+    - name: 🐿 gradle build 중입니다.
       run: ./gradlew build -x test
 
     - name: 🐿 AWS 권한을 설정합니다.
