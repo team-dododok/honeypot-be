@@ -52,8 +52,15 @@ jobs:
     environment: production
 
     steps:
-    - name: 🐿 Checkout
+    - name: 🐿 Set up JDK 17
       uses: actions/checkout@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: 🐧 application.yml 파일을 생성 합니다.
+      run: |
+        touch ./src/main/resources/application-dev.yml
+        echo "${{ secrets.APPLICATION_DEV }}" > ./src/main/resources/application-dev.yml # github actions에서 설정한 값을 application-dev.yml 파일에 쓰기
 
     - name: 🐿gradle build를 위한 권한을 부여합니다.
       run: chmod +x gradlew
@@ -81,7 +88,7 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build --build-arg SPRING_PROFILES_ACTIVE=dev -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
