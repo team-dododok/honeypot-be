@@ -78,6 +78,10 @@ jobs:
         touch ./appspec.yml
         echo "${{ secrets.APPSPEC_DEV }}" > ./appspec.yml
 
+    - name: 🐿 Dockerfile 을 생성 합니다.
+      run: |
+        echo "${{ secrets.DOCKERFILE_DEV }}" > ./Dockerfile
+
     - name: 🐿gradle build를 위한 권한을 부여합니다.
       run: chmod +x gradlew
 
@@ -95,9 +99,6 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: 🐿 도커 buildx를 설정합니다.
-      uses: docker/setup-buildx-action@v2
-
     - name: 🐿 이미지를 빌드하고 ECR에 푸시합니다.
       id: build-image
       env:
@@ -107,7 +108,8 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker buildx build --platform linux/amd64,linux/arm64 --build-arg SPRING_PROFILES_ACTIVE=dev -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
+        docker build --build-arg SPRING_PROFILES_ACTIVE=dev -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
     - name: 🐿 새로운 이미지에 대한 ECR 테스크 정의를 진행합니다.
