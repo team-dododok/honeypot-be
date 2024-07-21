@@ -41,6 +41,9 @@ env:
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
+  ECS_APP: AppECS-dodok-honeypot-fg-cluster-dodok-honeypot-fg-service
+  ECS_DG: DgpECS-dodok-honeypot-fg-cluster-dodok-honeypot-fg-service
+  ECS_APPSPEC: appspec.yml
 
 permissions:
   contents: read
@@ -69,6 +72,11 @@ jobs:
         cat <<EOF > ./task-definition-dev.json
         ${{ secrets.ECS_TASK_DEFINITION_DEV }}
         EOF
+
+    - name: 🐿 appspec.yml 파일을 생성 합니다.
+      run: |
+        touch ./appspec.yml
+        echo "${{ secrets.APPSPEC_DEV }}" > ./appspec.yml
 
     - name: 🐿gradle build를 위한 권한을 부여합니다.
       run: chmod +x gradlew
@@ -115,3 +123,6 @@ jobs:
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
+        codedeploy-appspec: ${{ env.ECS_APPSPEC }}
+        codedeploy-application: ${{ env.ECS_APP }}
+        codedeploy-deployment-group: ${{ env.ECS_DG }}
