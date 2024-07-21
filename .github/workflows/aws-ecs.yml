@@ -64,8 +64,8 @@ jobs:
 
     - name: 🐿 application.yml 파일을 생성 합니다.
       run: |
-        touch ./src/main/resources/application-dev.yml
-        echo "${{ secrets.APPLICATION_DEV }}" > ./src/main/resources/application-dev.yml
+        touch ./src/main/resources/application-secret.yml
+        echo "${{ secrets.APPLICATION_SECRET }}" > ./src/main/resources/application-secret.yml
 
     - name: 🐿 task-definition.json 파일을 생성 합니다.
       run: |
