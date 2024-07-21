@@ -107,8 +107,7 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker buildx build --platform linux/amd64,linux/arm64 --build-arg SPRING_PROFILES_ACTIVE=dev -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker buildx build --platform linux/amd64,linux/arm64 --build-arg SPRING_PROFILES_ACTIVE=dev -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --push .
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
     - name: 🐿 새로운 이미지에 대한 ECR 테스크 정의를 진행합니다.
