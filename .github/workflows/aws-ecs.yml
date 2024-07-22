@@ -4,8 +4,6 @@ name: 🙏 DEV Deploy to Amazon ECS
 on:
   push:
     branches: [ "dev" ]
-  pull_request:
-    branches: [ "dev" ]
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}                   # set this to your preferred AWS region, e.g. us-west-1
