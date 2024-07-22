@@ -1,5 +1,5 @@
 # JDK 17
-FROM openjdk:17
+FROM openjdk:17-jdk
 
 EXPOSE 8080
 
