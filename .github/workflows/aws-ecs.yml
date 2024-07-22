@@ -41,8 +41,8 @@ env:
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
-  ECS_APP: AppECS-dodok-honeypot-fg-cluster-dodok-honeypot-fg-service
-  ECS_DG: DgpECS-dodok-honeypot-fg-cluster-dodok-honeypot-fg-service
+  ECS_APP: AppECS-honeypot-cluster-honeypot-service
+  ECS_DG: DgpECS-honeypot-cluster-honeypot-service
   ECS_APPSPEC: appspec.yml
 
 permissions:
