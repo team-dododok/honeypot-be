@@ -30,3 +30,6 @@ spring:
     redis:
       host: ${prod.redis.host}
       port: ${prod.redis.port}
+    web:
+      pageable:
+        default-page-size: 10
