@@ -1,7 +1,5 @@
 package com.dodok.honeypot.global.config.security;
 
-import com.dodok.honeypot.global.auth.JwtFilter;
-import com.dodok.honeypot.global.auth.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +23,7 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.disable())
                 .httpBasic((auth) -> auth.disable())
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/health", "/api/member/info")
+                        .requestMatchers("/api/health", "/api/member/info/*", "/api/member/search")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
