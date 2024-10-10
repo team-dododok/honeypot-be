@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.disable())
                 .httpBasic((auth) -> auth.disable())
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/health")
+                        .requestMatchers("/api/health", "/api/member/info")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
