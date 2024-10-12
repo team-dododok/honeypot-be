@@ -1,5 +1,6 @@
-package com.dodok.honeypot.global.entity;
+package com.dodok.honeypot.global.dto;
 
+import com.dodok.honeypot.global.entity.SuccessCode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

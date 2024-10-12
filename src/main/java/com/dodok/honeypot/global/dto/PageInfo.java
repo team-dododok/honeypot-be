@@ -1,4 +1,4 @@
-package com.dodok.honeypot.global.entity;
+package com.dodok.honeypot.global.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;
