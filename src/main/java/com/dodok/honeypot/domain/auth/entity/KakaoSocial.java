@@ -21,8 +21,7 @@ public class KakaoSocial extends BaseTimeEntity{
     @Column(name = "kakao_auth", nullable = false)
     private String kakaoAuth;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 }
-
