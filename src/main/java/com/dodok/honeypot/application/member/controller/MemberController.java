@@ -4,7 +4,7 @@ import com.dodok.honeypot.domain.member.dto.res.MemberInfoResDto;
 import com.dodok.honeypot.domain.member.dto.res.MembersInfoResDto;
 import com.dodok.honeypot.domain.member.service.GetMemberInfoService;
 import com.dodok.honeypot.domain.member.service.GetMembersInfoService;
-import com.dodok.honeypot.global.entity.SuccessResponse;
+import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

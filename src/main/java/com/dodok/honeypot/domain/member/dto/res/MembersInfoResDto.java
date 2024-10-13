@@ -1,7 +1,7 @@
 package com.dodok.honeypot.domain.member.dto.res;
 
 import com.dodok.honeypot.domain.member.dto.info.MemberInfo;
-import com.dodok.honeypot.global.entity.PageInfo;
+import com.dodok.honeypot.global.dto.PageInfo;
 import lombok.AccessLevel;
 import lombok.Builder;
 
