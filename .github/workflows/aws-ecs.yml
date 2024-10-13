@@ -58,7 +58,7 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: 🐿 gradle build 중입니다.
-      run: ./gradlew build -x test
+      run: ./gradlew clean build -x test
 
     - name: 🐿 AWS 권한을 설정합니다.
       uses: aws-actions/configure-aws-credentials@v1
