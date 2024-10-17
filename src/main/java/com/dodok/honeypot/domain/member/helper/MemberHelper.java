@@ -1,7 +1,6 @@
 package com.dodok.honeypot.domain.member.helper;
 
 import com.dodok.honeypot.domain.member.dto.info.MemberInfo;
-import com.dodok.honeypot.domain.member.dto.res.MemberInfoResDto;
 import com.dodok.honeypot.domain.member.repository.MemberRepository;
 import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,8 @@ public class MemberHelper {
 
     private final MemberRepository memberRepository;
 
-    public MemberInfoResDto findMemberByIdOrElseThrow(Long memberId) {
-        return memberRepository.findMemberById(memberId)
+    public MemberInfo findMemberByIdOrElseThrow(Long memberId) {
+        return memberRepository.findMemberDetailInfoByMemberId(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(MEMBER_ENTITY_NOT_FOUND));
     }
 
