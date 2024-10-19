@@ -12,14 +12,15 @@ import java.time.LocalDateTime;
 public record BadgeInfo(
         String name,
         String description,
-        String image_url,
+        String imageUrl,
         LocalDateTime completeDate
 ) {
-    public BadgeInfo of(String name, String description, String image_url, LocalDateTime completeDate){
+
+    public BadgeInfo of(String name, String description, String imageUrl, LocalDateTime completeDate){
         return BadgeInfo.builder()
                 .name(name)
                 .description(description)
-                .image_url(image_url)
+                .imageUrl(imageUrl)
                 .completeDate(completeDate)
                 .build();
     }
