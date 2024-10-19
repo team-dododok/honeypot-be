@@ -16,13 +16,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf((auth) -> auth.disable())
                 .formLogin((auth) -> auth.disable())
                 .httpBasic((auth) -> auth.disable())
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/health", "/api/member/info/*", "/api/member/search")
+                        .requestMatchers("/api/health", "/api/member/info/*", "/api/member/search","/api/badge" )
                         .permitAll()
                         .anyRequest()
                         .authenticated()
