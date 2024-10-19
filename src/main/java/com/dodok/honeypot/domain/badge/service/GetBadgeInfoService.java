@@ -1,8 +1,8 @@
 package com.dodok.honeypot.domain.badge.service;
 
-import com.dodok.honeypot.domain.badge.dto.BadgeInfo;
-import com.dodok.honeypot.domain.badge.dto.req.CompletedBadgeReqDto;
-import com.dodok.honeypot.domain.badge.dto.res.CompletedBadgeResDto;
+import com.dodok.honeypot.domain.badge.dto.AllBadgeInfo;
+import com.dodok.honeypot.domain.badge.dto.CompletedBadgeInfo;
+import com.dodok.honeypot.domain.badge.dto.res.AllBadgeResDto;
 import com.dodok.honeypot.domain.badge.helper.BadgeCompleteHelper;
 import com.dodok.honeypot.domain.badge.helper.BadgeHelper;
 import com.dodok.honeypot.domain.badge.mapper.BadgeCompleteMapper;
@@ -26,8 +26,9 @@ public class GetBadgeInfoService {
     private final BadgeHelper badgeHelper;
     private final BadgeCompleteHelper badgeCompleteHelper;
 
-    public CompletedBadgeResDto execute(CompletedBadgeReqDto req){
-        List<BadgeInfo> badgeInfos = badgeCompleteHelper.findAllCompletedBadgeByMemberId(req.memberId());
-        return badgeCompleteMapper.toBadgeResDto(badgeInfos);
+    public AllBadgeResDto execute(Long memberId){
+        List<AllBadgeInfo> allBadgeInfo = badgeHelper.getAllBadge();
+        List<CompletedBadgeInfo> completedBadgeInfos = badgeCompleteHelper.findAllCompletedBadgeByMemberId(memberId);
+        return badgeCompleteMapper.toBadgeResDto(allBadgeInfo,completedBadgeInfos);
     }
 }

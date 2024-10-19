@@ -1,13 +1,10 @@
 package com.dodok.honeypot.domain.badge.helper;
 
-import com.dodok.honeypot.domain.badge.dto.BadgeInfo;
+import com.dodok.honeypot.domain.badge.dto.CompletedBadgeInfo;
 import com.dodok.honeypot.domain.badge.repository.BadgeCompleteRepository;
-import com.dodok.honeypot.domain.member.dto.info.MemberInfo;
 import com.dodok.honeypot.domain.member.error.MemberErrorCode;
 import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,11 +20,12 @@ public class BadgeCompleteHelper {
      * @param memberId 사용자의 memberId
      * @return
      */
-    public List<BadgeInfo> findAllCompletedBadgeByMemberId(Long memberId) {
-        List<BadgeInfo> badgeInfoList = badgeCompleteRepository.findAllCompletedBadgeByMemberId(memberId);
-        if(badgeInfoList.isEmpty()){
+    public List<CompletedBadgeInfo> findAllCompletedBadgeByMemberId(Long memberId) {
+        List<CompletedBadgeInfo> completedBadgeInfos
+                = badgeCompleteRepository.findAllCompletedBadgeByMemberId(memberId);
+        if(completedBadgeInfos.isEmpty()){
             throw new EntityNotFoundException(MemberErrorCode.MEMBER_ENTITY_NOT_FOUND);
         }
-        return badgeInfoList;
+        return completedBadgeInfos;
     }
 }
