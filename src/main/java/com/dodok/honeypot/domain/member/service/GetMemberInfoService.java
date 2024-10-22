@@ -17,7 +17,7 @@ public class GetMemberInfoService {
     private final MemberMapper memberMapper;
 
     public MemberInfoResDto execute(Long memberId) {
-        MemberInfo memberInfo = memberHelper.findMemberByIdOrElseThrow(memberId);
+        MemberInfo memberInfo = memberHelper.findMemberInfoByIdOrElseThrow(memberId);
         return memberMapper.toMemberInfoResDto(memberInfo);
     }
 }

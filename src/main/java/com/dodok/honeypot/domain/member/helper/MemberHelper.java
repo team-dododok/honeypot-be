@@ -16,7 +16,7 @@ public class MemberHelper {
 
     private final MemberRepository memberRepository;
 
-    public MemberInfo findMemberByIdOrElseThrow(Long memberId) {
+    public MemberInfo findMemberInfoByIdOrElseThrow(Long memberId) {
         return memberRepository.findMemberDetailInfoByMemberId(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(MEMBER_ENTITY_NOT_FOUND));
     }
