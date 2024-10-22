@@ -5,6 +5,8 @@ import com.dodok.honeypot.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import static com.dodok.honeypot.global.utils.UpdateValueUtils.updateValue;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
@@ -33,5 +35,10 @@ public class Member extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id")
     private ProfileImage profileImage;
+
+    public void updateMember(String name, ProfileImage profileImage) {
+        this.name = updateValue(this.name, name);
+        this.profileImage = updateValue(this.profileImage, profileImage);
+    }
 }
 
