@@ -33,6 +33,7 @@ class BadgeCompleteHelperTest {
         // given
         Long memberId = 978965216L;
 
+
         List<CompletedBadgeInfo> completedBadgeInfos = new ArrayList<>();
 
         // when & then
