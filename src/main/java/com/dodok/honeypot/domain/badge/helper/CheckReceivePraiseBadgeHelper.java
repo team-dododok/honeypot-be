@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 사용자가 뱃지 획득 조건을 달성했는지 확인하는 헬퍼
+ * 사용자가 뱃지 획득 조건을 달성했는지 확인하는 헬퍼 - 칭찬을 받을 때
  */
 @RequiredArgsConstructor
 @Component
-public class CheckBadgeAchievementHelper {
+public class CheckReceivePraiseBadgeHelper {
 
     private final BadgeCompleteRepository badgeCompleteRepository;
     private final BadgeRepository badgeRepository;
@@ -27,8 +27,8 @@ public class CheckBadgeAchievementHelper {
     private final ReceivePraiseRepository receivePraiseRepository;
     private final MemberRepository memberRepository;
 
-    public static final List<Long> GOT_PRAISE_COUNTS = List.of(1L, 7L, 50L);
-    public static final List<String> GOT_PRAISE_DESCRIPTIONS = List.of("받은 꿀 1회", "받은 꿀 7회", "받은 꿀 50회");
+    public static final List<Long> RECEIVE_PRAISE_COUNTS = List.of(1L, 7L, 50L);
+    public static final List<String> RECEIVE_PRAISE_DESCRIPTIONS = List.of("받은 꿀 1회", "받은 꿀 7회", "받은 꿀 50회");
 
     /**
      * 받은 꿀(칭찬)이 있을 때 배지 달성 조건을 체크하고 업데이트를 진행하는 로직
@@ -39,9 +39,9 @@ public class CheckBadgeAchievementHelper {
     public void updateReceivePraiseBadge(Long memberId) {
         Long receivedPraiseCount = receivePraiseRepository.countByMember_Id(memberId);
 
-        for (int badgeLevel = 0; badgeLevel < GOT_PRAISE_COUNTS.size(); badgeLevel++) {
-            Long count = GOT_PRAISE_COUNTS.get(badgeLevel);
-            String description = GOT_PRAISE_DESCRIPTIONS.get(badgeLevel);
+        for (int badgeLevel = 0; badgeLevel < RECEIVE_PRAISE_COUNTS.size(); badgeLevel++) {
+            Long count = RECEIVE_PRAISE_COUNTS.get(badgeLevel);
+            String description = RECEIVE_PRAISE_DESCRIPTIONS.get(badgeLevel);
 
             if (Objects.equals(receivedPraiseCount, count)) {
                 badgeCompleteRepository.save(

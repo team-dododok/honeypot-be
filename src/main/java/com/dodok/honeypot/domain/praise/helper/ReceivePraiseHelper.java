@@ -10,5 +10,5 @@ public class ReceivePraiseHelper {
 
     private final ReceivePraiseRepository receivePraiseRepository;
 
-    // TODO : 꿀(칭찬)을 받는 로직 구현 시, CheckBadgeAchievementHelper.updateReceivePraiseBadge() 호출할 것.
+    // TODO : 꿀(칭찬)을 받는 로직 구현 시, CheckReceivePraiseBadgeHelper.updateReceivePraiseBadge() 호출할 것.
 }
