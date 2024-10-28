@@ -21,7 +21,20 @@ public class Group extends BaseTimeEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "order_idx", nullable = false)
+    private Integer orderIdx;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    public static Group createGroup(String name, Member member, Integer groupCount) {
+        Group group = Group.builder()
+                .name(name)
+                .orderIdx(groupCount + 1)
+                .member(member)
+                .build();
+        member.addGroup(group);
+        return group;
+    }
 }
