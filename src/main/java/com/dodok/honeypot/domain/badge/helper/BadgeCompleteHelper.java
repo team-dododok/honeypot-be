@@ -23,6 +23,7 @@ public class BadgeCompleteHelper {
     public List<CompletedBadgeInfo> findAllCompletedBadgeByMemberId(Long memberId) {
         List<CompletedBadgeInfo> completedBadgeInfos
                 = badgeCompleteRepository.findAllCompletedBadgeByMemberId(memberId);
+
         if(completedBadgeInfos.isEmpty()){
             throw new EntityNotFoundException(MemberErrorCode.MEMBER_ENTITY_NOT_FOUND);
         }
