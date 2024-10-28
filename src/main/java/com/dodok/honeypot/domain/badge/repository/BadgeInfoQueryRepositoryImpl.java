@@ -20,6 +20,7 @@
 
             return queryFactory.select(Projections.constructor(CompletedBadgeInfo.class,
                             badge.id,
+                            badge.description,
                             badgeComplete.createdAt))
                     .from(badgeComplete)
                     .join(badge).on(badgeComplete.badge.id.eq(badge.id))

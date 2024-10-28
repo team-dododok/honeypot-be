@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReceivePraiseRepository extends JpaRepository<ReceivePraise, Long> {
 
+    Long countByMember_Id(Long memberId);
 }
