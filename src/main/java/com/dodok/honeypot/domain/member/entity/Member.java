@@ -44,6 +44,10 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     private List<Group> groups = new ArrayList<>();
 
+    public static Member createEmptyMember(){
+        return new Member();
+    }
+
     public void updateMember(String name, ProfileImage profileImage) {
         this.name = updateValue(this.name, name);
         this.profileImage = updateValue(this.profileImage, profileImage);
