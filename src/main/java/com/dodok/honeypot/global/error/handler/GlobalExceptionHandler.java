@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error(">>> handle: MethodArgumentNotValidException - message: {}, stackTrace: {}", e.getMessage(), e.getStackTrace());
-        return createErrorResponse(GlobalErrorCode.BAD_REQUEST_PARAM);
+        return createValidErrorResponse(e);
     }
 
     /**
@@ -75,5 +75,10 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ErrorResponse> createErrorResponse(ErrorCode errorCode) {
         ErrorResponse errorResponse = ErrorResponse.of(errorCode);
         return ResponseEntity.status(errorCode.getHttpStatus()).body(errorResponse);
+    }
+
+    private ResponseEntity<ErrorResponse> createValidErrorResponse(MethodArgumentNotValidException e) {
+        ErrorResponse errorResponse = ErrorResponse.of(e);
+        return ResponseEntity.status(e.getStatusCode()).body(errorResponse);
     }
 }
