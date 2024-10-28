@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 class BadgeCompleteMapperTest {
 
@@ -35,8 +33,11 @@ class BadgeCompleteMapperTest {
         allBadgeInfos.add(new AllBadgeInfo(6L, "https://example.com/images/badge6.png", "꿀플루언서", "보낸 꿀 50회"));
 
         List<CompletedBadgeInfo> completedBadgeInfos = new ArrayList<>();
-        completedBadgeInfos.add(new CompletedBadgeInfo(1L, LocalDateTime.of(2024, 2, 13, 17, 36, 37)));
-        completedBadgeInfos.add(new CompletedBadgeInfo(4L, LocalDateTime.of(2023, 2, 13, 17, 36, 37)));
+        completedBadgeInfos.add(
+                new CompletedBadgeInfo(1L, "받은 꿀 1회",LocalDateTime.of(2024, 2, 13, 17, 36, 37))
+        );
+        completedBadgeInfos.add(
+                new CompletedBadgeInfo(4L, "보낸 꿀 1회",LocalDateTime.of(2023, 2, 13, 17, 36, 37)));
 
         List<BadgeResDto> badgeResDtos = new ArrayList<>();
         badgeResDtos.add(BadgeResDto.of("첫 꿀 받기", "받은 꿀 1회", "https://example.com/images/badge1.png", LocalDateTime.of(2024, 2, 13, 17, 36, 37)));

@@ -52,8 +52,11 @@ class BadgeCompleteHelperTest {
         Long memberId = 1L;
 
         List<CompletedBadgeInfo> completedBadgeInfos = new ArrayList<>();
-        completedBadgeInfos.add(new CompletedBadgeInfo(1L, LocalDateTime.of(2024, 2, 13, 17, 36, 37)));
-        completedBadgeInfos.add(new CompletedBadgeInfo(4L, LocalDateTime.of(2023, 2, 13, 17, 36, 37)));
+        completedBadgeInfos.add(
+                new CompletedBadgeInfo(1L, "받은 꿀 1회",LocalDateTime.of(2024, 2, 13, 17, 36, 37))
+        );
+        completedBadgeInfos.add(
+                new CompletedBadgeInfo(4L, "보낸 꿀 1회",LocalDateTime.of(2023, 2, 13, 17, 36, 37)));
 
         // when
         Mockito.when(badgeCompleteRepository.findAllCompletedBadgeByMemberId(memberId)).thenReturn(completedBadgeInfos);
