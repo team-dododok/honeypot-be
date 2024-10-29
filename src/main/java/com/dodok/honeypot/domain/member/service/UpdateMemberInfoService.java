@@ -31,7 +31,7 @@ public class UpdateMemberInfoService {
             profileImage = profileImageHelper.findProfileImageByIdOrElseThrow(requestDto.profileImageId());
         }
 
-        member.updateMember(requestDto.name(), profileImage);
+        member.updateMember(requestDto, profileImage);
     }
 
     private boolean isUpdateRequestProfileImageIdIsNull(MemberUpdateReqDto requestDto) {

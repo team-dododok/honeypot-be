@@ -1,6 +1,7 @@
 package com.dodok.honeypot.domain.member.entity;
 
 
+import com.dodok.honeypot.domain.member.dto.req.MemberUpdateReqDto;
 import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -48,8 +49,9 @@ public class Member extends BaseTimeEntity {
         return new Member();
     }
 
-    public void updateMember(String name, ProfileImage profileImage) {
-        this.name = updateValue(this.name, name);
+    public void updateMember(MemberUpdateReqDto requestDto, ProfileImage profileImage) {
+        this.name = updateValue(this.name, requestDto.name());
+        this.email = updateValue(this.email, requestDto.email());
         this.profileImage = updateValue(this.profileImage, profileImage);
     }
 
