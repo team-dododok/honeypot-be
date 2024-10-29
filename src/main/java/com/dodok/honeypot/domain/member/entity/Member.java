@@ -1,9 +1,13 @@
 package com.dodok.honeypot.domain.member.entity;
 
 
+import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.dodok.honeypot.global.utils.UpdateValueUtils.updateValue;
 
@@ -36,9 +40,21 @@ public class Member extends BaseTimeEntity {
     @JoinColumn(name = "profile_image_id")
     private ProfileImage profileImage;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Group> groups = new ArrayList<>();
+
+    public static Member createEmptyMember(){
+        return new Member();
+    }
+
     public void updateMember(String name, ProfileImage profileImage) {
         this.name = updateValue(this.name, name);
         this.profileImage = updateValue(this.profileImage, profileImage);
+    }
+
+    public void addGroup(Group group) {
+        this.groups.add(group);
     }
 }
 

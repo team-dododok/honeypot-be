@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDateTime;
 
@@ -23,5 +25,17 @@ public class ErrorResponse {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
-}
 
+    public static ErrorResponse of(MethodArgumentNotValidException e) {
+        return ErrorResponse.builder()
+                .status(e.getStatusCode().value())
+                .message(getDefaultMessage(e))
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    private static String getDefaultMessage(MethodArgumentNotValidException e) {
+        BindingResult bindingResult = e.getBindingResult();
+        return bindingResult.getFieldError().getDefaultMessage();
+    }
+}
