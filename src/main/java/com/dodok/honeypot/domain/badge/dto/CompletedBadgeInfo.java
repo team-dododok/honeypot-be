@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
  */
 public record CompletedBadgeInfo(
         Long badgeId,
+        String description,
         LocalDateTime completedDate
 ) {
 }
