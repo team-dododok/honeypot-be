@@ -18,7 +18,6 @@ import java.util.Optional;
 
 import static com.dodok.honeypot.domain.group.entity.Group.createGroup;
 import static com.dodok.honeypot.domain.member.entity.Member.createEmptyMember;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,8 +48,8 @@ public class GroupHelperTest {
         when(groupRepository.existsByMemberAndName(member, groupName)).thenReturn(true);
 
         // then
-        assertThrows(ConflictException.class,
-                () -> groupHelper.validateDuplicateGroupName(member, groupName));
+        Assertions.assertThatThrownBy(() -> groupHelper.validateDuplicateGroupName(member, groupName))
+                .isInstanceOf(ConflictException.class);
     }
 
     @Test
@@ -88,7 +87,7 @@ public class GroupHelperTest {
         when(groupRepository.findById(2L)).thenReturn(Optional.ofNullable(null));
 
         // then
-        assertThrows(EntityNotFoundException.class,
-                () -> groupHelper.findGroupByIdOrElseThrow(2L));
+        Assertions.assertThatThrownBy(() -> groupHelper.findGroupByIdOrElseThrow(2L))
+                .isInstanceOf(EntityNotFoundException.class);
     }
 }
