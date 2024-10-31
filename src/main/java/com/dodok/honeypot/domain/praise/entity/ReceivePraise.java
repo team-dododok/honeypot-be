@@ -21,7 +21,7 @@ public class ReceivePraise extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id", nullable = false)
-    private Member member;
+    private Member receiver;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "send_praise_id", nullable = false)
