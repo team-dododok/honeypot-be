@@ -1,80 +1,98 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.7'
-	id 'io.spring.dependency-management' version '1.1.5'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.7'
+    id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'com.dodok'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.0"
+    }
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	// jpa
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	// lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	// mysql
-	runtimeOnly 'com.mysql:mysql-connector-j'
+    // mysql
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
-	// aws
-	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
+    // aws
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
 
-	// querydsl
-	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    // querydsl
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
 
-	// validation 추가
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // validation 추가
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 //	// Test
 //	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
 
+    //feign client
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+
+    //jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+}
 
 // Querydsl 설정부
 def generated = 'src/main/generated'
 
 // querydsl QClass 파일 생성 위치를 지정
 tasks.withType(JavaCompile) {
-	options.getGeneratedSourceOutputDirectory().set(file(generated))
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
 // java source set 에 querydsl QClass 위치 추가
 sourceSets {
-	main.java.srcDirs += [generated]
+    main.java.srcDirs += [generated]
 }
 
 clean {
-	delete file('src/main/generated')
+    delete file('src/main/generated')
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
