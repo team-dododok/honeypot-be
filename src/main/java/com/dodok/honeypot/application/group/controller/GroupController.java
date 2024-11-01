@@ -1,8 +1,10 @@
 package com.dodok.honeypot.application.group.controller;
 
 import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
+import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.group.service.CreateGroupService;
 import com.dodok.honeypot.domain.group.service.DeleteGroupService;
+import com.dodok.honeypot.domain.group.service.UpdateGroupService;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ public class GroupController {
 
     private final CreateGroupService createGroupService;
     private final DeleteGroupService deleteGroupService;
+    private final UpdateGroupService updateGroupService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@RequestParam(name = "id") final Long memberId,
@@ -28,6 +31,13 @@ public class GroupController {
     public ResponseEntity<SuccessResponse<?>> deleteGroup(@RequestParam(name = "id") final Long memberId,
                                                           @PathVariable(name = "id") final Long groupId) {
         deleteGroupService.execute(memberId, groupId);
+        return SuccessResponse.ok(null);
+    }
+
+    @PatchMapping
+    public ResponseEntity<SuccessResponse<?>> updateGroup(@RequestParam(name = "id") final Long memberId,
+                                                              @RequestBody final GroupUpdateReqDto requestDto) {
+        updateGroupService.execute(memberId, requestDto);
         return SuccessResponse.ok(null);
     }
 }

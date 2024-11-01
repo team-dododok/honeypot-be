@@ -38,4 +38,9 @@ public class GroupHelper {
     public void deleteGroup(Group group) {
         groupRepository.delete(group);
     }
+
+    public Group findGroupByIdOrElseThrow(Long groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException(GROUP_ENTITY_NOT_FOUND));
+    }
 }

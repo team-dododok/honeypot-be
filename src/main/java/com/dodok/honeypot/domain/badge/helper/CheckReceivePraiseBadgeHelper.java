@@ -37,7 +37,7 @@ public class CheckReceivePraiseBadgeHelper {
      * @return // TODO : 배지 달성을 했을 때, 사용자(프론트)에게 어떻게 전달할 것인가?
      */
     public void updateReceivePraiseBadge(Long memberId) {
-        Long receivedPraiseCount = receivePraiseRepository.countByMember_Id(memberId);
+        Long receivedPraiseCount = receivePraiseRepository.countByReceiverId(memberId);
 
         for (int badgeLevel = 0; badgeLevel < RECEIVE_PRAISE_COUNTS.size(); badgeLevel++) {
             Long count = RECEIVE_PRAISE_COUNTS.get(badgeLevel);

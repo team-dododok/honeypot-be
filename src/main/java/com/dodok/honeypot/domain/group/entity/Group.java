@@ -1,5 +1,6 @@
 package com.dodok.honeypot.domain.group.entity;
 
+import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.praise.entity.ReceivePraise;
 import com.dodok.honeypot.domain.praise.entity.SendPraise;
@@ -9,6 +10,8 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.dodok.honeypot.global.utils.UpdateValueUtils.updateValue;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -49,5 +52,9 @@ public class Group extends BaseTimeEntity {
                 .build();
         member.addGroup(group);
         return group;
+    }
+
+    public void updateGroup(GroupUpdateReqDto requestDto) {
+        this.name = updateValue(this.name, requestDto.groupName());
     }
 }
