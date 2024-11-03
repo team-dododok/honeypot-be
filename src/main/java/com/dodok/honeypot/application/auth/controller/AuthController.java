@@ -1,11 +1,26 @@
 package com.dodok.honeypot.application.auth.controller;
 
+import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
+import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
+import com.dodok.honeypot.domain.auth.service.KakaoSocialLoginService;
+import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
+    private final KakaoSocialLoginService authService;
+
+    @GetMapping("/kakao-login")
+    public ResponseEntity<SuccessResponse<?>> kakaoLogin(
+            @RequestHeader("Authorization") String kakaoAccessToken,
+            @RequestBody(required = false) KakaoLoginReqDto requestDto) {
+        KakaoLoginResDto resDto = authService.kakaoLogin(kakaoAccessToken, requestDto);
+        return SuccessResponse.ok(resDto);
+    }
 }

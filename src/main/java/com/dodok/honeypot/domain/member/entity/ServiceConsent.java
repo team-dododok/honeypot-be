@@ -1,5 +1,6 @@
 package com.dodok.honeypot.domain.member.entity;
 
+import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
 import com.dodok.honeypot.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,4 +30,13 @@ public class ServiceConsent extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    public static ServiceConsent createServiceConsent(KakaoLoginReqDto requestDto, Member member){
+        return ServiceConsent.builder()
+                .serviceTerm(requestDto.serviceTerm())
+                .personalInfo(requestDto.personalInfo())
+                .emailMarketing(requestDto.emailMarketing())
+                .member(member)
+                .build();
+    }
 }
