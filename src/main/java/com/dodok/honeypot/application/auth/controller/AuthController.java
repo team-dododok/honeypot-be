@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
-@Slf4j
 public class AuthController {
-    private final KakaoSocialLoginService authService;
+    private final KakaoSocialLoginService kakaoSocialLoginService;
 
     @GetMapping("/kakao-login")
     public ResponseEntity<SuccessResponse<?>> kakaoLogin(
             @RequestHeader("Authorization") String kakaoAccessToken,
             @RequestBody(required = false) KakaoLoginReqDto requestDto) {
-        KakaoLoginResDto resDto = authService.kakaoLogin(kakaoAccessToken, requestDto);
+        KakaoLoginResDto resDto = kakaoSocialLoginService.kakaoLogin(kakaoAccessToken, requestDto);
         return SuccessResponse.ok(resDto);
     }
 }
