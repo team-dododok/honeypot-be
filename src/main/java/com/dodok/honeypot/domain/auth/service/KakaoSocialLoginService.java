@@ -7,22 +7,19 @@ import com.dodok.honeypot.domain.auth.dto.res.UserInfoFromKakaoResDto;
 import com.dodok.honeypot.domain.auth.entity.KakaoSocial;
 import com.dodok.honeypot.domain.auth.helper.KakaoSocialHelper;
 import com.dodok.honeypot.domain.auth.kakao.KakaoFeignClient;
-import com.dodok.honeypot.domain.auth.mapper.KakaoSocialMapper;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.member.helper.MemberHelper;
 import com.dodok.honeypot.domain.member.helper.ServiceConsentHelper;
-import com.dodok.honeypot.domain.member.mapper.MemberMapper;
-import com.dodok.honeypot.domain.member.mapper.ServiceConsentMapper;
 import com.dodok.honeypot.global.auth.JwtUtil;
-import com.dodok.honeypot.global.reids.entity.RefreshToken;
 import com.dodok.honeypot.global.reids.helper.RefreshTokenHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static com.dodok.honeypot.domain.auth.type.MemberRole.*;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +43,7 @@ public class KakaoSocialLoginService {
         Long memberId = kakaoSocial.isEmpty() ?
                 createMemberAndSaveInfo(kakaoAuth, requestDto).getId() : kakaoSocial.get().getMember().getId();
 
-        JwtToken jwtToken = generateJwtToken(generateAccessToken(memberId, "member"), generateRefreshToken());
+        JwtToken jwtToken = generateJwtToken(generateAccessToken(memberId, MEMBER.getRole()), generateRefreshToken());
 
         deleteRefreshTokenIfExists(memberId);
         refreshTokenHelper.createRefreshTokenAndSave(memberId, jwtToken.refreshToken());
@@ -54,7 +51,7 @@ public class KakaoSocialLoginService {
         return KakaoLoginResDto.of(jwtToken);
     }
 
-    public void deleteRefreshTokenIfExists(Long memberId) {
+    private void deleteRefreshTokenIfExists(Long memberId) {
         refreshTokenHelper.findRefreshToken(memberId).ifPresent(refreshTokenHelper::deleteRefreshToken);
     }
 
