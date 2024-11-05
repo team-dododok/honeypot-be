@@ -13,6 +13,10 @@ import java.util.List;
 public class StampService {
     private final StampHelper stampHelper;
 
+    /**
+     * 존재하는 모든 꿀도장 조회 로직
+     * @return 모든 꿀도장 종류 반환
+     */
     public AllStampResDto getAllStamp(){
         List<StampDto> allStamp = stampHelper.getAllStamp();
         return AllStampResDto.of(allStamp);
