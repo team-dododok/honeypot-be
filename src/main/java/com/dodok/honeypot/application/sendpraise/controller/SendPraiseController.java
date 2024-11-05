@@ -20,6 +20,6 @@ public class SendPraiseController {
     @PostMapping("")
     public ResponseEntity<SuccessResponse<?>> createSendReceive(@RequestBody SendPraiseReqDto reqDto) {
         SendPraiseResDto sendPraise = sendPraiseService.createSendPraise(reqDto);
-        return SuccessResponse.ok(sendPraise);
+        return SuccessResponse.created(sendPraise);
     }
 }
