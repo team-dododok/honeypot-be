@@ -6,7 +6,7 @@ import com.dodok.honeypot.domain.badge.repository.BadgeCompleteRepository;
 import com.dodok.honeypot.domain.badge.repository.BadgeRepository;
 import com.dodok.honeypot.domain.member.error.MemberErrorCode;
 import com.dodok.honeypot.domain.member.repository.MemberRepository;
-import com.dodok.honeypot.domain.praise.repository.ReceivePraiseRepository;
+import com.dodok.honeypot.domain.receivepraise.repository.ReceivePraiseRepository;
 import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

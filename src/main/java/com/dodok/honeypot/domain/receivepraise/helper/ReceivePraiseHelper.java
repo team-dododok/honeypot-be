@@ -1,6 +1,6 @@
-package com.dodok.honeypot.domain.praise.helper;
+package com.dodok.honeypot.domain.receivepraise.helper;
 
-import com.dodok.honeypot.domain.praise.repository.ReceivePraiseRepository;
+import com.dodok.honeypot.domain.receivepraise.repository.ReceivePraiseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

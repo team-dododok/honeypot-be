@@ -1,4 +1,4 @@
-package com.dodok.honeypot.domain.praise.entity;
+package com.dodok.honeypot.domain.sendpraise.entity;
 
 import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.domain.member.entity.Member;

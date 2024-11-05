@@ -1,6 +1,6 @@
-package com.dodok.honeypot.domain.praise.repository;
+package com.dodok.honeypot.domain.sendpraise.repository;
 
-import com.dodok.honeypot.domain.praise.entity.SendPraise;
+import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
