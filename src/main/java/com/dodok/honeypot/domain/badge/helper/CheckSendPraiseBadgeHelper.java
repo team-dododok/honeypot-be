@@ -9,6 +9,7 @@ import com.dodok.honeypot.domain.member.repository.MemberRepository;
 import com.dodok.honeypot.domain.sendpraise.repository.SendPraiseRepository;
 import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Objects;
  */
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class CheckSendPraiseBadgeHelper {
 
     private final BadgeCompleteRepository badgeCompleteRepository;
@@ -42,11 +44,11 @@ public class CheckSendPraiseBadgeHelper {
         for (int badgeLevel = 0; badgeLevel < SEND_PRAISE_COUNTS.size(); badgeLevel++) {
             Long count = SEND_PRAISE_COUNTS.get(badgeLevel);
             String description = SEND_PRAISE_DESCRIPTIONS.get(badgeLevel);
-
             if (Objects.equals(sendPraiseCount, count)) {
                 badgeCompleteRepository.save(
                         getBadgeComplete(memberId, description)
                 );
+                log.info("신규 뱃지 획득. 보낸 칭찬" + count + "회 달성");
                 break;
             }
         }
