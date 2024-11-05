@@ -14,8 +14,6 @@ public class SendPraiseHelper {
 
     private final SendPraiseRepository sendPraiseRepository;
 
-    // TODO : 꿀(칭찬)을 보내는 로직 구현 시, CheckSendPraiseBadgeHelper.updateSendPraiseBadge() 호출할 것.
-
     public SendPraise createSendPraise(String title, String content, Boolean projectStatus,
                                        String receiverName, Member sender, Group group, HoneyStamp honeyStamp){
         return sendPraiseRepository.save(

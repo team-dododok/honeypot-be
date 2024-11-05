@@ -1,5 +1,6 @@
 package com.dodok.honeypot.domain.sendpraise.service;
 
+import com.dodok.honeypot.domain.badge.helper.CheckSendPraiseBadgeHelper;
 import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.domain.group.helper.GroupHelper;
 import com.dodok.honeypot.domain.member.entity.Member;
@@ -23,6 +24,7 @@ public class SendPraiseService {
     private final MemberHelper memberHelper;
     private final GroupHelper groupHelper;
     private final StampHelper stampHelper;
+    private final CheckSendPraiseBadgeHelper checkSendPraiseBadgeHelper;
 
     private final SendPraiseMapper sendPraiseMapper;
 
@@ -39,7 +41,13 @@ public class SendPraiseService {
 
         SendPraise sendPraise = sendPraiseHelper.createSendPraise(req.title(), req.content(), req.projectStatus(), req.receiverName(),
                 sender, group, stamp);
+
+        // TODO : @Async를 이용하여 비동기로 변경
+        checkSendPraiseBadgeHelper.updateSendPraiseBadge(req.senderId());
+
         return sendPraiseMapper.toSendPraiseReqDto(sendPraise);
+
+
     }
 
 
