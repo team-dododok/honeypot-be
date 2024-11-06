@@ -2,6 +2,8 @@ package com.dodok.honeypot.application.group.controller;
 
 import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
+import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
+import com.dodok.honeypot.domain.group.service.CheckGroupNameService;
 import com.dodok.honeypot.domain.group.service.CreateGroupService;
 import com.dodok.honeypot.domain.group.service.DeleteGroupService;
 import com.dodok.honeypot.domain.group.service.UpdateGroupService;
@@ -19,6 +21,7 @@ public class GroupController {
     private final CreateGroupService createGroupService;
     private final DeleteGroupService deleteGroupService;
     private final UpdateGroupService updateGroupService;
+    private final CheckGroupNameService checkGroupNameService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@RequestParam(name = "id") final Long memberId,
@@ -36,8 +39,15 @@ public class GroupController {
 
     @PatchMapping
     public ResponseEntity<SuccessResponse<?>> updateGroup(@RequestParam(name = "id") final Long memberId,
-                                                              @RequestBody final GroupUpdateReqDto requestDto) {
+                                                          @RequestBody final GroupUpdateReqDto requestDto) {
         updateGroupService.execute(memberId, requestDto);
         return SuccessResponse.ok(null);
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<SuccessResponse<?>> checkGroupNameDuplicate(@RequestParam(name = "id") final Long memberId,
+                                                                      @RequestParam(name = "groupName") final String groupName) {
+        final CheckGroupNameResDto response = checkGroupNameService.execute(memberId, groupName);
+        return SuccessResponse.ok(response);
     }
 }
