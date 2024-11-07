@@ -9,10 +9,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class SentStampByGroupHelper {
+public class StampByGroupHelper {
     private final StampRepository stampRepository;
 
-    public List<StampDto> getSentStampByGroup(Long groupId) {
-        return  stampRepository.findAllSentStampByGroup(groupId);
+    public List<StampDto> getSentStamepByGroup(Long groupId) {
+        return stampRepository.findAllSentStampByGroup(groupId);
     }
 }

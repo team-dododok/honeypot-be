@@ -3,7 +3,7 @@ package com.dodok.honeypot.application.stamp.controller;
 import com.dodok.honeypot.domain.stamp.dto.res.AllStampResDto;
 import com.dodok.honeypot.domain.stamp.dto.res.StampInfoByGroupResDto;
 import com.dodok.honeypot.domain.stamp.service.GetAllStampService;
-import com.dodok.honeypot.domain.stamp.service.SentStampByGroupHelperService;
+import com.dodok.honeypot.domain.stamp.service.GetSentStampByGroupService;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StampController {
 
     private final GetAllStampService getAllStampService;
-    private final SentStampByGroupHelperService sentStampByGroupHelperService;
+    private final GetSentStampByGroupService sentStampByGroupHelperService;
 
     /**
      * 전체 꿀도장의 종류를 반환하는 api

@@ -12,7 +12,7 @@ import static com.dodok.honeypot.domain.sendpraise.entity.QSendPraise.sendPraise
 import static com.dodok.honeypot.domain.stamp.entity.QHoneyStamp.honeyStamp;
 
 @RequiredArgsConstructor
-public class SendStampByGroupQueryRepositoryImpl implements SendStampByGroupQueryRepository {
+public class SentStampByGroupQueryRepositoryImpl implements SentStampByGroupQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     /**
@@ -21,7 +21,7 @@ public class SendStampByGroupQueryRepositoryImpl implements SendStampByGroupQuer
      * @return
      */
     @Override
-    public List<StampDto> findAllSendStampByGroup(Long groupId) {
+    public List<StampDto> findAllSentStampByGroup(Long groupId) {
         return queryFactory
                 .select(Projections.constructor(
                         StampDto.class,
