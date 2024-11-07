@@ -45,7 +45,7 @@ public class SendPraiseService {
         // TODO : @Async를 이용하여 비동기로 변경
         checkSendPraiseBadgeHelper.updateSendPraiseBadge(req.senderId());
 
-        return sendPraiseMapper.toSendPraiseReqDto(sendPraise);
+        return sendPraiseMapper.toSendPraiseResDto(sendPraise);
 
 
     }
