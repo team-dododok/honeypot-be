@@ -22,7 +22,7 @@ public class SendStampByGroupHelperService {
 
     private final SendStampByGroupMapper sendStampByGroupMapper;
 
-    public StampInfoByGroupResDto getSendStampByGroup(Long groupId) {
+    public StampInfoByGroupResDto execute(Long groupId) {
         List<StampDto> allStamp = stampHelper.getAllStamp();
         Map<String, Integer> sendStampInfoMap = new LinkedHashMap<>();
         for (StampDto stamp : allStamp) {

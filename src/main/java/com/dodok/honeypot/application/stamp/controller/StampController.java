@@ -26,7 +26,7 @@ public class StampController {
      */
     @GetMapping("")
     ResponseEntity<SuccessResponse<?>> getAllStamp() {
-        AllStampResDto allStamp = stampService.getAllStamp();
+        AllStampResDto allStamp = stampService.execute();
         return SuccessResponse.ok(allStamp);
     }
 
@@ -37,7 +37,7 @@ public class StampController {
      */
     @GetMapping("/send")
     ResponseEntity<SuccessResponse<?>> getSendStampByGroup(@RequestParam(name = "group") Long groupId) {
-        StampInfoByGroupResDto sendStampByGroup = sendStampByGroupHelperService.getSendStampByGroup(groupId);
+        StampInfoByGroupResDto sendStampByGroup = sendStampByGroupHelperService.execute(groupId);
         return SuccessResponse.ok(sendStampByGroup);
     }
 }
