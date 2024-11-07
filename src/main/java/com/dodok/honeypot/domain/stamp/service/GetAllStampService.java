@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-public class StampService {
+public class GetAllStampService {
     private final StampHelper stampHelper;
 
     /**

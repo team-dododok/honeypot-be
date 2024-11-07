@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class SendStampByGroupMapper {
+public class SentStampByGroupMapper {
 
-    public StampInfoByGroupResDto toStampInfoByGroupResDto(Map<String, Integer> sendStampInfoMap, List<StampDto> allStamp) {
-        int totalSum = sendStampInfoMap.values().stream().mapToInt(Integer::intValue).sum();
+    public StampInfoByGroupResDto toStampInfoByGroupResDto(Map<String, Integer> sentStampInfoMap, List<StampDto> allStamp) {
+        int totalSum = sentStampInfoMap.values().stream().mapToInt(Integer::intValue).sum();
 
         List<StampInfoByGroupDto> stampInfoByGroupDtos = new ArrayList<>();
         for (StampDto stamp : allStamp) {
             stampInfoByGroupDtos.add(StampInfoByGroupDto
-                    .of(stamp.imageUrl(), stamp.stampName(), sendStampInfoMap.get(stamp.stampName()), totalSum)
+                    .of(stamp.imageUrl(), stamp.stampName(), sentStampInfoMap.get(stamp.stampName()), totalSum)
             );
         }
 

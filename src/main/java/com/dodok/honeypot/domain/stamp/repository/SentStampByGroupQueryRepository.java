@@ -4,6 +4,6 @@ import com.dodok.honeypot.domain.stamp.dto.res.StampDto;
 
 import java.util.List;
 
-public interface SendStampByGroupQueryRepository {
-    List<StampDto> findAllSendStampByGroup(Long groupId);
+public interface SentStampByGroupQueryRepository {
+    List<StampDto> findAllSentStampByGroup(Long groupId);
 }
