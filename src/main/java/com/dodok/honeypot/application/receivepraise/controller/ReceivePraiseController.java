@@ -1,4 +1,4 @@
-package com.dodok.honeypot.application.praise.controller;
+package com.dodok.honeypot.application.receivepraise.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/praise")
-public class PraiseController {
+@RequestMapping("/api/receive-praise")
+public class ReceivePraiseController {
 }
