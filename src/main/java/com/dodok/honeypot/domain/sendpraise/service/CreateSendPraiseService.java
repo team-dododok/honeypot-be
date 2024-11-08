@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-public class SendPraiseService {
+public class CreateSendPraiseService {
     private final SendPraiseHelper sendPraiseHelper;
     private final MemberHelper memberHelper;
     private final GroupHelper groupHelper;
@@ -34,7 +34,7 @@ public class SendPraiseService {
      * @return 만들어진 보낸칭찬의 uuid
      */
     @Transactional()
-    public SendPraiseResDto createSendPraise(SendPraiseReqDto req) {
+    public SendPraiseResDto execute(SendPraiseReqDto req) {
         Member sender = memberHelper.findMemberByIdOrElseThrow(req.senderId());
         Group group = groupHelper.findGroupByIdOrElseThrow(req.groupId());
         HoneyStamp stamp = stampHelper.findByStampIdOrElseThrow(req.honeyStampId());
@@ -45,7 +45,7 @@ public class SendPraiseService {
         // TODO : @Async를 이용하여 비동기로 변경
         checkSendPraiseBadgeHelper.updateSendPraiseBadge(req.senderId());
 
-        return sendPraiseMapper.toSendPraiseReqDto(sendPraise);
+        return sendPraiseMapper.toSendPraiseResDto(sendPraise);
 
 
     }

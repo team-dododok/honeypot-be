@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SendPraiseMapper {
-    public SendPraiseResDto toSendPraiseReqDto(SendPraise sendPraise) {
+    public SendPraiseResDto toSendPraiseResDto(SendPraise sendPraise) {
         return SendPraiseResDto.of(sendPraise.getUuid());
     }
 }
