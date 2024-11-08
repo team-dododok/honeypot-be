@@ -57,4 +57,8 @@ public class Group extends BaseTimeEntity {
     public void updateGroup(GroupUpdateReqDto requestDto) {
         this.name = updateValue(this.name, requestDto.groupName());
     }
+
+    public void updateGroupOrder(Integer orderIdx) {
+        this.orderIdx = updateValue(this.orderIdx, orderIdx);
+    }
 }
