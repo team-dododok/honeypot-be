@@ -1,4 +1,4 @@
-package com.dodok.honeypot.domain.praise.mapper;
+package com.dodok.honeypot.domain.receivepraise.mapper;
 
 import org.springframework.stereotype.Component;
 
