@@ -2,8 +2,8 @@ package com.dodok.honeypot.domain.group.entity;
 
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.member.entity.Member;
-import com.dodok.honeypot.domain.praise.entity.ReceivePraise;
-import com.dodok.honeypot.domain.praise.entity.SendPraise;
+import com.dodok.honeypot.domain.receivepraise.entity.ReceivePraise;
+import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
 import com.dodok.honeypot.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;

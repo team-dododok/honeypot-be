@@ -3,6 +3,8 @@ package com.dodok.honeypot.application.group.controller;
 import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupOrderUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
+import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
+import com.dodok.honeypot.domain.group.service.CheckGroupNameService;
 import com.dodok.honeypot.domain.group.service.CreateGroupService;
 import com.dodok.honeypot.domain.group.service.DeleteGroupService;
 import com.dodok.honeypot.domain.group.service.UpdateGroupOrderService;
@@ -22,6 +24,7 @@ public class GroupController {
     private final DeleteGroupService deleteGroupService;
     private final UpdateGroupService updateGroupService;
     private final UpdateGroupOrderService updateGroupOrderService;
+    private final CheckGroupNameService checkGroupNameService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@RequestParam(name = "id") final Long memberId,
@@ -42,6 +45,13 @@ public class GroupController {
                                                           @RequestBody final GroupUpdateReqDto requestDto) {
         updateGroupService.execute(memberId, requestDto);
         return SuccessResponse.ok(null);
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<SuccessResponse<?>> checkGroupNameDuplicate(@RequestParam(name = "id") final Long memberId,
+                                                                      @RequestParam(name = "groupName") final String groupName) {
+        final CheckGroupNameResDto response = checkGroupNameService.execute(memberId, groupName);
+        return SuccessResponse.ok(response);
     }
 
     @PatchMapping("/order")
