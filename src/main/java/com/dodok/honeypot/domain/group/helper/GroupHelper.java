@@ -47,4 +47,10 @@ public class GroupHelper {
     public Boolean checkGroupNameIsExist(Member member, String groupName) {
         return groupRepository.existsByMemberAndName(member, groupName);
     }
+
+    public void validateIsMemberGroup(Member member, Long groupId) {
+        if (!groupRepository.existsByMemberAndId(member, groupId)) {
+            throw new EntityNotFoundException(MEMBER_GROUP_NOT_FOUND);
+        }
+    }
 }
