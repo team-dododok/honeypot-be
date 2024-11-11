@@ -4,14 +4,12 @@ import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupOrderUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
-import com.dodok.honeypot.domain.group.service.CheckGroupNameService;
-import com.dodok.honeypot.domain.group.service.CreateGroupService;
-import com.dodok.honeypot.domain.group.service.DeleteGroupService;
-import com.dodok.honeypot.domain.group.service.UpdateGroupOrderService;
-import com.dodok.honeypot.domain.group.service.UpdateGroupService;
+import com.dodok.honeypot.domain.group.service.*;
+import com.dodok.honeypot.domain.receivepraise.dto.res.GetGroupReceivePraiseResDto;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +23,7 @@ public class GroupController {
     private final UpdateGroupService updateGroupService;
     private final UpdateGroupOrderService updateGroupOrderService;
     private final CheckGroupNameService checkGroupNameService;
+    private final GetGroupReceivePraiseService getGroupReceivePraiseService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@RequestParam(name = "id") final Long memberId,
@@ -60,4 +59,13 @@ public class GroupController {
         updateGroupOrderService.execute(memberId, requestDto);
         return SuccessResponse.ok(null);
     }
+
+    @GetMapping("/receive-praise")
+    public ResponseEntity<SuccessResponse<?>> getGroupReceivePraise(@RequestParam(name = "id") final Long memberId,
+                                                                    @RequestParam(name = "groupId") final Long groupId,
+                                                                    final Pageable pageable) {
+        final GetGroupReceivePraiseResDto response = getGroupReceivePraiseService.execute(memberId, groupId, pageable);
+        return SuccessResponse.ok(response);
+    }
+
 }
