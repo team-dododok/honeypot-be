@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface StampRepository extends JpaRepository<HoneyStamp, Long>, SentStampByGroupQueryRepository {
+public interface StampRepository extends JpaRepository<HoneyStamp, Long>,
+        SentStampByGroupQueryRepository, ReceivedStampByGroupQueryRepository {
     List<StampDto> findAllBy();
 }
