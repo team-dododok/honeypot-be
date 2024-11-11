@@ -17,9 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class SendPraiseController {
 
     private final CreateSendPraiseService sendPraiseService;
+
+    /**
+     * 보낸 칭찬을 생성하는 api
+     */
     @PostMapping("")
     public ResponseEntity<SuccessResponse<?>> createSendReceive(@RequestBody SendPraiseReqDto reqDto) {
         SendPraiseResDto sendPraise = sendPraiseService.execute(reqDto);
         return SuccessResponse.created(sendPraise);
     }
+
 }

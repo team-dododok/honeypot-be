@@ -3,8 +3,10 @@ package com.dodok.honeypot.domain.sendpraise.helper;
 import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
+import com.dodok.honeypot.domain.sendpraise.error.SendPraiseErrorCode;
 import com.dodok.honeypot.domain.sendpraise.repository.SendPraiseRepository;
 import com.dodok.honeypot.domain.stamp.entity.HoneyStamp;
+import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,4 +22,16 @@ public class SendPraiseHelper {
                 SendPraise.createSendPraise(title, content, projectStatus, receiverName, sender, group, honeyStamp)
         );
     }
+
+    /**
+     * 보낸 칭찬의 uuid를 통해 보낸 칭찬을 찾는 메서드
+     * @param uuid
+     * @return
+     */
+    public SendPraise findByUuidOrElseThrow(String uuid) {
+        return sendPraiseRepository.findByUuid(uuid).orElseThrow(
+                () -> new EntityNotFoundException(SendPraiseErrorCode.SEND_PRAISE_ENTITY_NOT_FOUND)
+        );
+    }
+
 }
