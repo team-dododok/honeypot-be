@@ -31,4 +31,12 @@ public class ReceivePraise extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
+
+    public static ReceivePraise createReceivePraise(Member receiver, SendPraise sendPraise, Group group) {
+        return ReceivePraise.builder()
+                .receiver(receiver)
+                .sendPraise(sendPraise)
+                .group(group)
+                .build();
+    }
 }
