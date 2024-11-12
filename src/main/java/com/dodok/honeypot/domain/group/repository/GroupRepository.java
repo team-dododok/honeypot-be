@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface GroupRepository extends JpaRepository<Group, Long> {
+public interface GroupRepository extends JpaRepository<Group, Long>,
+        GroupInfosQueryRepository{
 
     int countByMember(Member member);
     boolean existsByMemberAndName(Member member, String name);
