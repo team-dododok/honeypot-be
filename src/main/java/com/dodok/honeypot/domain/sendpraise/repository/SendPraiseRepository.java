@@ -4,8 +4,12 @@ import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface SendPraiseRepository extends JpaRepository<SendPraise, Long> {
     Long countBySenderId(Long senderId);
+
+    Optional<SendPraise> findByUuid(String uuid);
 
 }
