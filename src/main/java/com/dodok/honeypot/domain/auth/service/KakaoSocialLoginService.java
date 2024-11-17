@@ -3,7 +3,6 @@ package com.dodok.honeypot.domain.auth.service;
 import com.dodok.honeypot.domain.auth.dto.JwtToken;
 import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
 import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
-import com.dodok.honeypot.domain.auth.dto.res.UserInfoFromKakaoResDto;
 import com.dodok.honeypot.domain.auth.entity.KakaoSocial;
 import com.dodok.honeypot.domain.auth.helper.KakaoSocialHelper;
 import com.dodok.honeypot.domain.auth.kakao.KakaoFeignClient;
@@ -11,6 +10,7 @@ import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.member.helper.MemberHelper;
 import com.dodok.honeypot.domain.member.helper.ServiceConsentHelper;
 import com.dodok.honeypot.global.auth.JwtUtil;
+import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import com.dodok.honeypot.global.reids.helper.RefreshTokenHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static com.dodok.honeypot.domain.auth.error.AuthErrorCode.KAKAO_INFO_NOT_FOUND;
 import static com.dodok.honeypot.domain.auth.type.MemberRole.*;
 
 @Service
@@ -31,24 +32,28 @@ public class KakaoSocialLoginService {
     private final MemberHelper memberHelper;
     private final ServiceConsentHelper serviceConsentHelper;
     private final RefreshTokenHelper refreshTokenHelper;
-
     private final KakaoFeignClient kakaoFeignClient;
     private final JwtUtil jwtUtil;
 
-    public KakaoLoginResDto kakaoLogin(String kakaoAccessToken, KakaoLoginReqDto requestDto) {
+    public KakaoLoginResDto kakaoLogin(String kakaoAccessToken) {
+        Optional<KakaoSocial> kakaoSocial = kakaoSocialHelper.findKakaoSocialByKakaoAuth(getKakaoMemberId(kakaoAccessToken));
+        Long memberId = kakaoSocial
+                .orElseThrow(() -> new EntityNotFoundException(KAKAO_INFO_NOT_FOUND))
+                .getMember().getId();
+        return KakaoLoginResDto.of(createJwtToken(memberId));
+    }
 
-        Long kakaoAuth = getKakaoUserInfo(kakaoAccessToken).id();
 
-        Optional<KakaoSocial> kakaoSocial = kakaoSocialHelper.findKakaoSocialByKakaoAuth(kakaoAuth);
-        Long memberId = kakaoSocial.isEmpty() ?
-                createMemberAndSaveInfo(kakaoAuth, requestDto).getId() : kakaoSocial.get().getMember().getId();
+    public KakaoLoginResDto register(String kakaoAccessToken, KakaoLoginReqDto requestDto) {
+        Long memberId = createMemberAndSaveInfo(getKakaoMemberId(kakaoAccessToken), requestDto).getId();
+        return KakaoLoginResDto.of(createJwtToken(memberId));
+    }
 
+    private JwtToken createJwtToken(Long memberId) {
         JwtToken jwtToken = generateJwtToken(generateAccessToken(memberId, MEMBER.getRole()), generateRefreshToken());
-
         deleteRefreshTokenIfExists(memberId);
         refreshTokenHelper.createRefreshTokenAndSave(memberId, jwtToken.refreshToken());
-
-        return KakaoLoginResDto.of(jwtToken);
+        return jwtToken;
     }
 
     private void deleteRefreshTokenIfExists(Long memberId) {
@@ -67,8 +72,8 @@ public class KakaoSocialLoginService {
         return jwtUtil.createRefreshToken();
     }
 
-    private UserInfoFromKakaoResDto getKakaoUserInfo(String kakaoAccessToken) {
-        return kakaoFeignClient.getKakaoUserInfo(kakaoAccessToken);
+    private Long getKakaoMemberId(String kakaoAccessToken) {
+        return kakaoFeignClient.getKakaoUserInfo(kakaoAccessToken).id();
     }
 
     private Member createMemberAndSaveInfo(Long kakaoAuth, KakaoLoginReqDto requestDto) {

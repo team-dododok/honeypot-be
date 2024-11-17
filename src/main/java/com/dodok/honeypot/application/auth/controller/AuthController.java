@@ -5,7 +5,6 @@ import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
 import com.dodok.honeypot.domain.auth.service.KakaoSocialLoginService;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +14,18 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final KakaoSocialLoginService kakaoSocialLoginService;
 
-    @GetMapping("/kakao-login")
+    @PostMapping("/kakao-login") //로그인
     public ResponseEntity<SuccessResponse<?>> kakaoLogin(
+            @RequestHeader("Authorization") String kakaoAccessToken) {
+        KakaoLoginResDto resDto = kakaoSocialLoginService.kakaoLogin(kakaoAccessToken);
+        return SuccessResponse.ok(resDto);
+    }
+
+    @PostMapping("/register") //회원가입
+    public ResponseEntity<SuccessResponse<?>> register(
             @RequestHeader("Authorization") String kakaoAccessToken,
-            @RequestBody(required = false) KakaoLoginReqDto requestDto) {
-        KakaoLoginResDto resDto = kakaoSocialLoginService.kakaoLogin(kakaoAccessToken, requestDto);
+            @RequestBody KakaoLoginReqDto requestDto) {
+        KakaoLoginResDto resDto = kakaoSocialLoginService.register(kakaoAccessToken, requestDto);
         return SuccessResponse.ok(resDto);
     }
 }
