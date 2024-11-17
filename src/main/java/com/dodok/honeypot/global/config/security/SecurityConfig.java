@@ -23,7 +23,10 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.disable())
                 .httpBasic((auth) -> auth.disable())
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/health", "/api/member/info/*", "/api/member/search","/api/member/*", "/api/badge", "/api/group", "/api/group/*", "api/stamp", "api/send-praise","api/stamp/*")
+                        .requestMatchers("/api/health", "/api/member/info/*", "/api/member/search","/api/member/*",
+                                "/api/badge",
+                                "/api/group", "/api/group/*", "/api/group/order", "/api/group/name",
+                                "api/stamp", "api/send-praise","api/stamp/*","api/receive-praise")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

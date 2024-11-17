@@ -14,21 +14,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-public class GetSentStampByGroupService {
+public class GetReceivedStampByGroupService {
     private final StampByGroupHelper stampByGroupHelper;
     private final StampHelper stampHelper;
 
     private final StampByGroupMapper stampByGroupMapper;
 
     /**
-     * 그룹을 기준으로 보낸 꿀도장을 확인하는 로직
+     * 그룹을 기준으로 받은 꿀도장을 확인하는 로직
      * @param groupId 찾을 그룹의 id
-     * @return 해당 그룹에서 보낸 꿀도장 정보
+     * @return 해당 그룹에서 받은 꿀도장 정보
      */
     public StampInfoByGroupResDto execute(Long groupId) {
         List<StampDto> allStamp = stampHelper.getAllStamp();
-        List<StampDto> sentStampByGroup = stampByGroupHelper.getSentStampByGroup(groupId);
+        List<StampDto> receivedStampByGroup = stampByGroupHelper.getReceivedStampByGroup(groupId);
 
-        return stampByGroupMapper.toStampInfoByGroupResDto(allStamp,sentStampByGroup);
+        return stampByGroupMapper.toStampInfoByGroupResDto(allStamp,receivedStampByGroup);
     }
 }

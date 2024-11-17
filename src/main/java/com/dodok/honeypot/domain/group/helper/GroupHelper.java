@@ -1,5 +1,6 @@
 package com.dodok.honeypot.domain.group.helper;
 
+import com.dodok.honeypot.domain.group.dto.GroupWithMembersInfo;
 import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
 import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.domain.group.repository.GroupRepository;
@@ -8,6 +9,8 @@ import com.dodok.honeypot.global.error.exception.ConflictException;
 import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static com.dodok.honeypot.domain.group.entity.Group.createGroup;
 import static com.dodok.honeypot.domain.group.error.GroupErrorCode.*;
@@ -42,5 +45,13 @@ public class GroupHelper {
     public Group findGroupByIdOrElseThrow(Long groupId) {
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new EntityNotFoundException(GROUP_ENTITY_NOT_FOUND));
+    }
+
+    public Boolean checkGroupNameIsExist(Member member, String groupName) {
+        return groupRepository.existsByMemberAndName(member, groupName);
+    }
+
+    public List<GroupWithMembersInfo> findGroupInfosByMemberId(Long memberId) {
+        return groupRepository.findGroupInfosByMemberId(memberId);
     }
 }

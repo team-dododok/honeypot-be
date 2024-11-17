@@ -12,7 +12,21 @@ import java.util.List;
 public class StampByGroupHelper {
     private final StampRepository stampRepository;
 
-    public List<StampDto> getSentStamepByGroup(Long groupId) {
+    /**
+     * 그룹별로 보낸 꿀도장을 전체 조회하는 헬퍼
+     * @param groupId 그룹id
+     * @return 보낸 꿀도장의 전체 정보
+     */
+    public List<StampDto> getSentStampByGroup(Long groupId) {
         return stampRepository.findAllSentStampByGroup(groupId);
+    }
+
+    /**
+     * 그룹별로 보낸 꿀도장을 전체 조회하는 헬퍼
+     * @param groupId 그룹id
+     * @return 보낸 꿀도장의 전체 정보
+     */
+    public List<StampDto> getReceivedStampByGroup(Long groupId) {
+        return stampRepository.findAllReceivedStampByGroup(groupId);
     }
 }
