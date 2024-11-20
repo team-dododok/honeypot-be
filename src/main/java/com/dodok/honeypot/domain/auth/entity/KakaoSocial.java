@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Table(name = "tb_kakao_social")
 @Entity
-public class KakaoSocial extends BaseTimeEntity{
+public class KakaoSocial extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +19,16 @@ public class KakaoSocial extends BaseTimeEntity{
     private Long id;
 
     @Column(name = "kakao_auth", nullable = false)
-    private String kakaoAuth;
+    private Long kakaoAuth;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    public static KakaoSocial createKakaoSocial(Long kakaoAuth, Member member) {
+        return KakaoSocial.builder()
+                .kakaoAuth(kakaoAuth)
+                .member(member)
+                .build();
+    }
 }
