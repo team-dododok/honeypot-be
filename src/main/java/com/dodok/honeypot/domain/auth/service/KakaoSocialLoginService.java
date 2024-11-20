@@ -3,23 +3,17 @@ package com.dodok.honeypot.domain.auth.service;
 import com.dodok.honeypot.domain.auth.dto.JwtToken;
 import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
 import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
-import com.dodok.honeypot.domain.auth.entity.KakaoSocial;
 import com.dodok.honeypot.domain.auth.helper.KakaoSocialHelper;
 import com.dodok.honeypot.domain.auth.kakao.KakaoFeignClient;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.member.helper.MemberHelper;
 import com.dodok.honeypot.domain.member.helper.ServiceConsentHelper;
 import com.dodok.honeypot.global.auth.JwtUtil;
-import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import com.dodok.honeypot.global.reids.helper.RefreshTokenHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-
-import static com.dodok.honeypot.domain.auth.error.AuthErrorCode.KAKAO_INFO_NOT_FOUND;
 import static com.dodok.honeypot.domain.auth.type.MemberRole.*;
 
 @Service
@@ -36,10 +30,7 @@ public class KakaoSocialLoginService {
     private final JwtUtil jwtUtil;
 
     public KakaoLoginResDto kakaoLogin(String kakaoAccessToken) {
-        Optional<KakaoSocial> kakaoSocial = kakaoSocialHelper.findKakaoSocialByKakaoAuth(getKakaoMemberId(kakaoAccessToken));
-        Long memberId = kakaoSocial
-                .orElseThrow(() -> new EntityNotFoundException(KAKAO_INFO_NOT_FOUND))
-                .getMember().getId();
+        Long memberId = kakaoSocialHelper.findKakaoSocialByKakaoAuthOrElseThrow(getKakaoMemberId(kakaoAccessToken));
         return KakaoLoginResDto.of(createJwtToken(memberId));
     }
 
