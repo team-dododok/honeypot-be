@@ -1,4 +1,4 @@
-package com.dodok.honeypot.domain.sendpraise;
+package com.dodok.honeypot.domain.receivepraise.service;
 
 import com.dodok.honeypot.domain.badge.helper.CheckReceivePraiseBadgeHelper;
 import com.dodok.honeypot.domain.group.entity.Group;
