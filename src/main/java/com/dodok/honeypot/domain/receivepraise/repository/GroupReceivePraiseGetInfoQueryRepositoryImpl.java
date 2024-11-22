@@ -4,11 +4,12 @@ import com.dodok.honeypot.domain.receivepraise.dto.ReceivePraiseInfo;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +25,7 @@ public class GroupReceivePraiseGetInfoQueryRepositoryImpl implements GroupReceiv
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Slice<ReceivePraiseInfo> findReceivePraiseInfosByGroupId(Long groupId, Pageable pageable) {
+    public Page<ReceivePraiseInfo> findReceivePraiseInfosByGroupId(Long groupId, Pageable pageable) {
         List<ReceivePraiseInfo> contents = queryFactory.
                 select(Projections.constructor(ReceivePraiseInfo.class,
                         receivePraise.id,
@@ -40,23 +41,20 @@ public class GroupReceivePraiseGetInfoQueryRepositoryImpl implements GroupReceiv
                 .where(eqGroupId(groupId))
                 .orderBy(CreatedAtDesc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
+                .limit(pageable.getPageSize())
                 .fetch();
 
-        return new SliceImpl<>(contents, pageable, hasNextPage(contents, pageable.getPageSize()));
+        JPAQuery<Long> countQuery = queryFactory
+                .select(receivePraise.id.countDistinct())
+                .from(receivePraise)
+                .join(receivePraise.group, group)
+                .where(eqGroupId(groupId));
 
+        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchCount);
     }
 
     private static OrderSpecifier<LocalDateTime> CreatedAtDesc() {
         return receivePraise.createdAt.desc();
-    }
-
-    private boolean hasNextPage(List<ReceivePraiseInfo> receivePraiseInfos, int pageSize) {
-        if (receivePraiseInfos.size() > pageSize) {
-            receivePraiseInfos.remove(pageSize);
-            return true;
-        }
-        return false;
     }
 
     private BooleanExpression eqGroupId(Long groupId) {

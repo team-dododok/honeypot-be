@@ -6,6 +6,6 @@ public record ReceivePraiseInfo(
         Long receivePraiseId,
         String name,
         String stampUrl,
-        LocalDateTime date
+        LocalDateTime receivedDate
 ) {
 }
