@@ -1,6 +1,7 @@
 package com.dodok.honeypot.domain.member.entity;
 
 
+import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
 import com.dodok.honeypot.domain.member.dto.req.MemberUpdateReqDto;
 import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.global.entity.BaseTimeEntity;
@@ -45,7 +46,7 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     private List<Group> groups = new ArrayList<>();
 
-    public static Member createEmptyMember(){
+    public static Member createEmptyMember() {
         return new Member();
     }
 
@@ -57,6 +58,15 @@ public class Member extends BaseTimeEntity {
 
     public void addGroup(Group group) {
         this.groups.add(group);
+    }
+
+    public static Member createMember(KakaoLoginReqDto requestDto) {
+        return Member.builder()
+                .name(requestDto.name())
+                .email(requestDto.email())
+                .imageUrl(requestDto.imageUrl())
+                .onboarding(requestDto.onboarding())
+                .build();
     }
 }
 

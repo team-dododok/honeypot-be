@@ -1,0 +1,40 @@
+package com.dodok.honeypot.domain.receivepraise.service;
+
+import com.dodok.honeypot.domain.badge.helper.CheckReceivePraiseBadgeHelper;
+import com.dodok.honeypot.domain.group.entity.Group;
+import com.dodok.honeypot.domain.group.helper.GroupHelper;
+import com.dodok.honeypot.domain.member.entity.Member;
+import com.dodok.honeypot.domain.member.helper.MemberHelper;
+import com.dodok.honeypot.domain.receivepraise.dto.req.SaveReceivePraiseReqDto;
+import com.dodok.honeypot.domain.receivepraise.helper.ReceivePraiseHelper;
+import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
+import com.dodok.honeypot.domain.sendpraise.helper.SendPraiseHelper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@RequiredArgsConstructor
+@Transactional
+@Service
+public class SaveReceivePraiseService {
+    private final MemberHelper memberHelper;
+    private final GroupHelper groupHelper;
+    private final ReceivePraiseHelper receivePraiseHelper;
+    private final SendPraiseHelper sendPraiseHelper;
+    private final CheckReceivePraiseBadgeHelper checkReceivePraiseBadgeHelper;
+
+    /**
+     * 칭찬uuid를 통해 칭찬을 저장하는 로직
+     * @param req 칭찬의 uuid와 받는사람의 memberId
+     */
+    public void execute(SaveReceivePraiseReqDto req) {
+        Member receiver = memberHelper.findMemberByIdOrElseThrow(req.receiverId());
+        SendPraise sendPraise = sendPraiseHelper.findByUuidOrElseThrow(req.praiseUuid());
+        Group group = groupHelper.findGroupByIdOrElseThrow(sendPraise.getGroup().getId());
+        receivePraiseHelper.saveReceivePraise(receiver, sendPraise, group);
+
+        // TODO : 비동기로 전환
+        checkReceivePraiseBadgeHelper.updateReceivePraiseBadge(req.receiverId());
+    }
+
+}

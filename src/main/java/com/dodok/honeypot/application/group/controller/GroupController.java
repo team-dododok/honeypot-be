@@ -6,6 +6,8 @@ import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
 import com.dodok.honeypot.domain.group.service.*;
 import com.dodok.honeypot.domain.receivepraise.dto.res.GetGroupReceivePraiseResDto;
+import com.dodok.honeypot.domain.group.dto.res.GetAllMyGroupResDto;
+import com.dodok.honeypot.domain.group.service.*;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class GroupController {
     private final UpdateGroupService updateGroupService;
     private final UpdateGroupOrderService updateGroupOrderService;
     private final CheckGroupNameService checkGroupNameService;
+    private final GetAllMyGroupService getAllMyGroupService;
     private final GetGroupReceivePraiseService getGroupReceivePraiseService;
 
     @PostMapping
@@ -58,6 +61,12 @@ public class GroupController {
                                                                @RequestBody final GroupOrderUpdateReqDto requestDto) {
         updateGroupOrderService.execute(memberId, requestDto);
         return SuccessResponse.ok(null);
+    }
+
+    @GetMapping
+    public ResponseEntity<SuccessResponse<?>> getAllMyGroup(@RequestParam(name = "id") final Long memberId) {
+        final GetAllMyGroupResDto response = getAllMyGroupService.execute(memberId);
+        return SuccessResponse.ok(response);
     }
 
     @GetMapping("/receive-praise")

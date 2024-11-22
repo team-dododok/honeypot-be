@@ -27,7 +27,7 @@ public class GetSentStampByGroupService {
      */
     public StampInfoByGroupResDto execute(Long groupId) {
         List<StampDto> allStamp = stampHelper.getAllStamp();
-        List<StampDto> sentStampByGroup = stampByGroupHelper.getSentStamepByGroup(groupId);
+        List<StampDto> sentStampByGroup = stampByGroupHelper.getSentStampByGroup(groupId);
 
         return stampByGroupMapper.toStampInfoByGroupResDto(allStamp,sentStampByGroup);
     }

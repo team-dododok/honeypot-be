@@ -1,5 +1,6 @@
 package com.dodok.honeypot.domain.member.helper;
 
+import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
 import com.dodok.honeypot.domain.member.dto.info.MemberInfo;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.member.repository.MemberRepository;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import static com.dodok.honeypot.domain.member.entity.Member.createMember;
 import static com.dodok.honeypot.domain.member.error.MemberErrorCode.MEMBER_ENTITY_NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -29,5 +31,10 @@ public class MemberHelper {
 
     public Page<MemberInfo> findAllMembersByName(String name, Pageable pageable) {
         return memberRepository.findAllMembersByName(name, pageable);
+    }
+
+    public Member createMemberAndSave(KakaoLoginReqDto requestDto) {
+        Member member = createMember(requestDto);
+        return memberRepository.save(member);
     }
 }
