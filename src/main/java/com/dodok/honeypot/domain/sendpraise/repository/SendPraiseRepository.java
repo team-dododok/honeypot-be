@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SendPraiseRepository extends JpaRepository<SendPraise, Long> {
+public interface SendPraiseRepository extends JpaRepository<SendPraise, Long>,
+        GroupSendPraiseGetInfoQueryRepository {
     Long countBySenderId(Long senderId);
 
     Optional<SendPraise> findByUuid(String uuid);

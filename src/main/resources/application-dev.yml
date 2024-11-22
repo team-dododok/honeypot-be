@@ -35,6 +35,6 @@ spring:
         default-page-size: 10
 
 jwt:
-  secret-key: ${local.jwt.secret-key}
-  accessToken-validate-time: ${local.jwt.accessToken-validate-time}
-  refreshToken-validate-time: ${local.jwt.refreshToken-validate-time}
+  secret-key: ${dev.jwt.secret-key}
+  accessToken-validate-time: ${dev.jwt.accessToken-validate-time}
+  refreshToken-validate-time: ${dev.jwt.refreshToken-validate-time}

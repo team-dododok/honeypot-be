@@ -2,14 +2,17 @@ package com.dodok.honeypot.domain.auth.service;
 
 import com.dodok.honeypot.domain.auth.dto.JwtToken;
 import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
+import com.dodok.honeypot.domain.auth.dto.req.ReissueJwtTokenReqDto;
 import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
+import com.dodok.honeypot.domain.auth.dto.res.ReissueJwtTokenResDto;
 import com.dodok.honeypot.domain.auth.helper.KakaoSocialHelper;
 import com.dodok.honeypot.domain.auth.kakao.KakaoFeignClient;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.member.helper.MemberHelper;
 import com.dodok.honeypot.domain.member.helper.ServiceConsentHelper;
 import com.dodok.honeypot.global.auth.JwtUtil;
-import com.dodok.honeypot.global.reids.helper.RefreshTokenHelper;
+import com.dodok.honeypot.global.redis.entity.RefreshToken;
+import com.dodok.honeypot.global.redis.helper.RefreshTokenHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,6 +42,14 @@ public class KakaoSocialLoginService {
         Long memberId = createMemberAndSaveInfo(getKakaoMemberId(kakaoAccessToken), requestDto).getId();
         return KakaoLoginResDto.of(createJwtToken(memberId));
     }
+
+    public ReissueJwtTokenResDto reissue(ReissueJwtTokenReqDto reissueJwtTokenDto) {
+        Long memberId = jwtUtil.getMemberIdFromAccessToken(reissueJwtTokenDto.accessToken());
+        RefreshToken refreshToken = refreshTokenHelper.findRefreshTokenOrElseThrow(memberId);
+        jwtUtil.verifyMemberRefreshToken(refreshToken.getRefreshToken(), reissueJwtTokenDto.refreshToken());
+        return ReissueJwtTokenResDto.of(createJwtToken(memberId));
+    }
+
 
     private JwtToken createJwtToken(Long memberId) {
         JwtToken jwtToken = generateJwtToken(generateAccessToken(memberId, MEMBER.getRole()), generateRefreshToken());
