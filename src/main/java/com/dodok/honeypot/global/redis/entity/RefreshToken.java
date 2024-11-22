@@ -1,4 +1,4 @@
-package com.dodok.honeypot.global.reids.entity;
+package com.dodok.honeypot.global.redis.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

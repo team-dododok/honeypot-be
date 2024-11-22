@@ -1,10 +1,7 @@
 package com.dodok.honeypot.global.auth;
 
-import com.dodok.honeypot.domain.auth.error.AuthErrorCode;
-import com.dodok.honeypot.global.error.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,12 +29,12 @@ public class JwtUtil {
     }
 
     // access token 발급
-    public String createAccessToken(Long userId, String role) {
+    public String createAccessToken(Long memberId, String role) {
         LocalDateTime localDate = LocalDateTime.now();
         return Jwts.builder()
                 .setHeaderParam("type", "accessToken")
-                .claim("userId", userId)
-                .claim("role", role)
+                .claim("memberId", memberId)
+                .claim("role",role)
                 .setIssuedAt(Timestamp.valueOf(localDate))
                 .setExpiration(Timestamp.valueOf(localDate.plusHours(ACCESSTOKEN_VALIDATE_TIME)))
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
@@ -45,29 +42,31 @@ public class JwtUtil {
     }
 
     // refresh token 발급
-    public String createRefreshToken() {
+    public String createRefreshToken(){
         LocalDateTime localDate = LocalDateTime.now();
         return Jwts.builder()
                 .setHeaderParam("type", "refreshToken")
                 .setIssuedAt(Timestamp.valueOf(localDate))
                 .setExpiration(Timestamp.valueOf(localDate.plusHours(REFRESHTOKEN_VALIDATE_TIME)))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact(); // JWT 토큰 생성
+                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
+                .compact();
     }
 
-    public Long getMemberIdFromAccessToken(String accessToken) {
+    public String getTokenFromHeader(String authorizationHeader) {
+        return authorizationHeader.substring(7);
+    }
+
+    public Long getMemberIdFromAccessToken(String accessToken){
         return Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY.getBytes())
                 .build()
                 .parseClaimsJws(accessToken)
                 .getBody()
-                .get("userId", Long.class);
+                .get("memberId", Long.class);
     }
 
     public void verifyMemberRefreshToken(String repositoryRefreshToken, String memberRefreshToken) {
         if (!(repositoryRefreshToken.equals(memberRefreshToken)))
             throw new UnauthorizedException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
     }
-
-
 }
