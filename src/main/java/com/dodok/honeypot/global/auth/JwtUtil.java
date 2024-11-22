@@ -1,7 +1,10 @@
 package com.dodok.honeypot.global.auth;
 
+import com.dodok.honeypot.domain.auth.error.AuthErrorCode;
+import com.dodok.honeypot.global.error.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
