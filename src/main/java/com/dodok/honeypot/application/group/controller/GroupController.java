@@ -4,14 +4,11 @@ import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupOrderUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
-import com.dodok.honeypot.domain.group.service.*;
-import com.dodok.honeypot.domain.receivepraise.dto.res.GetGroupReceivePraiseResDto;
 import com.dodok.honeypot.domain.group.dto.res.GetAllMyGroupResDto;
 import com.dodok.honeypot.domain.group.service.*;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +23,6 @@ public class GroupController {
     private final UpdateGroupOrderService updateGroupOrderService;
     private final CheckGroupNameService checkGroupNameService;
     private final GetAllMyGroupService getAllMyGroupService;
-    private final GetGroupReceivePraiseService getGroupReceivePraiseService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@RequestParam(name = "id") final Long memberId,
@@ -68,13 +64,4 @@ public class GroupController {
         final GetAllMyGroupResDto response = getAllMyGroupService.execute(memberId);
         return SuccessResponse.ok(response);
     }
-
-    @GetMapping("/receive-praise")
-    public ResponseEntity<SuccessResponse<?>> getGroupReceivePraise(@RequestParam(name = "id") final Long memberId,
-                                                                    @RequestParam(name = "groupId") final Long groupId,
-                                                                    final Pageable pageable) {
-        final GetGroupReceivePraiseResDto response = getGroupReceivePraiseService.execute(memberId, groupId, pageable);
-        return SuccessResponse.ok(response);
-    }
-
 }
