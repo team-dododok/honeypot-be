@@ -1,15 +1,15 @@
 package com.dodok.honeypot.application.sendpraise.controller;
 
 import com.dodok.honeypot.domain.sendpraise.dto.req.SendPraiseReqDto;
+import com.dodok.honeypot.domain.sendpraise.dto.res.GetGroupSendPraiseResDto;
 import com.dodok.honeypot.domain.sendpraise.dto.res.SendPraiseResDto;
 import com.dodok.honeypot.domain.sendpraise.service.CreateSendPraiseService;
+import com.dodok.honeypot.domain.sendpraise.service.GetGroupSendPraiseService;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SendPraiseController {
 
     private final CreateSendPraiseService sendPraiseService;
+    private final GetGroupSendPraiseService getGroupSendPraiseService;
 
     /**
      * 보낸 칭찬을 생성하는 api
@@ -27,4 +28,14 @@ public class SendPraiseController {
         return SuccessResponse.created(sendPraise);
     }
 
+    /**
+     * 그룹 별 보낸 칭찬을 보는 api
+     */
+    @GetMapping("/group")
+    public ResponseEntity<SuccessResponse<?>> getGroupReceivePraise(@RequestParam(name = "id") final Long memberId,
+                                                                    @RequestParam(name = "groupId") final Long groupId,
+                                                                    final Pageable pageable) {
+        final GetGroupSendPraiseResDto response = getGroupSendPraiseService.execute(memberId, groupId, pageable);
+        return SuccessResponse.ok(response);
+    }
 }
