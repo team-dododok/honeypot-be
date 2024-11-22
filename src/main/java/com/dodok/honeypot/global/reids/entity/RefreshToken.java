@@ -2,6 +2,7 @@ package com.dodok.honeypot.global.reids.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -9,6 +10,7 @@ import org.springframework.data.redis.core.RedisHash;
 @RedisHash(value = "refresh_token")
 @Builder
 @AllArgsConstructor
+@Getter
 public class RefreshToken {
 
     @Id

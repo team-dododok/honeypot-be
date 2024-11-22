@@ -1,7 +1,9 @@
 package com.dodok.honeypot.application.auth.controller;
 
 import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
+import com.dodok.honeypot.domain.auth.dto.req.ReissueJwtTokenReqDto;
 import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
+import com.dodok.honeypot.domain.auth.dto.res.ReissueJwtTokenResDto;
 import com.dodok.honeypot.domain.auth.service.KakaoSocialLoginService;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,12 @@ public class AuthController {
             @RequestHeader("Authorization") String kakaoAccessToken,
             @RequestBody KakaoLoginReqDto requestDto) {
         KakaoLoginResDto resDto = kakaoSocialLoginService.register(kakaoAccessToken, requestDto);
+        return SuccessResponse.ok(resDto);
+    }
+
+    @GetMapping("/reissue")//accessToken 재발행
+    public ResponseEntity<SuccessResponse<?>> reissue(@RequestBody ReissueJwtTokenReqDto reissueJwtTokenDto){
+        ReissueJwtTokenResDto resDto = kakaoSocialLoginService.reissue(reissueJwtTokenDto);
         return SuccessResponse.ok(resDto);
     }
 }
