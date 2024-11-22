@@ -30,6 +30,7 @@ public class GroupReceivePraiseGetInfoQueryRepositoryImpl implements GroupReceiv
                 select(Projections.constructor(ReceivePraiseInfo.class,
                         receivePraise.id,
                         member.name,
+                        sendPraise.content,
                         honeyStamp.imageUrl,
                         receivePraise.createdAt
                 ))

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public record ReceivePraiseInfo(
         Long receivePraiseId,
         String name,
+        String content,
         String stampUrl,
         LocalDateTime receivedDate
 ) {
