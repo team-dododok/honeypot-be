@@ -31,7 +31,7 @@ public class AuthController {
         return SuccessResponse.ok(resDto);
     }
 
-    @GetMapping("/reissue")//accessToken 재발행
+    @PostMapping("/reissue")//accessToken 재발행
     public ResponseEntity<SuccessResponse<?>> reissue(@RequestBody ReissueJwtTokenReqDto reissueJwtTokenDto){
         ReissueJwtTokenResDto resDto = kakaoSocialLoginService.reissue(reissueJwtTokenDto);
         return SuccessResponse.ok(resDto);
