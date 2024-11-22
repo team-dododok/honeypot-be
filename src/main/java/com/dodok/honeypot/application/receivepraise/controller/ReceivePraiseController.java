@@ -1,12 +1,17 @@
 package com.dodok.honeypot.application.receivepraise.controller;
 
 import com.dodok.honeypot.domain.receivepraise.dto.req.SaveReceivePraiseReqDto;
+import com.dodok.honeypot.domain.receivepraise.dto.res.GetReceivedPraiseResDto;
 import com.dodok.honeypot.domain.receivepraise.service.DeleteReceivedPraiseService;
+import com.dodok.honeypot.domain.receivepraise.service.GetReceivedPraiseService;
 import com.dodok.honeypot.domain.receivepraise.service.SaveReceivePraiseService;
+import com.dodok.honeypot.global.auth.JwtUtil;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,10 +20,27 @@ public class ReceivePraiseController {
 
     private final SaveReceivePraiseService saveReceivePraiseService;
     private final DeleteReceivedPraiseService deleteReceivedPraiseService;
+    private final GetReceivedPraiseService getReceivedPraiseService;
+    private final JwtUtil jwtUtil;
 
+    /**
+     * 칭찬 받았을 때 정보 조회하는 api
+     * @param uuid 칭찬 uuid
+     * @param authorizationHeader 헤더
+     * @return
+     */
     @GetMapping("")
-    public ResponseEntity<SuccessResponse<?>> checkAlreadySaved(@RequestParam(name = "uuid") String uuid) {
-        return null;
+    public ResponseEntity<SuccessResponse<?>> getReceivedPraiseInfo(
+            @RequestParam(name = "uuid") String uuid,
+            @RequestHeader(value = "Authorization", required = false) String authorizationHeader
+           ) {
+
+        Optional<Long> optionalMemberId = authorizationHeader == null
+                ? Optional.empty()
+                : Optional.of(jwtUtil.getMemberIdFromAuthorizationHeader(authorizationHeader));
+
+        GetReceivedPraiseResDto res = getReceivedPraiseService.execute(uuid, optionalMemberId);
+        return SuccessResponse.ok(res);
     }
 
     /**
