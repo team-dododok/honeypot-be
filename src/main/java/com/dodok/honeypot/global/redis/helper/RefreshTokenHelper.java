@@ -1,13 +1,13 @@
-package com.dodok.honeypot.global.reids.helper;
+package com.dodok.honeypot.global.redis.helper;
 
-import com.dodok.honeypot.global.reids.entity.RefreshToken;
-import com.dodok.honeypot.global.reids.repository.RefreshTokenRepository;
+import com.dodok.honeypot.global.redis.entity.RefreshToken;
+import com.dodok.honeypot.global.redis.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-import static com.dodok.honeypot.global.reids.entity.RefreshToken.createRefreshToken;
+import static com.dodok.honeypot.global.redis.entity.RefreshToken.createRefreshToken;
 
 @Component
 @RequiredArgsConstructor

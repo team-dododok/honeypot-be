@@ -20,6 +20,11 @@ public class ReceivePraiseController {
     private final DeleteReceivedPraiseService deleteReceivedPraiseService;
     private final GetGroupReceivePraiseService getGroupReceivePraiseService;
 
+    @GetMapping("")
+    public ResponseEntity<SuccessResponse<?>> checkAlreadySaved(@RequestParam(name = "uuid") String uuid) {
+        return null;
+    }
+
     /**
      * 받은 칭찬을 저장하는 로직
      *
