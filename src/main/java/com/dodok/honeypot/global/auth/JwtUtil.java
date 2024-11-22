@@ -65,4 +65,14 @@ public class JwtUtil {
                 .getBody()
                 .get("memberId", Long.class);
     }
+
+    public Long getMemberIdFromAuthorizationHeader(String authorizationHeader) {
+        String accessToken = authorizationHeader.substring(7);
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody()
+                .get("memberId", Long.class);
+    }
 }
