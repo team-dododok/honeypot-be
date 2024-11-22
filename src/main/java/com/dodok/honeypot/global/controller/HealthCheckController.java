@@ -1,6 +1,5 @@
 package com.dodok.honeypot.global.controller;
 
-import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +12,7 @@ public class HealthCheckController{
 
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<?>> healthCheck(@MemberId Long memberId){
-        System.out.println("memberId = " + memberId);
+    public ResponseEntity<SuccessResponse<?>> healthCheck(){
         return SuccessResponse.ok("ʕ•ﻌ•ʔ <( Hi! )");
     }
 }
