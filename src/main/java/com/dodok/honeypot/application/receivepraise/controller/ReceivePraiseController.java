@@ -1,13 +1,17 @@
 package com.dodok.honeypot.application.receivepraise.controller;
 
 import com.dodok.honeypot.domain.receivepraise.dto.req.SaveReceivePraiseReqDto;
+
 import com.dodok.honeypot.domain.receivepraise.dto.res.GetReceivedPraiseResDto;
 import com.dodok.honeypot.domain.receivepraise.service.DeleteReceivedPraiseService;
 import com.dodok.honeypot.domain.receivepraise.service.GetReceivedPraiseService;
+import com.dodok.honeypot.domain.receivepraise.dto.res.GetGroupReceivePraiseResDto;
+import com.dodok.honeypot.domain.receivepraise.service.GetGroupReceivePraiseService;
 import com.dodok.honeypot.domain.receivepraise.service.SaveReceivePraiseService;
 import com.dodok.honeypot.global.auth.JwtUtil;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +26,7 @@ public class ReceivePraiseController {
     private final DeleteReceivedPraiseService deleteReceivedPraiseService;
     private final GetReceivedPraiseService getReceivedPraiseService;
     private final JwtUtil jwtUtil;
+    private final GetGroupReceivePraiseService getGroupReceivePraiseService;
 
     /**
      * 칭찬 받았을 때 정보 조회하는 api
@@ -45,6 +50,7 @@ public class ReceivePraiseController {
 
     /**
      * 받은 칭찬을 저장하는 로직
+     *
      * @param req
      * @return
      */
@@ -56,6 +62,7 @@ public class ReceivePraiseController {
 
     /**
      * receivedPraiseId를 통해 받은칭찬 엔티티를 삭제하는 로직
+     *
      * @param receivedPraiseId 받은 칭찬id
      */
     @DeleteMapping("")
@@ -65,4 +72,13 @@ public class ReceivePraiseController {
         deleteReceivedPraiseService.execute(receivedPraiseId);
         return SuccessResponse.ok(null);
     }
+
+    @GetMapping("/group")
+    public ResponseEntity<SuccessResponse<?>> getGroupReceivePraise(@RequestParam(name = "id") final Long memberId,
+                                                                    @RequestParam(name = "groupId") final Long groupId,
+                                                                    final Pageable pageable) {
+        final GetGroupReceivePraiseResDto response = getGroupReceivePraiseService.execute(memberId, groupId, pageable);
+        return SuccessResponse.ok(response);
+    }
+
 }

@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReceivePraiseRepository extends JpaRepository<ReceivePraise, Long> {
+public interface ReceivePraiseRepository extends JpaRepository<ReceivePraise, Long>,
+        GroupReceivePraiseGetInfoQueryRepository {
     Long countByReceiverId(Long receiverId);
 
     /**

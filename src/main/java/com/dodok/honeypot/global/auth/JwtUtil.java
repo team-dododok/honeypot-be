@@ -1,5 +1,7 @@
 package com.dodok.honeypot.global.auth;
 
+import com.dodok.honeypot.domain.auth.error.AuthErrorCode;
+import com.dodok.honeypot.global.error.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -74,5 +76,9 @@ public class JwtUtil {
                 .parseClaimsJws(accessToken)
                 .getBody()
                 .get("memberId", Long.class);
+    }
+    public void verifyMemberRefreshToken(String repositoryRefreshToken, String memberRefreshToken) {
+        if (!(repositoryRefreshToken.equals(memberRefreshToken)))
+            throw new UnauthorizedException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
     }
 }
