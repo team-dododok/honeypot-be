@@ -3,6 +3,7 @@ package com.dodok.honeypot.domain.member.mapper;
 import com.dodok.honeypot.domain.member.dto.info.MemberInfo;
 import com.dodok.honeypot.domain.member.dto.res.MemberInfoResDto;
 import com.dodok.honeypot.domain.member.dto.res.MembersInfoResDto;
+import com.dodok.honeypot.domain.praise.dto.info.MemberPraiseInfo;
 import com.dodok.honeypot.global.dto.PageInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MemberMapper {
 
-    public MemberInfoResDto toMemberInfoResDto(MemberInfo memberInfo) {
-        return MemberInfoResDto.of(memberInfo);
+    public MemberInfoResDto toMemberInfoResDto(MemberInfo memberInfo, MemberPraiseInfo memberPraiseInfo) {
+        return MemberInfoResDto.of(memberInfo, memberPraiseInfo);
     }
 
     public MembersInfoResDto toMemberGetResDto(Page<MemberInfo> memberInfoPage) {

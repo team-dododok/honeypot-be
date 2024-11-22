@@ -6,6 +6,8 @@ import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 import static com.dodok.honeypot.domain.member.error.ProfileImageErrorCode.PROFILE_IMAGE_ENTITY_NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -16,5 +18,9 @@ public class ProfileImageHelper {
     public ProfileImage findProfileImageByIdOrElseThrow(Long profileImageId) {
         return profileImageRepository.findById(profileImageId)
                 .orElseThrow(() -> new EntityNotFoundException(PROFILE_IMAGE_ENTITY_NOT_FOUND));
+    }
+
+    public List<ProfileImage> getProfileImageUrl() {
+        return profileImageRepository.findAll();
     }
 }
