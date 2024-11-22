@@ -7,6 +7,6 @@ public record ReceivePraiseInfo(
         String name,
         String content,
         String stampUrl,
-        LocalDateTime receivedDate
+        LocalDateTime receiveDate
 ) {
 }
