@@ -68,6 +68,15 @@ public class JwtUtil {
                 .get("memberId", Long.class);
     }
 
+    public Long getMemberIdFromAuthorizationHeader(String authorizationHeader) {
+        String accessToken = authorizationHeader.substring(7);
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody()
+                .get("memberId", Long.class);
+    }
     public void verifyMemberRefreshToken(String repositoryRefreshToken, String memberRefreshToken) {
         if (!(repositoryRefreshToken.equals(memberRefreshToken)))
             throw new UnauthorizedException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);

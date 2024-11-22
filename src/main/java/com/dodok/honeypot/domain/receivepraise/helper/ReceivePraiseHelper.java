@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class ReceivePraiseHelper {
@@ -38,4 +40,15 @@ public class ReceivePraiseHelper {
     public void deleteReceivedPraiseService(ReceivePraise receivePraise) {
         receivePraiseRepository.delete(receivePraise);
     }
+
+    /**
+     * 보낸 칭찬의 id로 전체 받은 칭찬을 조회하는 로직
+     * @param sendPraiseId 보낸칭찬의 id
+     * @return
+     */
+    public List<ReceivePraise> findAllReceivedPraise(Long sendPraiseId) {
+        return receivePraiseRepository.findAllBySendPraiseId(sendPraiseId);
+    }
+
+
 }
