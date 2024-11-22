@@ -5,6 +5,7 @@ import com.dodok.honeypot.domain.stamp.dto.res.StampInfoByGroupResDto;
 import com.dodok.honeypot.domain.stamp.service.GetAllStampService;
 import com.dodok.honeypot.domain.stamp.service.GetReceivedStampByGroupService;
 import com.dodok.honeypot.domain.stamp.service.GetSentStampByGroupService;
+import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,9 @@ public class StampController {
      * @return 꿀도장의 전체 개수와 종류
      */
     @GetMapping("/sent")
-    ResponseEntity<SuccessResponse<?>> getSentStampByGroup(@RequestParam(name = "group") Long groupId) {
-        StampInfoByGroupResDto sentStampByGroup = sentStampByGroupHelperService.execute(groupId);
+    ResponseEntity<SuccessResponse<?>> getSentStampByGroup(@MemberId final Long memberId,
+                                                           @RequestParam(name = "group") Long groupId) {
+        StampInfoByGroupResDto sentStampByGroup = sentStampByGroupHelperService.execute(memberId, groupId);
         return SuccessResponse.ok(sentStampByGroup);
     }
 
@@ -46,8 +48,9 @@ public class StampController {
      * @return 꿀도장의 전체 개수와 종류
      */
     @GetMapping("/received")
-    ResponseEntity<SuccessResponse<?>> getReceivedStampByGroup(@RequestParam(name = "group") Long groupId) {
-        StampInfoByGroupResDto receivedStampByGroup = getReceivedStampByGroupService.execute(groupId);
+    ResponseEntity<SuccessResponse<?>> getReceivedStampByGroup(@MemberId final Long memberId,
+                                                               @RequestParam(name = "group") Long groupId) {
+        StampInfoByGroupResDto receivedStampByGroup = getReceivedStampByGroupService.execute(memberId, groupId);
         return SuccessResponse.ok(receivedStampByGroup);
     }
 

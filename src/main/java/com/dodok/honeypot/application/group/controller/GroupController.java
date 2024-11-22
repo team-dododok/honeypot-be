@@ -6,6 +6,7 @@ import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
 import com.dodok.honeypot.domain.group.dto.res.GetAllMyGroupResDto;
 import com.dodok.honeypot.domain.group.service.*;
+import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,42 +26,42 @@ public class GroupController {
     private final GetAllMyGroupService getAllMyGroupService;
 
     @PostMapping
-    public ResponseEntity<SuccessResponse<?>> createGroup(@RequestParam(name = "id") final Long memberId,
+    public ResponseEntity<SuccessResponse<?>> createGroup(@MemberId final Long memberId,
                                                           @RequestBody @Valid final GroupCreateReqDto requestDto) {
         createGroupService.execute(memberId, requestDto);
         return SuccessResponse.created(null);
     }
 
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<SuccessResponse<?>> deleteGroup(@RequestParam(name = "id") final Long memberId,
+    public ResponseEntity<SuccessResponse<?>> deleteGroup(@MemberId final Long memberId,
                                                           @PathVariable(name = "id") final Long groupId) {
         deleteGroupService.execute(memberId, groupId);
         return SuccessResponse.ok(null);
     }
 
     @PatchMapping("/name")
-    public ResponseEntity<SuccessResponse<?>> updateGroup(@RequestParam(name = "id") final Long memberId,
+    public ResponseEntity<SuccessResponse<?>> updateGroup(@MemberId final Long memberId,
                                                           @RequestBody final GroupUpdateReqDto requestDto) {
         updateGroupService.execute(memberId, requestDto);
         return SuccessResponse.ok(null);
     }
 
     @GetMapping("/check")
-    public ResponseEntity<SuccessResponse<?>> checkGroupNameDuplicate(@RequestParam(name = "id") final Long memberId,
+    public ResponseEntity<SuccessResponse<?>> checkGroupNameDuplicate(@MemberId final Long memberId,
                                                                       @RequestParam(name = "groupName") final String groupName) {
         final CheckGroupNameResDto response = checkGroupNameService.execute(memberId, groupName);
         return SuccessResponse.ok(response);
     }
 
     @PatchMapping("/order")
-    public ResponseEntity<SuccessResponse<?>> updateGroupOrder(@RequestParam(name = "id") final Long memberId,
+    public ResponseEntity<SuccessResponse<?>> updateGroupOrder(@MemberId final Long memberId,
                                                                @RequestBody final GroupOrderUpdateReqDto requestDto) {
         updateGroupOrderService.execute(memberId, requestDto);
         return SuccessResponse.ok(null);
     }
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<?>> getAllMyGroup(@RequestParam(name = "id") final Long memberId) {
+    public ResponseEntity<SuccessResponse<?>> getAllMyGroup(@MemberId final Long memberId) {
         final GetAllMyGroupResDto response = getAllMyGroupService.execute(memberId);
         return SuccessResponse.ok(response);
     }
