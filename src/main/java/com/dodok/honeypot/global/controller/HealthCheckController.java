@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/health")
 public class HealthCheckController{
 
+
     @GetMapping
     public ResponseEntity<SuccessResponse<?>> healthCheck(){
         return SuccessResponse.ok("ʕ•ﻌ•ʔ <( Hi! )");

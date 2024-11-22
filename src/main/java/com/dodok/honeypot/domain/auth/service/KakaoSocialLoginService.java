@@ -9,7 +9,7 @@ import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.member.helper.MemberHelper;
 import com.dodok.honeypot.domain.member.helper.ServiceConsentHelper;
 import com.dodok.honeypot.global.auth.JwtUtil;
-import com.dodok.honeypot.global.reids.helper.RefreshTokenHelper;
+import com.dodok.honeypot.global.redis.helper.RefreshTokenHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
