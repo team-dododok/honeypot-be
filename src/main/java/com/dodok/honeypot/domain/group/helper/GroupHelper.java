@@ -54,4 +54,10 @@ public class GroupHelper {
     public List<GroupWithMembersInfo> findGroupInfosByMemberId(Long memberId) {
         return groupRepository.findGroupInfosByMemberId(memberId);
     }
+
+    public void validateIsMemberGroup(Member member, Long groupId) {
+        if (!groupRepository.existsByMemberAndId(member, groupId)) {
+            throw new EntityNotFoundException(MEMBER_GROUP_NOT_FOUND);
+        }
+    }
 }

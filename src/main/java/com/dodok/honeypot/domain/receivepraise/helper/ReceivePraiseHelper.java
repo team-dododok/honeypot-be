@@ -2,12 +2,15 @@ package com.dodok.honeypot.domain.receivepraise.helper;
 
 import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.domain.member.entity.Member;
+import com.dodok.honeypot.domain.receivepraise.dto.ReceivePraiseInfo;
 import com.dodok.honeypot.domain.receivepraise.entity.ReceivePraise;
 import com.dodok.honeypot.domain.receivepraise.error.ReceivedPraiseErrorCode;
 import com.dodok.honeypot.domain.receivepraise.repository.ReceivePraiseRepository;
 import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
 import com.dodok.honeypot.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -15,6 +18,12 @@ import org.springframework.stereotype.Component;
 public class ReceivePraiseHelper {
 
     private final ReceivePraiseRepository receivePraiseRepository;
+
+    // TODO : 꿀(칭찬)을 받는 로직 구현 시, CheckReceivePraiseBadgeHelper.updateReceivePraiseBadge() 호출할 것.
+
+    public Page<ReceivePraiseInfo> getGroupReceivePraiseInfos(Long groupId, Pageable pageable) {
+        return receivePraiseRepository.findReceivePraiseInfosByGroupId(groupId, pageable);
+    }
 
     public ReceivePraise findByIdOrElseThrow(Long receivedPraiseId) {
         return receivePraiseRepository.findById(receivedPraiseId).orElseThrow(
@@ -29,5 +38,4 @@ public class ReceivePraiseHelper {
     public void deleteReceivedPraiseService(ReceivePraise receivePraise) {
         receivePraiseRepository.delete(receivePraise);
     }
-
 }
