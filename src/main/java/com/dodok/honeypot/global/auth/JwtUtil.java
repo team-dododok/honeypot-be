@@ -2,6 +2,7 @@ package com.dodok.honeypot.global.auth;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -63,10 +64,5 @@ public class JwtUtil {
                 .parseClaimsJws(accessToken)
                 .getBody()
                 .get("memberId", Long.class);
-    }
-
-    public void verifyMemberRefreshToken(String repositoryRefreshToken, String memberRefreshToken) {
-        if (!(repositoryRefreshToken.equals(memberRefreshToken)))
-            throw new UnauthorizedException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
     }
 }
