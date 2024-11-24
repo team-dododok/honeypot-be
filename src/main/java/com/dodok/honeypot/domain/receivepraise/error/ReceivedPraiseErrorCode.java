@@ -13,7 +13,8 @@ public enum ReceivedPraiseErrorCode implements ErrorCode {
     /**
      * 404 Not Found
      */
-    RECEIVED_PRAISE_ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "받은칭찬을 찾을 수 없습니다.");
+    RECEIVED_PRAISE_ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "받은칭찬을 찾을 수 없습니다."),
+    NOT_MEMBER_RECEIVED_PRAISE(HttpStatus.NOT_FOUND, "멤버가 받은칭찬을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

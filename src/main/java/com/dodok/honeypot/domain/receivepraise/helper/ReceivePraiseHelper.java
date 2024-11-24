@@ -27,7 +27,7 @@ public class ReceivePraiseHelper {
         return receivePraiseRepository.findReceivePraiseInfosByGroupId(groupId, pageable);
     }
 
-    public ReceivePraise findByIdOrElseThrow(Long receivedPraiseId) {
+    public ReceivePraise findByIdOrElseThrow(Long memberId, Long receivedPraiseId) {
         return receivePraiseRepository.findById(receivedPraiseId).orElseThrow(
                 () -> new EntityNotFoundException(ReceivedPraiseErrorCode.RECEIVED_PRAISE_ENTITY_NOT_FOUND)
         );
@@ -50,5 +50,8 @@ public class ReceivePraiseHelper {
         return receivePraiseRepository.findAllBySendPraiseId(sendPraiseId);
     }
 
+    public void deleteReceivedPraiseByMemberId(Member member, Long receivedPraiseId) {
+        receivePraiseRepository.deleteByReceiverAndId(member, receivedPraiseId);
+    }
 
 }

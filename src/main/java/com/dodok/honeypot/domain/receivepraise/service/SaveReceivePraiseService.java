@@ -27,14 +27,13 @@ public class SaveReceivePraiseService {
      * 칭찬uuid를 통해 칭찬을 저장하는 로직
      * @param req 칭찬의 uuid와 받는사람의 memberId
      */
-    public void execute(SaveReceivePraiseReqDto req) {
-        Member receiver = memberHelper.findMemberByIdOrElseThrow(req.receiverId());
+    public void execute(Long memberId, SaveReceivePraiseReqDto req) {
+        Member receiver = memberHelper.findMemberByIdOrElseThrow(memberId);
         SendPraise sendPraise = sendPraiseHelper.findByUuidOrElseThrow(req.praiseUuid());
         Group group = groupHelper.findGroupByIdOrElseThrow(sendPraise.getGroup().getId());
         receivePraiseHelper.saveReceivePraise(receiver, sendPraise, group);
 
         // TODO : 비동기로 전환
-        checkReceivePraiseBadgeHelper.updateReceivePraiseBadge(req.receiverId());
+        checkReceivePraiseBadgeHelper.updateReceivePraiseBadge(memberId);
     }
-
 }
