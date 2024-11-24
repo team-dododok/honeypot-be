@@ -44,7 +44,7 @@ public class MemberController {
         return SuccessResponse.ok(null);
     }
 
-    @GetMapping("/profile_image")
+    @GetMapping("/profile-image")
     public ResponseEntity<SuccessResponse<?>> findProfileImageUrl(){
         ProfileImageUrlResDto resDto = getProfileImageService.getProfileImageUrl();
         return SuccessResponse.ok(resDto);
