@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long>,
-        GroupInfosQueryRepository{
-
+        GroupInfosQueryRepository,
+        GroupNameSearchQueryRepository{
     int countByMember(Member member);
     boolean existsByMemberAndName(Member member, String name);
     Optional<Group> findByMemberAndId(Member member, Long id);
