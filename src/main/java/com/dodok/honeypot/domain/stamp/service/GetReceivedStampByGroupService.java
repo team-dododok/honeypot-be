@@ -1,5 +1,8 @@
 package com.dodok.honeypot.domain.stamp.service;
 
+import com.dodok.honeypot.domain.group.helper.GroupHelper;
+import com.dodok.honeypot.domain.member.entity.Member;
+import com.dodok.honeypot.domain.member.helper.MemberHelper;
 import com.dodok.honeypot.domain.stamp.dto.res.StampDto;
 import com.dodok.honeypot.domain.stamp.dto.res.StampInfoByGroupResDto;
 import com.dodok.honeypot.domain.stamp.helper.StampByGroupHelper;
@@ -17,6 +20,8 @@ import java.util.List;
 public class GetReceivedStampByGroupService {
     private final StampByGroupHelper stampByGroupHelper;
     private final StampHelper stampHelper;
+    private final GroupHelper groupHelper;
+    private final MemberHelper memberHelper;
 
     private final StampByGroupMapper stampByGroupMapper;
 
@@ -25,10 +30,11 @@ public class GetReceivedStampByGroupService {
      * @param groupId 찾을 그룹의 id
      * @return 해당 그룹에서 받은 꿀도장 정보
      */
-    public StampInfoByGroupResDto execute(Long groupId) {
+    public StampInfoByGroupResDto execute(Long memberId, Long groupId) {
+        Member member = memberHelper.findMemberByIdOrElseThrow(memberId);
+        groupHelper.validateIsMemberGroup(member, groupId);
         List<StampDto> allStamp = stampHelper.getAllStamp();
         List<StampDto> receivedStampByGroup = stampByGroupHelper.getReceivedStampByGroup(groupId);
-
         return stampByGroupMapper.toStampInfoByGroupResDto(allStamp,receivedStampByGroup);
     }
 }

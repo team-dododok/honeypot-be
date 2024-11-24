@@ -8,6 +8,7 @@ import com.dodok.honeypot.domain.member.service.GetMemberInfoService;
 import com.dodok.honeypot.domain.member.service.GetMembersInfoService;
 import com.dodok.honeypot.domain.member.service.GetProfileImageService;
 import com.dodok.honeypot.domain.member.service.UpdateMemberInfoService;
+import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +24,8 @@ public class MemberController {
     private final UpdateMemberInfoService updateMemberInfoService;
     private final GetProfileImageService getProfileImageService;
 
-    @GetMapping("/info/{id}")
-    public ResponseEntity<SuccessResponse<?>> getMemberInfo(@PathVariable("id") final Long memberId) {
+    @GetMapping("/info")
+    public ResponseEntity<SuccessResponse<?>> getMemberInfo(@MemberId final Long memberId) {
         final MemberInfoResDto response = getMemberInfoService.execute(memberId);
         return SuccessResponse.ok(response);
     }
@@ -36,8 +37,8 @@ public class MemberController {
         return SuccessResponse.ok(response);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<SuccessResponse<?>> updateMemberInfo(@PathVariable("id") final Long memberId,
+    @PatchMapping
+    public ResponseEntity<SuccessResponse<?>> updateMemberInfo(@MemberId final Long memberId,
                                                                @RequestBody final MemberUpdateReqDto requestDto) {
         updateMemberInfoService.execute(memberId, requestDto);
         return SuccessResponse.ok(null);

@@ -8,7 +8,6 @@ public record SendPraiseReqDto(
         String content,
         Boolean projectStatus,
         String receiverName,
-        Long senderId,
         Long groupId,
         Long honeyStampId
 ) {
