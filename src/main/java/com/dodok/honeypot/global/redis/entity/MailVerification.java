@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 
-@RedisHash(value = "mail_verification",timeToLive = 60)
+@RedisHash(value = "mail_verification",timeToLive = 300)
 @Builder
 @AllArgsConstructor
 @Getter
