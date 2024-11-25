@@ -34,13 +34,13 @@ public class KakaoSocialLoginService {
 
     public KakaoLoginResDto kakaoLogin(String kakaoAccessToken) {
         Long memberId = kakaoSocialHelper.findKakaoSocialByKakaoAuthOrElseThrow(getKakaoMemberId(kakaoAccessToken));
-        return KakaoLoginResDto.of(createJwtToken(memberId));
+        return KakaoLoginResDto.of(createJwtToken(memberId),findMemberById(memberId));
     }
 
 
     public KakaoLoginResDto register(String kakaoAccessToken, KakaoLoginReqDto requestDto) {
         Long memberId = createMemberAndSaveInfo(getKakaoMemberId(kakaoAccessToken), requestDto).getId();
-        return KakaoLoginResDto.of(createJwtToken(memberId));
+        return KakaoLoginResDto.of(createJwtToken(memberId),findMemberById(memberId));
     }
 
     public ReissueJwtTokenResDto reissue(ReissueJwtTokenReqDto reissueJwtTokenDto) {
@@ -48,6 +48,10 @@ public class KakaoSocialLoginService {
         RefreshToken refreshToken = refreshTokenHelper.findRefreshTokenOrElseThrow(memberId);
         jwtUtil.verifyMemberRefreshToken(refreshToken.getRefreshToken(), reissueJwtTokenDto.refreshToken());
         return ReissueJwtTokenResDto.of(createJwtToken(memberId));
+    }
+
+    public Member findMemberById(Long memberId){
+        return memberHelper.findMemberByIdOrElseThrow(memberId);
     }
 
 
