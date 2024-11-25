@@ -5,6 +5,7 @@ import com.dodok.honeypot.domain.group.dto.req.GroupOrderUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
 import com.dodok.honeypot.domain.group.dto.res.GetAllMyGroupResDto;
+import com.dodok.honeypot.domain.group.dto.res.GetSearchGroupNameResDto;
 import com.dodok.honeypot.domain.group.service.*;
 import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
@@ -24,6 +25,7 @@ public class GroupController {
     private final UpdateGroupOrderService updateGroupOrderService;
     private final CheckGroupNameService checkGroupNameService;
     private final GetAllMyGroupService getAllMyGroupService;
+    private final GetSearchGroupNameService getSearchGroupNameService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@MemberId final Long memberId,
@@ -63,6 +65,13 @@ public class GroupController {
     @GetMapping
     public ResponseEntity<SuccessResponse<?>> getAllMyGroup(@MemberId final Long memberId) {
         final GetAllMyGroupResDto response = getAllMyGroupService.execute(memberId);
+        return SuccessResponse.ok(response);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<SuccessResponse<?>> getSearchGroupName(@MemberId final Long memberId,
+                                                                 @RequestParam("groupName") final String groupName) {
+        final GetSearchGroupNameResDto response = getSearchGroupNameService.execute(memberId, groupName);
         return SuccessResponse.ok(response);
     }
 }
