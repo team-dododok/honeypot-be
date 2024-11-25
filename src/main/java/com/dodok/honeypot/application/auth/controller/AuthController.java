@@ -1,24 +1,25 @@
 package com.dodok.honeypot.application.auth.controller;
 
 import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
+import com.dodok.honeypot.domain.auth.dto.req.SendMailReqDto;
 import com.dodok.honeypot.domain.auth.dto.req.ReissueJwtTokenReqDto;
 import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
 import com.dodok.honeypot.domain.auth.dto.res.ReissueJwtTokenResDto;
+import com.dodok.honeypot.domain.auth.service.CheckMailService;
 import com.dodok.honeypot.domain.auth.service.KakaoSocialLoginService;
+import com.dodok.honeypot.domain.auth.service.SendMailService;
 import com.dodok.honeypot.global.dto.SuccessResponse;
-import com.dodok.honeypot.global.utils.MailUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     private final KakaoSocialLoginService kakaoSocialLoginService;
-    private final MailUtils mailUtils;
+    private final SendMailService sendMailService;
+    private final CheckMailService checkMailService;
 
     @PostMapping("/kakao-login") //로그인
     public ResponseEntity<SuccessResponse<?>> kakaoLogin(
@@ -41,26 +42,17 @@ public class AuthController {
         return SuccessResponse.ok(resDto);
     }
 
-    @PostMapping("/mail")
-    public ResponseEntity<SuccessResponse<?>> sendMail(@RequestBody String mail) {
-//        mailUtils.sendMail(mail);
-        HashMap<String, Object> map = new HashMap<>();
-
-        int number;
-
-        try {
-            number = mailUtils.sendMail(mail);
-            String num = String.valueOf(number);
-
-            map.put("success", Boolean.TRUE);
-            map.put("number", num);
-        } catch (Exception e) {
-            map.put("success", Boolean.FALSE);
-            map.put("error", e.getMessage());
-        }
-
-        System.out.println("map = " + map);
-        return null;
-
+    @PostMapping("/send-mail")
+    public ResponseEntity<SuccessResponse<?>> sendMail(@RequestBody SendMailReqDto req) {
+        sendMailService.execute(req.receiverMail());
+        return SuccessResponse.created(null);
     }
+
+    @GetMapping("/check-mail")
+    public ResponseEntity<SuccessResponse<?>> checkMail(@RequestParam String receiverMail,
+                                                        @RequestParam String verificationNumber) {
+        checkMailService.execute(receiverMail, verificationNumber);
+        return SuccessResponse.ok(null);
+    }
+
 }
