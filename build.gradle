@@ -72,6 +72,9 @@ dependencies {
 
     //google smtp
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    //동적 html생성을 위한 타임리프
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 // Querydsl 설정부

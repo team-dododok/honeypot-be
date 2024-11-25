@@ -7,15 +7,19 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Service
 @RequiredArgsConstructor
 public class SendMailService {
-    private static final String senderEmail = "team.dododok@gmail.com";
+    private static final String senderMail = "team.dododok@gmail.com";
 
     private final MailVerificationHelper mailVerificationHelper;
+    private final SpringTemplateEngine templateEngine;
     private final JavaMailSender javaMailSender;
 
     @Async
@@ -36,14 +40,11 @@ public class SendMailService {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
-            message.setFrom(senderEmail);
-            message.setRecipients(MimeMessage.RecipientType.TO, receiverMail);
-            message.setSubject("이메일 인증");
-            String body = "";
-            body += "<h3>" + "요청하신 인증 번호입니다." + "</h3>";
-            body += "<h1>" + verificationNumber + "</h1>";
-            body += "<h3>" + "감사합니다." + "</h3>";
-            message.setText(body, "UTF-8", "html");
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom(senderMail);
+            helper.setTo(receiverMail);
+            helper.setSubject("[꿀단지] 이메일 인증");
+            helper.setText(setContext(verificationNumber),true);
         } catch (MessagingException e) {
             e.printStackTrace();
             throw new InternalServerException(AuthErrorCode.MAIL_VERIFICATION_ERROR);
@@ -54,7 +55,13 @@ public class SendMailService {
 
 
     private String createVerificationNumber() {
-        return String.valueOf((int)(Math.random() * (999999 - 100000 + 1) + 100000)); // 100000 ~ 999999
+        return String.valueOf((int)(Math.random() * (99999 - 10000 + 1) + 10000)); // 10000 ~ 99999
+    }
+
+    private String setContext(String verificationNumber) {
+        final Context context = new Context();
+        context.setVariable("code",verificationNumber);
+        return templateEngine.process("send-mail",context);
     }
 
 }
