@@ -17,22 +17,33 @@ public class GroupNameSearchQueryRepositoryImpl implements GroupNameSearchQueryR
 
     @Override
     public List<SearchGroupInfo> findAllByNameContainsAndMember(Long memberId, String groupName) {
-        return queryFactory.select(Projections.constructor(SearchGroupInfo.class,
+        List<SearchGroupInfo> contents = queryFactory.select(Projections.constructor(SearchGroupInfo.class,
                         group.id,
                         group.name
                 ))
                 .from(group)
                 .innerJoin(group.member, member)
-                .where(containsGroupNameIgnoreCase(groupName), eqMemberId(memberId))
+                .where(startsGroupNameIgnoreCase(groupName), eqMemberId(memberId))
                 .orderBy(group.createdAt.desc())
                 .fetch();
+
+        contents.sort((g1, g2) -> {
+            if (g1.groupName().equalsIgnoreCase(groupName)) {
+                return -1; // 정확히 일치하는 항목을 앞으로
+            } else if (g2.groupName().equalsIgnoreCase(groupName)) {
+                return 1; // 두 번째 항목이 정확히 일치하면 뒤로
+            }
+            return 0; // 그대로 유지
+        });
+
+        return contents;
     }
 
     private static BooleanExpression eqMemberId(Long memberId) {
         return member.id.eq(memberId);
     }
 
-    private BooleanExpression containsGroupNameIgnoreCase(String groupName) {
-        return group.name.containsIgnoreCase(groupName);
+    private BooleanExpression startsGroupNameIgnoreCase(String groupName) {
+        return group.name.startsWithIgnoreCase(groupName);
     }
 }
