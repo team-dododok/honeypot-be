@@ -44,7 +44,7 @@ public class AuthController {
 
     @PostMapping("/send-mail")
     public ResponseEntity<SuccessResponse<?>> sendMail(@RequestBody SendMailReqDto req) {
-        sendMailService.execute(req.receiverMail());
+        sendMailService.execute(req);
         return SuccessResponse.created(null);
     }
 
