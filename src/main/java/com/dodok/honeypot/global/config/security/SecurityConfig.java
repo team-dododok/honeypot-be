@@ -26,7 +26,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/health", "/api/member/info/*", "/api/member/search", "/api/member","/api/member/*",
                                 "/api/badge",
                                 "/api/group", "/api/group/*", "/api/group/order", "/api/group/name",
-                                "api/stamp", "api/send-praise", "api/stamp/*", "api/receive-praise", "api/receive-praise/group", "api/send-praise/group",
+                                "api/stamp", "api/send-praise", "api/stamp/*", "api/receive-praise", "api/receive-praise/group",
+                                "api/send-praise/group","api/send-praise/check",
                                 "/api/auth/*")
                         .permitAll()
                         .anyRequest()
