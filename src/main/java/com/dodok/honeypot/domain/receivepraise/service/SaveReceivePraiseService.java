@@ -30,7 +30,7 @@ public class SaveReceivePraiseService {
     public void execute(Long memberId, SaveReceivePraiseReqDto req) {
         Member receiver = memberHelper.findMemberByIdOrElseThrow(memberId);
         SendPraise sendPraise = sendPraiseHelper.findByUuidOrElseThrow(req.praiseUuid());
-        Group group = groupHelper.findGroupByIdOrElseThrow(sendPraise.getGroup().getId());
+        Group group = groupHelper.findGroupByIdOrElseThrow(req.groupId());
         receivePraiseHelper.saveReceivePraise(receiver, sendPraise, group);
 
         // TODO : 비동기로 전환
