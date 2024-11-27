@@ -1,85 +1,85 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>꿀단지 이메일 인증</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(142deg, #FFEEC6 -5.32%, #FFD572 84.46%);
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1000px;
-            width: 100%;
-            height: auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 14px;
-        }
-        .left {
-            flex: 1;
-            padding: 40px;
-            font-size: 1.5rem;
-            color: #333;
-        }
-        .right {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .verification-text {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .verification-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #333;
-        }
-        .footer {
-            width: 100%;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #FF5722;
-            margin-top: 20px;
-        }
-        .footer a {
-            color: #FF5722;
-            text-decoration: none;
-        }
-    </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>[꿀단지] 이메일을 인증해주세요.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-<div class="container">
-    <div class="left">
-        <h1>꿀단지</h1>
-        <p>이메일 인증을 위해 오른쪽 꿀단지에 들어있는 숫자 5개를 입력해주세요.</p>
-    </div>
-    <div class="right">
-        <div class="verification-text">인증번호</div>
-        <div class="verification-number" th:text="${code}" >12345</div>
-    </div>
-</div>
-<div class="footer">
-    본 이메일로 가입을 시도한 적이 없다면ㄴ
-    <a href="mailto:team.dododok@gmail.com">team.dododok@gmail.com</a>으로 문의해주세요.
-</div>
+<table
+        width="590"
+        height="1065"
+        style="
+        margin: 0 auto;
+        background: url('https://dodok-s3-bucket.s3.ap-northeast-2.amazonaws.com/mail/mail-bg.png') no-repeat center center;
+        background-size: cover;
+        text-align: center;
+        color: #2e2c29;
+        font-family: Pretendard, Arial, sans-serif;
+        line-height: 1.5;
+      "
+>
+  <tr>
+    <td style="text-align: center;">
+      <p
+              style="
+              font-size: 22px;
+              font-weight: 500;
+              margin-top: 280px;
+              margin-bottom: 40px;
+              text-align: center;
+            "
+      >
+        안녕하세요, 꿀단지 입니다.
+      </p>
+      <p
+              style="
+              font-size: 22px;
+              font-weight: 500;
+              margin-bottom: 171px;
+              text-align: center;
+            "
+      >
+        이메일 인증을 위하여 꿀에 담겨있는<br />
+        숫자 5자리를 입력해주세요.
+      </p>
+      <h1
+              style="
+              font-size: 26px;
+              font-weight: 500;
+              line-height: 1.6;
+              margin: 170px 0 20px 0;
+              text-align: center;
+            "
+      >
+        인증번호
+      </h1>
+      <p
+              style="
+              font-size: 36px;
+              font-weight: 700;
+              line-height: 1.6;
+              margin: 10px 0 212px 0;
+              text-align: center;
+            "
+              th:text="${verificationNumber}"
+      >
+        12345
+      </p>
+      <p style="font-size: 16px; font-weight: 400; text-align: center;">
+        해당 이메일로 가입을 시도한 적이 없다면, <br />
+        <a
+                href="mailto:team.dododok@gmail.com"
+                style="
+                color: #2e2c29;
+                text-decoration: underline;
+              "
+        ><b>team.dododok@gmail.com</b></a
+        >
+        으로 문의해주시길 바랍니다.
+      </p>
+    </td>
+  </tr>
+</table>
 </body>
 </html>

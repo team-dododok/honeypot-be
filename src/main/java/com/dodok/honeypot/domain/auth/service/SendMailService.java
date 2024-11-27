@@ -1,5 +1,6 @@
 package com.dodok.honeypot.domain.auth.service;
 
+import com.dodok.honeypot.domain.auth.dto.req.SendMailReqDto;
 import com.dodok.honeypot.domain.auth.error.AuthErrorCode;
 import com.dodok.honeypot.global.error.exception.InternalServerException;
 import com.dodok.honeypot.global.redis.helper.MailVerificationHelper;
@@ -23,27 +24,27 @@ public class SendMailService {
     private final JavaMailSender javaMailSender;
 
     @Async
-    public void execute(String receiverMail) {
+    public void execute(SendMailReqDto req) {
         String verificationNumber = createVerificationNumber();
 
         try {
-            MimeMessage message = CreateMail(receiverMail, verificationNumber);
+            MimeMessage message = createMail(req.receiverMail(), verificationNumber);
             javaMailSender.send(message);
-            mailVerificationHelper.createMailVerification(receiverMail,verificationNumber);
+            mailVerificationHelper.createMailVerification(req.receiverMail(),verificationNumber);
 
         } catch (Exception e) {
             throw new InternalServerException(AuthErrorCode.MAIL_VERIFICATION_ERROR);
         }
     }
 
-    private MimeMessage CreateMail(String receiverMail, String verificationNumber) {
+    private MimeMessage createMail(String receiverMail, String verificationNumber) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setFrom(senderMail);
             helper.setTo(receiverMail);
-            helper.setSubject("[꿀단지] 이메일 인증");
+            helper.setSubject("[꿀단지] 이메일을 인증해주세요.");
             helper.setText(setContext(verificationNumber),true);
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -60,7 +61,7 @@ public class SendMailService {
 
     private String setContext(String verificationNumber) {
         final Context context = new Context();
-        context.setVariable("code",verificationNumber);
+        context.setVariable("verificationNumber",verificationNumber);
         return templateEngine.process("send-mail",context);
     }
 
