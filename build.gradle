@@ -70,6 +70,8 @@ dependencies {
     //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
+
     //google smtp
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
