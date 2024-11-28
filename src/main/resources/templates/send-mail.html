@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>[꿀단지] 이메일을 인증해주세요.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<table
+        width="590"
+        height="1065"
+        style="
+        margin: 0 auto;
+        background: url('https://dodok-s3-bucket.s3.ap-northeast-2.amazonaws.com/mail/mail-bg.png') no-repeat center center;
+        background-size: cover;
+        text-align: center;
+        color: #2e2c29;
+        font-family: Pretendard, Arial, sans-serif;
+        line-height: 1.5;
+      "
+>
+  <tr>
+    <td style="text-align: center;">
+      <p
+              style="
+              font-size: 22px;
+              font-weight: 500;
+              margin-top: 280px;
+              margin-bottom: 40px;
+              text-align: center;
+            "
+      >
+        안녕하세요, 꿀단지 입니다.
+      </p>
+      <p
+              style="
+              font-size: 22px;
+              font-weight: 500;
+              margin-bottom: 171px;
+              text-align: center;
+            "
+      >
+        이메일 인증을 위하여 꿀에 담겨있는<br />
+        숫자 5자리를 입력해주세요.
+      </p>
+      <h1
+              style="
+              font-size: 26px;
+              font-weight: 500;
+              line-height: 1.6;
+              margin: 170px 0 20px 0;
+              text-align: center;
+            "
+      >
+        인증번호
+      </h1>
+      <p
+              style="
+              font-size: 36px;
+              font-weight: 700;
+              line-height: 1.6;
+              margin: 10px 0 212px 0;
+              text-align: center;
+            "
+              th:text="${verificationNumber}"
+      >
+        12345
+      </p>
+      <p style="font-size: 16px; font-weight: 400; text-align: center;">
+        해당 이메일로 가입을 시도한 적이 없다면, <br />
+        <a
+                href="mailto:team.dododok@gmail.com"
+                style="
+                color: #2e2c29;
+                text-decoration: underline;
+              "
+        ><b>team.dododok@gmail.com</b></a
+        >
+        으로 문의해주시길 바랍니다.
+      </p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

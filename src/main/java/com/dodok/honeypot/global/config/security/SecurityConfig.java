@@ -27,7 +27,7 @@ public class SecurityConfig {
                                 "/api/badge",
                                 "/api/group", "/api/group/*", "/api/group/order", "/api/group/name",
                                 "api/stamp", "api/send-praise", "api/stamp/*", "api/receive-praise", "api/receive-praise/group", "api/send-praise/group",
-                                "/api/auth/*")
+                                "/api/auth/*", "/api/auth/mail")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

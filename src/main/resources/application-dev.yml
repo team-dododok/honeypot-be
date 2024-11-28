@@ -33,6 +33,19 @@ spring:
     web:
       pageable:
         default-page-size: 10
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: team.dododok@gmail.com
+    password: ${dev.mail.password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
 
 jwt:
   secret-key: ${dev.jwt.secret-key}
