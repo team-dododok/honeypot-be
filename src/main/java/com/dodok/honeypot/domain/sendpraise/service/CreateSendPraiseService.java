@@ -29,7 +29,7 @@ public class CreateSendPraiseService {
     private final SendPraiseMapper sendPraiseMapper;
 
     /**
-     * 전송 할 보낸칭찬을 생성하는 로직
+     * 전송 할 보낸칭찬을 생성하는 로직g
      * @param req 보낸칭찬을 만들기 위한 정보들
      * @return 만들어진 보낸칭찬의 uuid
      */
@@ -38,7 +38,7 @@ public class CreateSendPraiseService {
         Group group = groupHelper.findGroupByIdOrElseThrow(req.groupId());
         HoneyStamp stamp = stampHelper.findByStampIdOrElseThrow(req.honeyStampId());
 
-        SendPraise sendPraise = sendPraiseHelper.createSendPraise(req.title(), req.content(), req.projectStatus(), req.receiverName(),
+        SendPraise sendPraise = sendPraiseHelper.createSendPraise(req.content(), req.projectStatus(), req.receiverName(),
                 sender, group, stamp);
 
         // TODO : @Async를 이용하여 비동기로 변경
