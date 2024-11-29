@@ -1,5 +1,6 @@
 package com.dodok.honeypot.application.group.controller;
 
+import com.dodok.honeypot.domain.group.dto.req.GroupChangeReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupOrderUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
@@ -28,6 +29,7 @@ public class GroupController {
     private final GetAllMyGroupService getAllMyGroupService;
     private final GetSearchGroupNameService getSearchGroupNameService;
     private final GetGroupNameAndTotalPraiseCountService getGroupNameAndTotalPraiseCountService;
+    private final ChangeGroupService changeGroupService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@MemberId final Long memberId,
@@ -82,5 +84,11 @@ public class GroupController {
                                                                               @RequestParam("groupId") final Long groupId) {
         final GetGroupNameAndPraiseCountResDto response = getGroupNameAndTotalPraiseCountService.execute(memberId, groupId);
         return SuccessResponse.ok(response);
+    }
+
+    @PatchMapping("/receive-praise/change")
+    public ResponseEntity<SuccessResponse<?>> changeGroup(@RequestBody final GroupChangeReqDto requestDto) {
+        changeGroupService.execute(requestDto);
+        return SuccessResponse.ok(null);
     }
 }
