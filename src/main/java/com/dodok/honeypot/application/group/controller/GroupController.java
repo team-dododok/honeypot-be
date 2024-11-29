@@ -5,6 +5,7 @@ import com.dodok.honeypot.domain.group.dto.req.GroupOrderUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
 import com.dodok.honeypot.domain.group.dto.res.GetAllMyGroupResDto;
+import com.dodok.honeypot.domain.group.dto.res.GetGroupNameAndPraiseCountResDto;
 import com.dodok.honeypot.domain.group.dto.res.GetSearchGroupNameResDto;
 import com.dodok.honeypot.domain.group.service.*;
 import com.dodok.honeypot.global.auth.MemberId;
@@ -26,6 +27,7 @@ public class GroupController {
     private final CheckGroupNameService checkGroupNameService;
     private final GetAllMyGroupService getAllMyGroupService;
     private final GetSearchGroupNameService getSearchGroupNameService;
+    private final GetGroupNameAndTotalPraiseCountService getGroupNameAndTotalPraiseCountService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@MemberId final Long memberId,
@@ -72,6 +74,13 @@ public class GroupController {
     public ResponseEntity<SuccessResponse<?>> getSearchGroupName(@MemberId final Long memberId,
                                                                  @RequestParam("groupName") final String groupName) {
         final GetSearchGroupNameResDto response = getSearchGroupNameService.execute(memberId, groupName);
+        return SuccessResponse.ok(response);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<SuccessResponse<?>> getGroupNameAndTotalPraiseCount(@MemberId final Long memberId,
+                                                                              @RequestParam("groupId") final Long groupId) {
+        final GetGroupNameAndPraiseCountResDto response = getGroupNameAndTotalPraiseCountService.execute(memberId, groupId);
         return SuccessResponse.ok(response);
     }
 }
