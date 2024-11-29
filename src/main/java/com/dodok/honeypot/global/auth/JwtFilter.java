@@ -29,9 +29,12 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
 
     private static final List<RequestMatcher> whiteUrlMatchers = Arrays.asList(
+            //TODO : 와일드카드 표현 삭제하기
 
             //auth
             new AntPathRequestMatcher("/api/auth/*"),
+            new AntPathRequestMatcher("/api/auth/send-mail"),
+            new AntPathRequestMatcher("/api/auth/check-mail"),
 
             //member
             new AntPathRequestMatcher("/api/member/*"),
