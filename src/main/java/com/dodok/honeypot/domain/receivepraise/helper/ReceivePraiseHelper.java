@@ -54,4 +54,9 @@ public class ReceivePraiseHelper {
         receivePraiseRepository.deleteByReceiverAndId(member, receivedPraiseId);
     }
 
+    public ReceivePraise findByReceiverAndIdOrElseThrow(Member member, Long receivedPraiseId) {
+        return receivePraiseRepository.findByReceiverAndId(member, receivedPraiseId).orElseThrow(
+                () -> new EntityNotFoundException(ReceivedPraiseErrorCode.RECEIVED_PRAISE_ENTITY_NOT_FOUND)
+        );
+    }
 }

@@ -3,11 +3,11 @@ package com.dodok.honeypot.domain.receivepraise.repository;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.praise.repository.MemberPraiseInfoQueryRepository;
 import com.dodok.honeypot.domain.receivepraise.entity.ReceivePraise;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReceivePraiseRepository extends JpaRepository<ReceivePraise, Long>,
@@ -23,4 +23,6 @@ public interface ReceivePraiseRepository extends JpaRepository<ReceivePraise, Lo
      */
     List<ReceivePraise> findAllBySendPraiseId(Long sendPraiseId);
     void deleteByReceiverAndId(Member member, Long receiverId);
+
+    Optional<ReceivePraise> findByReceiverAndId(Member member, Long receivedPraiseId);
 }

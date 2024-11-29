@@ -43,4 +43,9 @@ public class SendPraiseHelper {
         return sendPraiseRepository.findSendPraiseInfosByGroupId(groupId, pageable);
     }
 
+    public SendPraise findBySenderAndIdOrElseThrow(Member member, Long sendPraiseId) {
+        return sendPraiseRepository.findBySenderAndIdOrElseThrow(member, sendPraiseId).orElseThrow(
+                () -> new EntityNotFoundException(SendPraiseErrorCode.SEND_PRAISE_ENTITY_NOT_FOUND)
+        );
+    }
 }

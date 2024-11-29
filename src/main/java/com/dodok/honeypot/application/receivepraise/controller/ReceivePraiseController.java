@@ -2,12 +2,10 @@ package com.dodok.honeypot.application.receivepraise.controller;
 
 import com.dodok.honeypot.domain.receivepraise.dto.req.SaveReceivePraiseReqDto;
 
+import com.dodok.honeypot.domain.receivepraise.dto.res.DetailReceivedPraiseResDto;
 import com.dodok.honeypot.domain.receivepraise.dto.res.GetReceivedPraiseResDto;
-import com.dodok.honeypot.domain.receivepraise.service.DeleteReceivedPraiseService;
-import com.dodok.honeypot.domain.receivepraise.service.GetReceivedPraiseService;
+import com.dodok.honeypot.domain.receivepraise.service.*;
 import com.dodok.honeypot.domain.receivepraise.dto.res.GetGroupReceivePraiseResDto;
-import com.dodok.honeypot.domain.receivepraise.service.GetGroupReceivePraiseService;
-import com.dodok.honeypot.domain.receivepraise.service.SaveReceivePraiseService;
 import com.dodok.honeypot.global.auth.JwtUtil;
 import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
@@ -28,6 +26,7 @@ public class ReceivePraiseController {
     private final GetReceivedPraiseService getReceivedPraiseService;
     private final JwtUtil jwtUtil;
     private final GetGroupReceivePraiseService getGroupReceivePraiseService;
+    private final GetDetailReceivedPraiseService getDetailReceivedPraiseService;
 
     /**
      * 칭찬 받았을 때 정보 조회하는 api
@@ -82,4 +81,15 @@ public class ReceivePraiseController {
         return SuccessResponse.ok(response);
     }
 
+    /**
+     * 받은 꿀을 열었을 때 보여지는 팝업 조회 로직
+     *
+     * @param receivedPraiseId 받은 칭찬id
+     */
+    @GetMapping("/detail")
+    public ResponseEntity<SuccessResponse<?>> popUpReceivePraise(@MemberId final Long memberId,
+                                                                 @RequestParam(name = "id") final Long receivedPraiseId){
+        final DetailReceivedPraiseResDto response= getDetailReceivedPraiseService.execute(memberId,receivedPraiseId);
+        return SuccessResponse.ok(response);
+    }
 }
