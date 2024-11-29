@@ -39,4 +39,8 @@ public class ReceivePraise extends BaseTimeEntity {
                 .group(group)
                 .build();
     }
+
+    public void updateGroup(Group group){
+        this.group = group;
+    }
 }

@@ -58,4 +58,8 @@ public class SendPraise extends BaseTimeEntity {
                 .uuid(UUID.randomUUID().toString())
                 .build();
     }
+
+    public void updateGroup(Group group) {
+        this.group = group;
+    }
 }
