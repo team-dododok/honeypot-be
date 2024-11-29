@@ -7,6 +7,7 @@ import com.dodok.honeypot.global.redis.helper.MailVerificationHelper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SendMailService {
@@ -31,8 +33,10 @@ public class SendMailService {
             MimeMessage message = createMail(req.receiverMail(), verificationNumber);
             javaMailSender.send(message);
             mailVerificationHelper.createMailVerification(req.receiverMail(),verificationNumber);
+            log.info("[MAIL] VERIFICATION NUMBER : "+verificationNumber+" SEND TO "+req.receiverMail()  );
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new InternalServerException(AuthErrorCode.MAIL_VERIFICATION_ERROR);
         }
     }

@@ -1,5 +1,6 @@
 package com.dodok.honeypot.domain.group.helper;
 
+import com.dodok.honeypot.domain.group.dto.GroupNamePraiseCountInfo;
 import com.dodok.honeypot.domain.group.dto.GroupWithMembersInfo;
 import com.dodok.honeypot.domain.group.dto.SearchGroupInfo;
 import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
@@ -64,5 +65,10 @@ public class GroupHelper {
 
     public List<SearchGroupInfo> findAllGroupByName(Long memberId, String name) {
         return groupRepository.findAllByNameContainsAndMember(memberId, name);
+    }
+
+    public GroupNamePraiseCountInfo findNameAndPraiseCount(Long groupId, Member member) {
+        return groupRepository.findNameAndPraiseCount(groupId, member)
+                .orElseThrow(() -> new EntityNotFoundException(MEMBER_GROUP_NOT_FOUND));
     }
 }
