@@ -19,10 +19,10 @@ public class SendPraiseHelper {
 
     private final SendPraiseRepository sendPraiseRepository;
 
-    public SendPraise createSendPraise(String title, String content, Boolean projectStatus,
+    public SendPraise createSendPraise(String content, Boolean projectStatus,
                                        String receiverName, Member sender, Group group, HoneyStamp honeyStamp) {
         return sendPraiseRepository.save(
-                SendPraise.createSendPraise(title, content, projectStatus, receiverName, sender, group, honeyStamp)
+                SendPraise.createSendPraise(content, projectStatus, receiverName, sender, group, honeyStamp)
         );
     }
 

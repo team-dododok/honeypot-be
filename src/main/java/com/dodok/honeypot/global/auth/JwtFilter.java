@@ -32,31 +32,30 @@ public class JwtFilter extends OncePerRequestFilter {
             //TODO : 와일드카드 표현 삭제하기
 
             //auth
-            new AntPathRequestMatcher("/api/auth/*"),
+            new AntPathRequestMatcher("/api/auth/kakao-login"),
+            new AntPathRequestMatcher("/api/auth/register"),
+            new AntPathRequestMatcher("/api/auth/reissue"),
             new AntPathRequestMatcher("/api/auth/send-mail"),
             new AntPathRequestMatcher("/api/auth/check-mail"),
 
             //member
-            new AntPathRequestMatcher("/api/member/*"),
+            new AntPathRequestMatcher("/api/member/profile-image"),
 
             //badge
-            new AntPathRequestMatcher("/api/badge"),
 
             //group
-            new AntPathRequestMatcher("/api/group"),
-            new AntPathRequestMatcher("/api/group/*"),
-            new AntPathRequestMatcher("/api/group/order"),
-            new AntPathRequestMatcher("/api/group/name"),
 
             //stamp
-            new AntPathRequestMatcher("api/stamp"),
-            new AntPathRequestMatcher("api/stamp/*"),
+            new AntPathRequestMatcher("/api/stamp"),
 
-            //praise
-            new AntPathRequestMatcher("api/send-praise"),
-            new AntPathRequestMatcher("api/receive-praise"),
-            new AntPathRequestMatcher("api/receive-praise/group"),
-            new AntPathRequestMatcher("api/send-praise/group"),
+            //send-praise
+            new AntPathRequestMatcher("/api/send-praise/group"),
+            new AntPathRequestMatcher("/api/send-praise/check"),
+
+            //receive-praise
+            // TODO : POST, DEL은 매치하도록 수정
+            new AntPathRequestMatcher("/api/receive-praise"),
+
 
             //기타
             new AntPathRequestMatcher("/api/health")
@@ -66,8 +65,8 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        for (RequestMatcher urlMatchers: whiteUrlMatchers) {
-            if(urlMatchers.matches(request)) {
+        for (RequestMatcher urlMatchers : whiteUrlMatchers) {
+            if (urlMatchers.matches(request)) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -81,7 +80,7 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String getAuthorizationHeaderFromRequest(HttpServletRequest request){
+    private String getAuthorizationHeaderFromRequest(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
 

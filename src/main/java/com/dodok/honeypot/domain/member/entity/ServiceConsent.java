@@ -5,6 +5,8 @@ import com.dodok.honeypot.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import static com.dodok.honeypot.global.utils.UpdateValueUtils.updateValue;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
@@ -31,12 +33,16 @@ public class ServiceConsent extends BaseTimeEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    public static ServiceConsent createServiceConsent(KakaoLoginReqDto requestDto, Member member){
+    public static ServiceConsent createServiceConsent(KakaoLoginReqDto requestDto, Member member) {
         return ServiceConsent.builder()
                 .serviceTerm(requestDto.serviceTerm())
                 .personalInfo(requestDto.personalInfo())
                 .emailMarketing(requestDto.emailMarketing())
                 .member(member)
                 .build();
+    }
+
+    public void updateServiceConsent(Boolean emailMarketing) {
+        this.emailMarketing = updateValue(this.emailMarketing, emailMarketing);
     }
 }
