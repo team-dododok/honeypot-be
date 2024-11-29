@@ -53,6 +53,7 @@ public class AuthController {
                                                         @RequestParam String verificationNumber) {
         checkMailService.execute(receiverMail, verificationNumber);
         return SuccessResponse.ok(null);
+
     }
 
 }

@@ -82,4 +82,5 @@ public class ReceivePraiseController {
         return SuccessResponse.ok(response);
     }
 
+
 }
