@@ -2,9 +2,9 @@ package com.dodok.honeypot.global.auth;
 
 import com.dodok.honeypot.domain.auth.error.AuthErrorCode;
 import com.dodok.honeypot.global.error.exception.UnauthorizedException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +14,10 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import static com.dodok.honeypot.domain.auth.error.AuthErrorCode.*;
+
 @Component
+@Slf4j
 public class JwtUtil {
 
     @Value("${jwt.secret-key}")
@@ -80,5 +83,38 @@ public class JwtUtil {
     public void verifyMemberRefreshToken(String repositoryRefreshToken, String memberRefreshToken) {
         if (!(repositoryRefreshToken.equals(memberRefreshToken)))
             throw new UnauthorizedException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
+    }
+
+    // access 토큰 검증
+    public void validateJwtToken(String jwtToken, String type) {
+        try {
+            if (!getTypeFromJwt(jwtToken).equals(type))
+                throw new UnauthorizedException(TOKEN_TYPE_NOT_MATCH);
+        } catch (ExpiredJwtException e) {
+            log.error(e.getMessage());
+            throw new UnauthorizedException(ACCESS_TOKEN_EXPIRED);
+        } catch (MalformedJwtException e) {
+            log.error(e.getMessage());
+            throw new UnauthorizedException(JWT_TOKEN_MALFORMED);
+        } catch (UnsupportedJwtException e) {
+            log.error(e.getMessage());
+            throw new UnauthorizedException(JWT_TOKEN_UNSUPPORTED);
+        } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
+            throw new UnauthorizedException(JWT_TOKEN_MISSING);
+        } catch (JwtException e) {
+            log.error(e.getMessage());
+            throw new UnauthorizedException(ACCESS_TOKEN_INVALID);
+        }
+    }
+
+    public String getTypeFromJwt(String jwtToken) {
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .build()
+                .parseClaimsJws(jwtToken)
+                .getHeader()
+                .get("type")
+                .toString();
     }
 }

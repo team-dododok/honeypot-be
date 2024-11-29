@@ -22,9 +22,6 @@ public class SendPraise extends BaseTimeEntity {
     @Column(name = "send_praise_id")
     private Long id;
 
-    @Column(name = "title", nullable = false)
-    private String title;
-
     @Column(name = "content", nullable = false)
     private String content;
 
@@ -49,10 +46,9 @@ public class SendPraise extends BaseTimeEntity {
     @JoinColumn(name = "honey_stamp_id", nullable = false)
     private HoneyStamp honeyStamp;
 
-    public static SendPraise createSendPraise(String title, String content, Boolean projectStatus,
+    public static SendPraise createSendPraise(String content, Boolean projectStatus,
                                        String receiverName, Member sender, Group group, HoneyStamp honeyStamp){
         return SendPraise.builder()
-                .title(title)
                 .content(content)
                 .projectStatus(projectStatus)
                 .receiverName(receiverName)
