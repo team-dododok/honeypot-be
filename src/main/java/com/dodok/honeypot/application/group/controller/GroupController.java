@@ -87,8 +87,14 @@ public class GroupController {
     }
 
     @PatchMapping("/receive-praise/change")
-    public ResponseEntity<SuccessResponse<?>> changeGroup(@RequestBody final GroupChangeReqDto requestDto) {
-        changeGroupService.execute(requestDto);
+    public ResponseEntity<SuccessResponse<?>> changeReceivePraiseGroup(@RequestBody final GroupChangeReqDto requestDto) {
+        changeGroupService.receivePraiseExecute(requestDto);
+        return SuccessResponse.ok(null);
+    }
+
+    @PatchMapping("/send-praise/change")
+    public ResponseEntity<SuccessResponse<?>> changeSendPraiseGroup(@RequestBody final GroupChangeReqDto requestDto) {
+        changeGroupService.sendPraiseExecute(requestDto);
         return SuccessResponse.ok(null);
     }
 }
