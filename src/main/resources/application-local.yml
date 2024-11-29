@@ -32,6 +32,7 @@ spring:
     web:
       pageable:
         default-page-size: 10
+
   mail:
     host: smtp.gmail.com
     port: 587
