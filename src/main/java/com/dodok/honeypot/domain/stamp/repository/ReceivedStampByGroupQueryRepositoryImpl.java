@@ -25,6 +25,7 @@ public class ReceivedStampByGroupQueryRepositoryImpl implements ReceivedStampByG
         return queryFactory
                 .select(Projections.constructor(
                         StampDto.class,
+                        honeyStamp.id,
                         honeyStamp.imageUrl,
                         honeyStamp.stampName
                 ))
