@@ -1,12 +1,11 @@
 package com.dodok.honeypot.application.receivepraise.controller;
 
 import com.dodok.honeypot.domain.receivepraise.dto.req.SaveReceivePraiseReqDto;
-
+import com.dodok.honeypot.domain.receivepraise.dto.res.GetGroupReceivePraiseResDto;
 import com.dodok.honeypot.domain.receivepraise.dto.res.GetReceivedPraiseResDto;
 import com.dodok.honeypot.domain.receivepraise.service.DeleteReceivedPraiseService;
-import com.dodok.honeypot.domain.receivepraise.service.GetReceivedPraiseService;
-import com.dodok.honeypot.domain.receivepraise.dto.res.GetGroupReceivePraiseResDto;
 import com.dodok.honeypot.domain.receivepraise.service.GetGroupReceivePraiseService;
+import com.dodok.honeypot.domain.receivepraise.service.GetReceivedPraiseService;
 import com.dodok.honeypot.domain.receivepraise.service.SaveReceivePraiseService;
 import com.dodok.honeypot.global.auth.JwtUtil;
 import com.dodok.honeypot.global.auth.MemberId;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,7 +56,7 @@ public class ReceivePraiseController {
      * @return
      */
     @PostMapping("")
-    public ResponseEntity<SuccessResponse<?>> saveReceivePraise(@MemberId final Long memberId,
+        public ResponseEntity<SuccessResponse<?>> saveReceivePraise(@MemberId final Long memberId,
                                                                 @RequestBody final SaveReceivePraiseReqDto req) {
         saveReceivePraiseService.execute(memberId, req);
         return SuccessResponse.ok(null);
@@ -65,12 +65,12 @@ public class ReceivePraiseController {
     /**
      * receivedPraiseId를 통해 받은칭찬 엔티티를 삭제하는 로직
      *
-     * @param receivedPraiseId 받은 칭찬id
+     * @param receivedPraiseIds 받은 칭찬id들
      */
     @DeleteMapping("")
     public ResponseEntity<SuccessResponse<?>> deleteReceivedPraise(@MemberId final Long memberId,
-                                                                   @RequestParam(name = "id") final Long receivedPraiseId) {
-        deleteReceivedPraiseService.execute(memberId, receivedPraiseId);
+                                                                   @RequestParam(name = "id") final List<Long> receivedPraiseIds) {
+        deleteReceivedPraiseService.execute(memberId, receivedPraiseIds);
         return SuccessResponse.ok(null);
     }
 
