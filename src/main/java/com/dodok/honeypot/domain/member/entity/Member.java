@@ -50,7 +50,7 @@ public class Member extends BaseTimeEntity {
         return new Member();
     }
 
-    public void updateMember(MemberUpdateReqDto requestDto, ProfileImage profileImage) {
+    public void updateMember(MemberUpdateReqDto requestDto) {
         this.name = updateValue(this.name, requestDto.name());
         this.email = updateValue(this.email, requestDto.email());
         this.profileImage = updateValue(this.profileImage, profileImage);
