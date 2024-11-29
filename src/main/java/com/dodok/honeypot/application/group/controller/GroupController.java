@@ -4,10 +4,7 @@ import com.dodok.honeypot.domain.group.dto.req.GroupChangeReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupOrderUpdateReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupUpdateReqDto;
-import com.dodok.honeypot.domain.group.dto.res.CheckGroupNameResDto;
-import com.dodok.honeypot.domain.group.dto.res.GetAllMyGroupResDto;
-import com.dodok.honeypot.domain.group.dto.res.GetGroupNameAndPraiseCountResDto;
-import com.dodok.honeypot.domain.group.dto.res.GetSearchGroupNameResDto;
+import com.dodok.honeypot.domain.group.dto.res.*;
 import com.dodok.honeypot.domain.group.service.*;
 import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
@@ -34,8 +31,8 @@ public class GroupController {
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@MemberId final Long memberId,
                                                           @RequestBody @Valid final GroupCreateReqDto requestDto) {
-        createGroupService.execute(memberId, requestDto);
-        return SuccessResponse.created(null);
+        CreateGroupResDto res = createGroupService.execute(memberId, requestDto);
+        return SuccessResponse.created(res);
     }
 
     @DeleteMapping({"/{id}"})
