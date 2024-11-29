@@ -36,6 +36,7 @@ public class SendMailService {
             log.info("[MAIL] VERIFICATION NUMBER : "+verificationNumber+" SEND TO "+req.receiverMail()  );
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new InternalServerException(AuthErrorCode.MAIL_VERIFICATION_ERROR);
         }
     }
