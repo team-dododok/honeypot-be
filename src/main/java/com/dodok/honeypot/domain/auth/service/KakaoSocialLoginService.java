@@ -44,7 +44,7 @@ public class KakaoSocialLoginService {
     }
 
     public ReissueJwtTokenResDto reissue(ReissueJwtTokenReqDto reissueJwtTokenDto) {
-        Long memberId = jwtUtil.getMemberIdFromAccessToken(reissueJwtTokenDto.accessToken());
+        Long memberId = Long.valueOf(jwtUtil.getMemberIdFromPayload(reissueJwtTokenDto.accessToken()));
         RefreshToken refreshToken = refreshTokenHelper.findRefreshTokenOrElseThrow(memberId);
         jwtUtil.verifyMemberRefreshToken(refreshToken.getRefreshToken(), reissueJwtTokenDto.refreshToken());
         return ReissueJwtTokenResDto.of(createJwtToken(memberId));
