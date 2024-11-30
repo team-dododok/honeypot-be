@@ -29,10 +29,10 @@ public class GroupHelper {
         }
     }
 
-    public void createGroupAndSave(GroupCreateReqDto requestDto, Member member) {
+    public Group createGroupAndSave(GroupCreateReqDto requestDto, Member member) {
         Integer groupCount = groupRepository.countByMember(member);
         Group group = createGroup(requestDto.groupName(), member, groupCount);
-        groupRepository.save(group);
+        return groupRepository.save(group);
     }
 
     public Group findGroupByMemberAndIdOrElseThrow(Member member, Long groupId) {
