@@ -54,8 +54,8 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
         List<GroupPraiseCountInfo> groupCountInfo = queryFactory
                 .select(Projections.constructor(GroupPraiseCountInfo.class,
                         group.id,
-                        sendPraise.countDistinct(),
-                        receivePraise.countDistinct()
+                        receivePraise.countDistinct(),
+                        sendPraise.countDistinct()
                 ))
                 .from(group)
                 .leftJoin(group.sendPraises, sendPraise)
