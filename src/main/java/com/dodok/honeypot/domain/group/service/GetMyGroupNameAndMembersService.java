@@ -1,7 +1,7 @@
 package com.dodok.honeypot.domain.group.service;
 
-import com.dodok.honeypot.domain.group.dto.GroupMembersPraiseCountInfo;
-import com.dodok.honeypot.domain.group.dto.res.GetAllMyGroupResDto;
+import com.dodok.honeypot.domain.group.dto.GroupMembersInfo;
+import com.dodok.honeypot.domain.group.dto.res.GetMyGroupsResDto;
 import com.dodok.honeypot.domain.group.helper.GroupHelper;
 import com.dodok.honeypot.domain.group.mapper.GroupMapper;
 import com.dodok.honeypot.domain.member.helper.MemberHelper;
@@ -14,15 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class GetAllMyGroupService {
+public class GetMyGroupNameAndMembersService {
 
     private final GroupHelper groupHelper;
     private final MemberHelper memberHelper;
     private final GroupMapper groupMapper;
 
-    public GetAllMyGroupResDto execute(Long memberId) {
+    public GetMyGroupsResDto execute(Long memberId, List<Long> groupIds) {
         memberHelper.findMemberByIdOrElseThrow(memberId);
-        List<GroupMembersPraiseCountInfo> groupInfos = groupHelper.findGroupInfosByMemberId(memberId);
-        return groupMapper.toGetAllMyGroupResDto(groupInfos);
+        List<GroupMembersInfo> groupInfos = groupHelper.findGroupNameAndMembers(memberId, groupIds);
+        return groupMapper.toGetMyGroupsResDto(groupInfos);
     }
 }

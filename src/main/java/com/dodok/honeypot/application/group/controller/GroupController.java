@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/group")
@@ -27,6 +29,7 @@ public class GroupController {
     private final GetSearchGroupNameService getSearchGroupNameService;
     private final GetGroupNameAndTotalPraiseCountService getGroupNameAndTotalPraiseCountService;
     private final ChangeGroupService changeGroupService;
+    private final GetMyGroupNameAndMembersService getMyGroupNameAndMembersService;
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createGroup(@MemberId final Long memberId,
@@ -93,5 +96,12 @@ public class GroupController {
     public ResponseEntity<SuccessResponse<?>> changeSendPraiseGroup(@RequestBody final GroupChangeReqDto requestDto) {
         changeGroupService.sendPraiseExecute(requestDto);
         return SuccessResponse.ok(null);
+    }
+
+    @GetMapping("/members")
+    public ResponseEntity<SuccessResponse<?>> getMyGroupNameAndMembers(@MemberId final Long memberId,
+                                                                       @RequestParam("groupId") final List<Long> groupIds) {
+        GetMyGroupsResDto response = getMyGroupNameAndMembersService.execute(memberId, groupIds);
+        return SuccessResponse.ok(response);
     }
 }
