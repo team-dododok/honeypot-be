@@ -29,4 +29,10 @@ public class KakaoSocialHelper {
         KakaoSocial kakaoSocial = createKakaoSocial(kakaoAuth, member);
         kakaoSocialRepository.save(kakaoSocial);
     }
+
+    public Long findKakaoSocialByMemberOrElseThrow(Member member){
+        return kakaoSocialRepository.findByMember(member)
+                .orElseThrow(() -> new EntityNotFoundException(KAKAO_INFO_NOT_FOUND))
+                .getKakaoAuth();
+    }
 }
