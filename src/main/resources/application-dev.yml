@@ -51,3 +51,7 @@ jwt:
   secret-key: ${dev.jwt.secret-key}
   accessToken-validate-time: ${dev.jwt.accessToken-validate-time}
   refreshToken-validate-time: ${dev.jwt.refreshToken-validate-time}
+
+oauth2:
+  kakao:
+    app-admin-key : ${dev.oauth2.kakao.app-admin-key}
