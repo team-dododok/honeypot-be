@@ -11,7 +11,8 @@ import java.util.Optional;
 public interface GroupRepository extends JpaRepository<Group, Long>,
         GroupInfosQueryRepository,
         GroupNameSearchQueryRepository,
-        GroupNameAndTotalCountQueryRepository {
+        GroupNameAndTotalCountQueryRepository,
+        GroupNameAndMembersQueryRepository {
     int countByMember(Member member);
     boolean existsByMemberAndName(Member member, String name);
     Optional<Group> findByMemberAndId(Member member, Long id);

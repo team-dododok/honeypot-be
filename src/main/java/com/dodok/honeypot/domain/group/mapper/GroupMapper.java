@@ -1,7 +1,8 @@
 package com.dodok.honeypot.domain.group.mapper;
 
+import com.dodok.honeypot.domain.group.dto.GroupMembersInfo;
+import com.dodok.honeypot.domain.group.dto.GroupMembersPraiseCountInfo;
 import com.dodok.honeypot.domain.group.dto.GroupNamePraiseCountInfo;
-import com.dodok.honeypot.domain.group.dto.GroupWithMembersInfo;
 import com.dodok.honeypot.domain.group.dto.SearchGroupInfo;
 import com.dodok.honeypot.domain.group.dto.res.*;
 import com.dodok.honeypot.domain.group.entity.Group;
@@ -15,7 +16,7 @@ public class GroupMapper {
         return CheckGroupNameResDto.of(isDuplicate);
     }
 
-    public GetAllMyGroupResDto toGetAllMyGroupResDto(List<GroupWithMembersInfo> groupInfos) {
+    public GetAllMyGroupResDto toGetAllMyGroupResDto(List<GroupMembersPraiseCountInfo> groupInfos) {
         return GetAllMyGroupResDto.of(groupInfos);
     }
 
@@ -31,5 +32,9 @@ public class GroupMapper {
 
     public CreateGroupResDto toCreateGroupResDto(Group group) {
         return CreateGroupResDto.of(group.getId());
+    }
+
+    public GetMyGroupsResDto toGetMyGroupsResDto(List<GroupMembersInfo> groupInfos) {
+        return GetMyGroupsResDto.of(groupInfos);
     }
 }
