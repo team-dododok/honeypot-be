@@ -1,6 +1,6 @@
 package com.dodok.honeypot.domain.group.service;
 
-import com.dodok.honeypot.domain.group.dto.GroupWithMembersInfo;
+import com.dodok.honeypot.domain.group.dto.GroupMembersPraiseCountInfo;
 import com.dodok.honeypot.domain.group.dto.res.GetAllMyGroupResDto;
 import com.dodok.honeypot.domain.group.helper.GroupHelper;
 import com.dodok.honeypot.domain.group.mapper.GroupMapper;
@@ -22,7 +22,7 @@ public class GetAllMyGroupService {
 
     public GetAllMyGroupResDto execute(Long memberId) {
         memberHelper.findMemberByIdOrElseThrow(memberId);
-        List<GroupWithMembersInfo> groupInfos = groupHelper.findGroupInfosByMemberId(memberId);
+        List<GroupMembersPraiseCountInfo> groupInfos = groupHelper.findGroupInfosByMemberId(memberId);
         return groupMapper.toGetAllMyGroupResDto(groupInfos);
     }
 }

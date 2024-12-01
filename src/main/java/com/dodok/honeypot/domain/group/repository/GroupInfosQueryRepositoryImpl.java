@@ -2,8 +2,8 @@ package com.dodok.honeypot.domain.group.repository;
 
 import com.dodok.honeypot.domain.group.dto.GroupInfo;
 import com.dodok.honeypot.domain.group.dto.GroupMemberNameInfo;
+import com.dodok.honeypot.domain.group.dto.GroupMembersPraiseCountInfo;
 import com.dodok.honeypot.domain.group.dto.GroupPraiseCountInfo;
-import com.dodok.honeypot.domain.group.dto.GroupWithMembersInfo;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -21,7 +21,7 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<GroupWithMembersInfo> findGroupInfosByMemberId(Long memberId) {
+    public List<GroupMembersPraiseCountInfo> findGroupInfosByMemberId(Long memberId) {
         List<GroupInfo> groupInfos = new ArrayList<>();
         groupInfos.addAll(queryFactory
                 .select(Projections.constructor(GroupInfo.class,
@@ -79,7 +79,7 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
                                     // GroupPraiseCountInfo를 가져오기
                                     GroupPraiseCountInfo countInfo = groupCountInfoMap.get(groupInfo.get(0).groupId());
 
-                                    return GroupWithMembersInfo.of(   // 그룹 id를 통해 묶은 값들 중에 Id, Name, OrderIdx는 공통이니 하나만 뽑고 memberName은 distinct로 중복 허용하지 않고 가져오기
+                                    return GroupMembersPraiseCountInfo.of(   // 그룹 id를 통해 묶은 값들 중에 Id, Name, OrderIdx는 공통이니 하나만 뽑고 memberName은 distinct로 중복 허용하지 않고 가져오기
                                             groupInfo.get(0).groupId(),
                                             groupInfo.get(0).groupName(),
                                             groupInfo.get(0).orderIdx(),
@@ -96,7 +96,7 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
                         )
                 ))
                 .values().stream()
-                .sorted(Comparator.comparing(GroupWithMembersInfo::orderIdx))
+                .sorted(Comparator.comparing(GroupMembersPraiseCountInfo::orderIdx))
                 .collect(Collectors.toList());
     }
 
