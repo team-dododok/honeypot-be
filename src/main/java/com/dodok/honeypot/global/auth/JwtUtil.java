@@ -46,7 +46,7 @@ public class JwtUtil {
                 .claim("memberId", memberId)
                 .claim("role",role)
                 .setIssuedAt(Timestamp.valueOf(localDate))
-                .setExpiration(Timestamp.valueOf(localDate.plusSeconds(ACCESSTOKEN_VALIDATE_TIME)))
+                .setExpiration(Timestamp.valueOf(localDate.plusHours(ACCESSTOKEN_VALIDATE_TIME)))
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
                 .compact();
     }

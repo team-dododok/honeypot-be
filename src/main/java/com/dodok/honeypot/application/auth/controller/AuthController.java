@@ -1,12 +1,11 @@
 package com.dodok.honeypot.application.auth.controller;
 
-import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
-import com.dodok.honeypot.domain.auth.dto.req.SendMailReqDto;
-import com.dodok.honeypot.domain.auth.dto.req.ReissueJwtTokenReqDto;
+import com.dodok.honeypot.domain.auth.dto.req.*;
 import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
 import com.dodok.honeypot.domain.auth.dto.res.ReissueJwtTokenResDto;
 import com.dodok.honeypot.domain.auth.service.CheckMailService;
 import com.dodok.honeypot.domain.auth.service.KakaoSocialLoginService;
+import com.dodok.honeypot.domain.auth.service.KakaoSocialLogoutService;
 import com.dodok.honeypot.domain.auth.service.SendMailService;
 import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
@@ -60,7 +59,7 @@ public class AuthController {
 
     @PostMapping("/kakao-logout")
     public ResponseEntity<SuccessResponse<?>> kakaoLogout(@MemberId Long memberId){
-        kakaoSocialLogOutService.execute(memberId);
+        kakaoSocialLogoutService.execute(memberId);
         return SuccessResponse.ok(null);
     }
 
