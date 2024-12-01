@@ -37,7 +37,7 @@ public enum AuthErrorCode implements ErrorCode {
      * 404 Not Found
      */
     KAKAO_INFO_NOT_FOUND(HttpStatus.NOT_FOUND, "카카오로 회원가입 된 유저를 찾을 수 없습니다."),
-    REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "유저와 일치하는 엑세스 토큰을 찾을 수 없습니다."),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "유저와 일치하는 리프레시 토큰을 찾을 수 없습니다."),
     RECEIVER_MAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 이메일로 전송된 인증번호가 없거나 만료되었습니다."),
 
     /**

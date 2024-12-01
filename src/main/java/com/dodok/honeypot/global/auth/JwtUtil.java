@@ -2,6 +2,8 @@ package com.dodok.honeypot.global.auth;
 
 import com.dodok.honeypot.domain.auth.error.AuthErrorCode;
 import com.dodok.honeypot.global.error.exception.UnauthorizedException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.Map;
 
 import static com.dodok.honeypot.domain.auth.error.AuthErrorCode.*;
 
@@ -48,12 +52,12 @@ public class JwtUtil {
     }
 
     // refresh token 발급
-    public String createRefreshToken(){
+    public String createRefreshToken() {
         LocalDateTime localDate = LocalDateTime.now();
         return Jwts.builder()
                 .setHeaderParam("type", "refreshToken")
                 .setIssuedAt(Timestamp.valueOf(localDate))
-                .setExpiration(Timestamp.valueOf(localDate.plusHours(REFRESHTOKEN_VALIDATE_TIME)))
+                .setExpiration(Timestamp.valueOf(localDate.plusSeconds(REFRESHTOKEN_VALIDATE_TIME)))
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -71,6 +75,18 @@ public class JwtUtil {
                 .get("memberId", Long.class);
     }
 
+    public String getMemberIdFromPayload(String accessToken) {
+        String[] parts = accessToken.split("\\.");
+        String payload = new String(Base64.getDecoder().decode(parts[1]), StandardCharsets.UTF_8);
+        try {
+            Map<Long, Object> claims = new ObjectMapper().readValue(payload, Map.class);
+            return claims.get("memberId").toString();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public Long getMemberIdFromAuthorizationHeader(String authorizationHeader) {
         String accessToken = authorizationHeader.substring(7);
         return Jwts.parserBuilder()
@@ -80,6 +96,7 @@ public class JwtUtil {
                 .getBody()
                 .get("memberId", Long.class);
     }
+
     public void verifyMemberRefreshToken(String repositoryRefreshToken, String memberRefreshToken) {
         if (!(repositoryRefreshToken.equals(memberRefreshToken)))
             throw new UnauthorizedException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
