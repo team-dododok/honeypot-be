@@ -12,13 +12,18 @@ import java.util.Optional;
 public interface GroupRepository extends JpaRepository<Group, Long>,
         GroupInfosQueryRepository,
         GroupNameSearchQueryRepository,
-        GroupNameAndTotalCountQueryRepository {
+        GroupNameAndTotalCountQueryRepository,
+        GroupNameAndMembersQueryRepository {
     Optional<Group> findByIdAndDeletedAtIsNull(Long groupId);
+
     int countByMemberAndDeletedAtIsNull(Member member);
+
     boolean existsByMemberAndNameAndDeletedAtIsNull(Member member, String name);
+
     Optional<Group> findByMemberAndIdAndDeletedAtIsNull(Member member, Long id);
 
     boolean existsByMemberAndIdAndDeletedAtIsNull(Member member, Long id);
 
     List<Group> findAllByMemberAndDeletedAtIsNull(Member member);
+
 }

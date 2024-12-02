@@ -2,14 +2,15 @@ package com.dodok.honeypot.domain.group.repository;
 
 import com.dodok.honeypot.domain.group.dto.GroupInfo;
 import com.dodok.honeypot.domain.group.dto.GroupMemberNameInfo;
-import com.dodok.honeypot.domain.group.dto.GroupMembersPraiseCountInfo;
-import com.dodok.honeypot.domain.group.dto.GroupPraiseCountInfo;
+import com.dodok.honeypot.domain.group.dto.GroupMembersInfo;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.dodok.honeypot.domain.group.entity.QGroup.group;
@@ -17,11 +18,11 @@ import static com.dodok.honeypot.domain.receivepraise.entity.QReceivePraise.rece
 import static com.dodok.honeypot.domain.sendpraise.entity.QSendPraise.sendPraise;
 
 @RequiredArgsConstructor
-public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository {
+public class GroupNameAndMembersQueryRepositoryImpl implements GroupNameAndMembersQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<GroupMembersPraiseCountInfo> findGroupInfosByMemberIdAndDeletedAtIsNull(Long memberId) {
+    public List<GroupMembersInfo> findGroupNameAndMembersAndDeletedAtIsNull(Long memberId, List<Long> groupIds) {
         List<GroupInfo> groupInfos = new ArrayList<>();
         groupInfos.addAll(queryFactory
                 .select(Projections.constructor(GroupInfo.class,
@@ -32,7 +33,7 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
                 ))
                 .from(group)
                 .leftJoin(group.sendPraises, sendPraise)
-                .where(eqMemberId(memberId),eqGroupDeleteAtIsNull())
+                .where(eqMemberId(memberId), inGroupIds(groupIds),eqGroupDeleteAtIsNull())
                 .orderBy(group.orderIdx.asc())
                 .fetch()
         );
@@ -46,45 +47,21 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
                 ))
                 .from(group)
                 .leftJoin(group.receivePraises, receivePraise)
-                .where(eqMemberId(memberId),eqGroupDeleteAtIsNull())
+                .where(eqMemberId(memberId), inGroupIds(groupIds),eqGroupDeleteAtIsNull())
                 .orderBy(group.orderIdx.asc())
                 .fetch()
         );
 
-        List<GroupPraiseCountInfo> groupCountInfo = queryFactory
-                .select(Projections.constructor(GroupPraiseCountInfo.class,
-                        group.id,
-                        receivePraise.countDistinct(),
-                        sendPraise.countDistinct()
-                ))
-                .from(group)
-                .leftJoin(group.sendPraises, sendPraise)
-                .leftJoin(group.receivePraises, receivePraise)
-                .where(eqMemberId(memberId),eqGroupDeleteAtIsNull())
-                .groupBy(group.id)
-                .fetch();
-
-        Map<Long, GroupPraiseCountInfo> groupCountInfoMap = groupCountInfo.stream()
-                .collect(Collectors.toMap(
-                        GroupPraiseCountInfo::groupId,
-                        info -> info
-                ));
-
-        return groupInfos.stream()
+        return new ArrayList<>(groupInfos.stream()
                 .collect(Collectors.groupingBy(
                         GroupInfo::groupId,     // 그룹 id를 통해 Grouping
                         Collectors.collectingAndThen(
                                 Collectors.toList(),
                                 groupInfo -> {
-                                    // GroupPraiseCountInfo를 가져오기
-                                    GroupPraiseCountInfo countInfo = groupCountInfoMap.get(groupInfo.get(0).groupId());
-
-                                    return GroupMembersPraiseCountInfo.of(   // 그룹 id를 통해 묶은 값들 중에 Id, Name, OrderIdx는 공통이니 하나만 뽑고 memberName은 distinct로 중복 허용하지 않고 가져오기
+                                    return GroupMembersInfo.of(   // 그룹 id를 통해 묶은 값들 중에 Id, Name, OrderIdx는 공통이니 하나만 뽑고 memberName은 distinct로 중복 허용하지 않고 가져오기
                                             groupInfo.get(0).groupId(),
                                             groupInfo.get(0).groupName(),
                                             groupInfo.get(0).orderIdx(),
-                                            countInfo.receiveCount(),
-                                            countInfo.sendCount(),
                                             groupInfo.stream()
                                                     .map(GroupInfo::memberName)
                                                     .filter(Objects::nonNull) // null 값을 필터링
@@ -95,17 +72,17 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
                                 }
                         )
                 ))
-                .values().stream()
-                .sorted(Comparator.comparing(GroupMembersPraiseCountInfo::orderIdx))
-                .collect(Collectors.toList());
+                .values());
+    }
+
+    private static BooleanExpression inGroupIds(List<Long> groupIds) {
+        return group.id.in(groupIds);
     }
 
     private BooleanExpression eqMemberId(Long memberId) {
         return group.member.id.eq(memberId);
     }
-
     private BooleanExpression eqGroupDeleteAtIsNull() {
         return group.deletedAt.isNull();
     }
-
 }

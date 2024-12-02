@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder(access = AccessLevel.PRIVATE)
-public record GroupWithMembersInfo(
+public record GroupMembersPraiseCountInfo(
         Long groupId,
         String groupName,
         Integer orderIdx,
@@ -14,8 +14,8 @@ public record GroupWithMembersInfo(
         Long sendCount,
         List<GroupMemberNameInfo> groupMembers
 ) {
-    public static GroupWithMembersInfo of(Long groupId, String groupName, Integer orderIdx, Long receiveCount, Long sendCount,List<GroupMemberNameInfo> groupMembers) {
-        return GroupWithMembersInfo.builder()
+    public static GroupMembersPraiseCountInfo of(Long groupId, String groupName, Integer orderIdx, Long receiveCount, Long sendCount, List<GroupMemberNameInfo> groupMembers) {
+        return GroupMembersPraiseCountInfo.builder()
                 .groupId(groupId)
                 .groupName(groupName)
                 .orderIdx(orderIdx)

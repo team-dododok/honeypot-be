@@ -49,3 +49,7 @@ jwt:
   secret-key: ${prod.jwt.secret-key}
   accessToken-validate-time: ${prod.jwt.accessToken-validate-time}
   refreshToken-validate-time: ${prod.jwt.refreshToken-validate-time}
+
+oauth2:
+  kakao:
+    app-admin-key : ${prod.oauth2.kakao.app-admin-key}

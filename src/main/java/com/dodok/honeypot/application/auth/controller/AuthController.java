@@ -1,13 +1,13 @@
 package com.dodok.honeypot.application.auth.controller;
 
-import com.dodok.honeypot.domain.auth.dto.req.KakaoLoginReqDto;
-import com.dodok.honeypot.domain.auth.dto.req.SendMailReqDto;
-import com.dodok.honeypot.domain.auth.dto.req.ReissueJwtTokenReqDto;
+import com.dodok.honeypot.domain.auth.dto.req.*;
 import com.dodok.honeypot.domain.auth.dto.res.KakaoLoginResDto;
 import com.dodok.honeypot.domain.auth.dto.res.ReissueJwtTokenResDto;
 import com.dodok.honeypot.domain.auth.service.CheckMailService;
 import com.dodok.honeypot.domain.auth.service.KakaoSocialLoginService;
+import com.dodok.honeypot.domain.auth.service.KakaoSocialLogoutService;
 import com.dodok.honeypot.domain.auth.service.SendMailService;
+import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,7 @@ public class AuthController {
     private final KakaoSocialLoginService kakaoSocialLoginService;
     private final SendMailService sendMailService;
     private final CheckMailService checkMailService;
+    private final KakaoSocialLogoutService kakaoSocialLogoutService;
 
     @PostMapping("/kakao-login") //로그인
     public ResponseEntity<SuccessResponse<?>> kakaoLogin(
@@ -54,6 +55,12 @@ public class AuthController {
         checkMailService.execute(receiverMail, verificationNumber);
         return SuccessResponse.ok(null);
 
+    }
+
+    @PostMapping("/kakao-logout")
+    public ResponseEntity<SuccessResponse<?>> kakaoLogout(@MemberId Long memberId){
+        kakaoSocialLogoutService.execute(memberId);
+        return SuccessResponse.ok(null);
     }
 
 }

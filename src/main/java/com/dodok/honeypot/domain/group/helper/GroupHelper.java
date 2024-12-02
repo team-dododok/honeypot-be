@@ -1,7 +1,8 @@
 package com.dodok.honeypot.domain.group.helper;
 
+import com.dodok.honeypot.domain.group.dto.GroupMembersInfo;
+import com.dodok.honeypot.domain.group.dto.GroupMembersPraiseCountInfo;
 import com.dodok.honeypot.domain.group.dto.GroupNamePraiseCountInfo;
-import com.dodok.honeypot.domain.group.dto.GroupWithMembersInfo;
 import com.dodok.honeypot.domain.group.dto.SearchGroupInfo;
 import com.dodok.honeypot.domain.group.dto.req.GroupCreateReqDto;
 import com.dodok.honeypot.domain.group.entity.Group;
@@ -53,7 +54,8 @@ public class GroupHelper {
         return groupRepository.existsByMemberAndNameAndDeletedAtIsNull(member, groupName);
     }
 
-    public List<GroupWithMembersInfo> findGroupInfosByMemberId(Long memberId) {
+
+    public List<GroupMembersPraiseCountInfo> findGroupInfosByMemberId(Long memberId) {
         return groupRepository.findGroupInfosByMemberIdAndDeletedAtIsNull(memberId);
     }
 
@@ -74,5 +76,8 @@ public class GroupHelper {
 
     public List<Group> findAllByMember(Member member) {
         return groupRepository.findAllByMemberAndDeletedAtIsNull(member);
+    }
+    public List<GroupMembersInfo> findGroupNameAndMembers(Long memberId, List<Long> groupIds) {
+        return groupRepository.findGroupNameAndMembersAndDeletedAtIsNull(memberId, groupIds);
     }
 }
