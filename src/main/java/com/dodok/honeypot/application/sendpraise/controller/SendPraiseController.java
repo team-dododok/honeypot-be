@@ -1,11 +1,14 @@
 package com.dodok.honeypot.application.sendpraise.controller;
 
+import com.dodok.honeypot.domain.sendpraise.dto.req.CheckSendPraiseSentReqDto;
 import com.dodok.honeypot.domain.sendpraise.dto.req.SendPraiseReqDto;
-import com.dodok.honeypot.domain.sendpraise.dto.req.checkSendPraiseSentReqDto;
 import com.dodok.honeypot.domain.sendpraise.dto.res.GetGroupSendPraiseResDto;
+import com.dodok.honeypot.domain.sendpraise.dto.res.GetSendPraiseSentResDto;
 import com.dodok.honeypot.domain.sendpraise.dto.res.SendPraiseResDto;
+import com.dodok.honeypot.domain.sendpraise.service.CheckSendPraiseSentService;
 import com.dodok.honeypot.domain.sendpraise.service.CreateSendPraiseService;
 import com.dodok.honeypot.domain.sendpraise.service.GetGroupSendPraiseService;
+import com.dodok.honeypot.domain.sendpraise.service.GetSendPraiseSentService;
 import com.dodok.honeypot.global.auth.MemberId;
 import com.dodok.honeypot.global.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,8 @@ public class SendPraiseController {
 
     private final CreateSendPraiseService sendPraiseService;
     private final GetGroupSendPraiseService getGroupSendPraiseService;
+    private final CheckSendPraiseSentService checkSendPraiseSentService;
+    private final GetSendPraiseSentService getSendPraiseSentService;
 
     /**
      * 보낸 칭찬을 생성하는 api
@@ -47,21 +52,19 @@ public class SendPraiseController {
      */
     @PostMapping("/check")
     public ResponseEntity<SuccessResponse<?>> checkSendPraiseSent(
-            @RequestBody checkSendPraiseSentReqDto req
+            @RequestBody CheckSendPraiseSentReqDto req
     ) {
-        return SuccessResponse.ok("praise Uuid : "+req + "is Successfully Sent");
-        // TODO : 프론트엔드에서 콜백 api 테스트 후
-        // TODO : send-praise 엔티티에 isSent 추가 및 기본값 false로 설정
-        // TODO : uuid를 통해 조회한 엔티티의 isSent값을 변경하는 로직 추가
+        checkSendPraiseSentService.execute(req);
+        return SuccessResponse.ok(null);
+
     }
 
     @GetMapping("/check")
     public ResponseEntity<SuccessResponse<?>> getSendPraiseSent(
-            @RequestBody checkSendPraiseSentReqDto req
+            @RequestParam(name = "praise-uuid") String praiseUuid
     ) {
-        // TODO : req.uuid를 통해 엔티티 조회
-        // TODO : 엔티티의 isSent값을 반환하는 로직 만들기
-        return null;
+        GetSendPraiseSentResDto res = getSendPraiseSentService.execute(praiseUuid);
+        return SuccessResponse.ok(res);
     }
 
 

@@ -3,6 +3,7 @@ package com.dodok.honeypot.domain.sendpraise.mapper;
 import com.dodok.honeypot.domain.member.entity.ProfileImage;
 import com.dodok.honeypot.domain.sendpraise.dto.SendPraiseInfo;
 import com.dodok.honeypot.domain.sendpraise.dto.res.GetGroupSendPraiseResDto;
+import com.dodok.honeypot.domain.sendpraise.dto.res.GetSendPraiseSentResDto;
 import com.dodok.honeypot.domain.sendpraise.dto.res.SendPraiseInfoResDto;
 import com.dodok.honeypot.domain.sendpraise.dto.res.SendPraiseResDto;
 import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
@@ -30,6 +31,10 @@ public class SendPraiseMapper {
 
     private int getImageIdx(List<ProfileImage> profileImageUrlList, SendPraiseInfo sendPraiseInfo) {
         return Long.valueOf(sendPraiseInfo.sendPraiseId() % profileImageUrlList.size()).intValue();
+    }
+
+    public GetSendPraiseSentResDto toGetSendPraiseSentResDto(SendPraise sendPraise) {
+        return GetSendPraiseSentResDto.of(sendPraise.getSendStatus());
     }
 }
 
