@@ -39,8 +39,7 @@ public class Group extends BaseTimeEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "group")
     private List<SendPraise> sendPraises = new ArrayList<>();
 
     @Builder.Default
