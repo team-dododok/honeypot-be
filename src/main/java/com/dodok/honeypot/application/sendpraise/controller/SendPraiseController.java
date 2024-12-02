@@ -1,7 +1,6 @@
 package com.dodok.honeypot.application.sendpraise.controller;
 
 import com.dodok.honeypot.domain.sendpraise.dto.req.CheckSendPraiseSentReqDto;
-import com.dodok.honeypot.domain.sendpraise.dto.req.GetSendPraiseSentReqDto;
 import com.dodok.honeypot.domain.sendpraise.dto.req.SendPraiseReqDto;
 import com.dodok.honeypot.domain.sendpraise.dto.res.GetGroupSendPraiseResDto;
 import com.dodok.honeypot.domain.sendpraise.dto.res.GetSendPraiseSentResDto;
@@ -62,9 +61,9 @@ public class SendPraiseController {
 
     @GetMapping("/check")
     public ResponseEntity<SuccessResponse<?>> getSendPraiseSent(
-            @RequestBody GetSendPraiseSentReqDto req
+            @RequestParam(name = "praise-uuid") String praiseUuid
     ) {
-        GetSendPraiseSentResDto res = getSendPraiseSentService.execute(req);
+        GetSendPraiseSentResDto res = getSendPraiseSentService.execute(praiseUuid);
         return SuccessResponse.ok(res);
     }
 
