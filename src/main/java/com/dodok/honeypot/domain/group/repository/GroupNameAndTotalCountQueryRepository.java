@@ -6,5 +6,5 @@ import com.dodok.honeypot.domain.member.entity.Member;
 import java.util.Optional;
 
 public interface GroupNameAndTotalCountQueryRepository {
-    Optional<GroupNamePraiseCountInfo> findNameAndPraiseCount(Long memberId, Member member);
+    Optional<GroupNamePraiseCountInfo> findNameAndPraiseCountAndDeletedAtIsNull(Long memberId, Member member);
 }

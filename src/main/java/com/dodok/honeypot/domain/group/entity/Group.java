@@ -51,7 +51,6 @@ public class Group extends BaseTimeEntity {
     private LocalDateTime deletedAt;
 
     public static Group createGroup(String name, Member member, Integer groupCount) {
-
         Group group = Group.builder()
                 .name(name)
                 .orderIdx(groupCount + 1)

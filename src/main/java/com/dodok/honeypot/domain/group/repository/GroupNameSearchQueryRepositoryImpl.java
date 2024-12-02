@@ -16,14 +16,14 @@ public class GroupNameSearchQueryRepositoryImpl implements GroupNameSearchQueryR
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<SearchGroupInfo> findAllByNameContainsAndMember(Long memberId, String groupName) {
+    public List<SearchGroupInfo> findAllByNameContainsAndMemberAndDeletedAtIsNull(Long memberId, String groupName) {
         List<SearchGroupInfo> contents = queryFactory.select(Projections.constructor(SearchGroupInfo.class,
                         group.id,
                         group.name
                 ))
                 .from(group)
                 .innerJoin(group.member, member)
-                .where(startsGroupNameIgnoreCase(groupName), eqMemberId(memberId))
+                .where(startsGroupNameIgnoreCase(groupName), eqMemberId(memberId),eqGroupDeleteAtIsNull())
                 .orderBy(group.createdAt.desc())
                 .fetch();
 
@@ -45,5 +45,9 @@ public class GroupNameSearchQueryRepositoryImpl implements GroupNameSearchQueryR
 
     private BooleanExpression startsGroupNameIgnoreCase(String groupName) {
         return group.name.startsWithIgnoreCase(groupName);
+    }
+
+    private BooleanExpression eqGroupDeleteAtIsNull() {
+        return group.deletedAt.isNull();
     }
 }

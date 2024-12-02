@@ -21,7 +21,7 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<GroupWithMembersInfo> findGroupInfosByMemberId(Long memberId) {
+    public List<GroupWithMembersInfo> findGroupInfosByMemberIdAndDeletedAtIsNull(Long memberId) {
         List<GroupInfo> groupInfos = new ArrayList<>();
         groupInfos.addAll(queryFactory
                 .select(Projections.constructor(GroupInfo.class,
@@ -32,7 +32,7 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
                 ))
                 .from(group)
                 .leftJoin(group.sendPraises, sendPraise)
-                .where(eqMemberId(memberId))
+                .where(eqMemberId(memberId),eqGroupDeleteAtIsNull())
                 .orderBy(group.orderIdx.asc())
                 .fetch()
         );
@@ -46,7 +46,7 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
                 ))
                 .from(group)
                 .leftJoin(group.receivePraises, receivePraise)
-                .where(eqMemberId(memberId))
+                .where(eqMemberId(memberId),eqGroupDeleteAtIsNull())
                 .orderBy(group.orderIdx.asc())
                 .fetch()
         );
@@ -60,7 +60,7 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
                 .from(group)
                 .leftJoin(group.sendPraises, sendPraise)
                 .leftJoin(group.receivePraises, receivePraise)
-                .where(eqMemberId(memberId))
+                .where(eqMemberId(memberId),eqGroupDeleteAtIsNull())
                 .groupBy(group.id)
                 .fetch();
 
@@ -103,4 +103,9 @@ public class GroupInfosQueryRepositoryImpl implements GroupInfosQueryRepository 
     private BooleanExpression eqMemberId(Long memberId) {
         return group.member.id.eq(memberId);
     }
+
+    private BooleanExpression eqGroupDeleteAtIsNull() {
+        return group.deletedAt.isNull();
+    }
+
 }

@@ -17,7 +17,7 @@ public class GroupNameAndTotalCountQueryRepositoryImpl implements GroupNameAndTo
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<GroupNamePraiseCountInfo> findNameAndPraiseCount(Long groupId, Member member) {
+    public Optional<GroupNamePraiseCountInfo> findNameAndPraiseCountAndDeletedAtIsNull(Long groupId, Member member) {
         return Optional.ofNullable(queryFactory.select(Projections.constructor(GroupNamePraiseCountInfo.class,
                         group.id,
                         group.name,
@@ -26,7 +26,7 @@ public class GroupNameAndTotalCountQueryRepositoryImpl implements GroupNameAndTo
 
                 ))
                 .from(group)
-                .where(eqGroupId(groupId), eqMember(member))
+                .where(eqGroupId(groupId), eqMember(member), eqGroupDeleteAtIsNull())
                 .fetchOne());
     }
 
@@ -36,5 +36,9 @@ public class GroupNameAndTotalCountQueryRepositoryImpl implements GroupNameAndTo
 
     private BooleanExpression eqGroupId(Long groupId) {
         return group.id.eq(groupId);
+    }
+
+    private BooleanExpression eqGroupDeleteAtIsNull() {
+        return group.deletedAt.isNull();
     }
 }
