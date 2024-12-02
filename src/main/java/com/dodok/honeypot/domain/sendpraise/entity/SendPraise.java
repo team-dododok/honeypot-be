@@ -9,6 +9,8 @@ import lombok.*;
 
 import java.util.UUID;
 
+import static com.dodok.honeypot.global.utils.UpdateValueUtils.updateValue;
+
 @Entity
 @Table(name = "tb_send_praise")
 @Getter
@@ -36,6 +38,7 @@ public class SendPraise extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "send_status", nullable = false)
+    @Builder.Default
     private SendStatus sendStatus = SendStatus.FAIL;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -67,7 +70,7 @@ public class SendPraise extends BaseTimeEntity {
         this.group = group;
     }
     public void updateSendStatus(SendStatus sendStatus) {
-        this.sendStatus = sendStatus;
+        this.sendStatus = updateValue(this.sendStatus, sendStatus);
     }
 
 
