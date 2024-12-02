@@ -5,5 +5,5 @@ import com.dodok.honeypot.domain.group.dto.GroupMembersPraiseCountInfo;
 import java.util.List;
 
 public interface GroupInfosQueryRepository {
-    List<GroupMembersPraiseCountInfo> findGroupInfosByMemberId(Long memberId);
+    List<GroupMembersPraiseCountInfo> findGroupInfosByMemberIdAndDeletedAtIsNull(Long memberId);
 }

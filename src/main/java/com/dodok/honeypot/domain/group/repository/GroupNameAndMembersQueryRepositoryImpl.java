@@ -9,7 +9,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ public class GroupNameAndMembersQueryRepositoryImpl implements GroupNameAndMembe
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<GroupMembersInfo> findGroupNameAndMembers(Long memberId, List<Long> groupIds) {
+    public List<GroupMembersInfo> findGroupNameAndMembersAndDeletedAtIsNull(Long memberId, List<Long> groupIds) {
         List<GroupInfo> groupInfos = new ArrayList<>();
         groupInfos.addAll(queryFactory
                 .select(Projections.constructor(GroupInfo.class,
@@ -34,7 +33,7 @@ public class GroupNameAndMembersQueryRepositoryImpl implements GroupNameAndMembe
                 ))
                 .from(group)
                 .leftJoin(group.sendPraises, sendPraise)
-                .where(eqMemberId(memberId), inGroupIds(groupIds))
+                .where(eqMemberId(memberId), inGroupIds(groupIds),eqGroupDeleteAtIsNull())
                 .orderBy(group.orderIdx.asc())
                 .fetch()
         );
@@ -48,7 +47,7 @@ public class GroupNameAndMembersQueryRepositoryImpl implements GroupNameAndMembe
                 ))
                 .from(group)
                 .leftJoin(group.receivePraises, receivePraise)
-                .where(eqMemberId(memberId), inGroupIds(groupIds))
+                .where(eqMemberId(memberId), inGroupIds(groupIds),eqGroupDeleteAtIsNull())
                 .orderBy(group.orderIdx.asc())
                 .fetch()
         );
@@ -82,5 +81,8 @@ public class GroupNameAndMembersQueryRepositoryImpl implements GroupNameAndMembe
 
     private BooleanExpression eqMemberId(Long memberId) {
         return group.member.id.eq(memberId);
+    }
+    private BooleanExpression eqGroupDeleteAtIsNull() {
+        return group.deletedAt.isNull();
     }
 }

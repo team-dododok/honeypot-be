@@ -4,6 +4,7 @@ package com.dodok.honeypot.domain.group.service;
 import com.dodok.honeypot.domain.group.dto.req.GroupOrderReqDto;
 import com.dodok.honeypot.domain.group.dto.req.GroupOrderUpdateReqDto;
 import com.dodok.honeypot.domain.group.entity.Group;
+import com.dodok.honeypot.domain.group.helper.GroupHelper;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.member.helper.MemberHelper;
 import com.dodok.honeypot.global.error.exception.ForbiddenException;
@@ -27,10 +28,11 @@ import static com.dodok.honeypot.domain.group.error.GroupErrorCode.NOT_VALID_GRO
 public class UpdateGroupOrderService {
 
     private final MemberHelper memberHelper;
+    private final GroupHelper groupHelper;
 
     public void execute(Long memberId, GroupOrderUpdateReqDto requestDto) {
         Member member = memberHelper.findMemberByIdOrElseThrow(memberId);
-        List<Group> memberGroups = member.getGroups();
+        List<Group> memberGroups = groupHelper.findAllByMember(member);
         validateOrderIdx(requestDto, memberGroups.size());
         validateAllIsMemberGroup(memberGroups, requestDto);
         updateGroupOrders(memberGroups, requestDto);

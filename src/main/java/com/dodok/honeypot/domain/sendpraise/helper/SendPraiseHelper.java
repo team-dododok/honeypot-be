@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class SendPraiseHelper {
@@ -47,5 +49,14 @@ public class SendPraiseHelper {
         return sendPraiseRepository.findById(sendPraiseId).orElseThrow(
                 () -> new EntityNotFoundException(SendPraiseErrorCode.SEND_PRAISE_ENTITY_NOT_FOUND)
         );
+    }
+
+    /**
+     * groupId를 통해 조회한 SendPraise의 groupId를 전부 null로 만드는 로직(미사용)
+     * @param groupId
+     */
+    public void setGroupIdToNullByGroupId(Long groupId) {
+        List<SendPraise> sendPraises = sendPraiseRepository.findAllByGroupId(groupId);
+        sendPraises.forEach(sendPraise -> sendPraise.updateGroup(null));
     }
 }

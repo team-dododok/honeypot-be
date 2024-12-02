@@ -25,19 +25,19 @@ public class GroupHelper {
     private final GroupRepository groupRepository;
 
     public void validateDuplicateGroupName(Member member, String groupName) {
-        if (groupRepository.existsByMemberAndName(member, groupName)) {
+        if (groupRepository.existsByMemberAndNameAndDeletedAtIsNull(member, groupName)) {
             throw new ConflictException(DUPLICATE_GROUP_NAME);
         }
     }
 
     public Group createGroupAndSave(GroupCreateReqDto requestDto, Member member) {
-        Integer groupCount = groupRepository.countByMember(member);
+        Integer groupCount = groupRepository.countByMemberAndDeletedAtIsNull(member);
         Group group = createGroup(requestDto.groupName(), member, groupCount);
         return groupRepository.save(group);
     }
 
     public Group findGroupByMemberAndIdOrElseThrow(Member member, Long groupId) {
-        return groupRepository.findByMemberAndId(member, groupId)
+        return groupRepository.findByMemberAndIdAndDeletedAtIsNull(member, groupId)
                 .orElseThrow(() -> new EntityNotFoundException(MEMBER_GROUP_NOT_FOUND));
     }
 
@@ -46,34 +46,38 @@ public class GroupHelper {
     }
 
     public Group findGroupByIdOrElseThrow(Long groupId) {
-        return groupRepository.findById(groupId)
+        return groupRepository.findByIdAndDeletedAtIsNull(groupId)
                 .orElseThrow(() -> new EntityNotFoundException(GROUP_ENTITY_NOT_FOUND));
     }
 
     public Boolean checkGroupNameIsExist(Member member, String groupName) {
-        return groupRepository.existsByMemberAndName(member, groupName);
+        return groupRepository.existsByMemberAndNameAndDeletedAtIsNull(member, groupName);
     }
 
+
     public List<GroupMembersPraiseCountInfo> findGroupInfosByMemberId(Long memberId) {
-        return groupRepository.findGroupInfosByMemberId(memberId);
+        return groupRepository.findGroupInfosByMemberIdAndDeletedAtIsNull(memberId);
     }
 
     public void validateIsMemberGroup(Member member, Long groupId) {
-        if (!groupRepository.existsByMemberAndId(member, groupId)) {
+        if (!groupRepository.existsByMemberAndIdAndDeletedAtIsNull(member, groupId)) {
             throw new EntityNotFoundException(MEMBER_GROUP_NOT_FOUND);
         }
     }
 
     public List<SearchGroupInfo> findAllGroupByName(Long memberId, String name) {
-        return groupRepository.findAllByNameContainsAndMember(memberId, name);
+        return groupRepository.findAllByNameContainsAndMemberAndDeletedAtIsNull(memberId, name);
     }
 
     public GroupNamePraiseCountInfo findNameAndPraiseCount(Long groupId, Member member) {
-        return groupRepository.findNameAndPraiseCount(groupId, member)
+        return groupRepository.findNameAndPraiseCountAndDeletedAtIsNull(groupId, member)
                 .orElseThrow(() -> new EntityNotFoundException(MEMBER_GROUP_NOT_FOUND));
     }
 
+    public List<Group> findAllByMember(Member member) {
+        return groupRepository.findAllByMemberAndDeletedAtIsNull(member);
+    }
     public List<GroupMembersInfo> findGroupNameAndMembers(Long memberId, List<Long> groupIds) {
-        return groupRepository.findGroupNameAndMembers(memberId, groupIds);
+        return groupRepository.findGroupNameAndMembersAndDeletedAtIsNull(memberId, groupIds);
     }
 }
