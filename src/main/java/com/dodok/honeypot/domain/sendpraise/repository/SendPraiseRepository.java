@@ -4,13 +4,14 @@ import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface SendPraiseRepository extends JpaRepository<SendPraise, Long>,
         GroupSendPraiseGetInfoQueryRepository {
     Long countBySenderId(Long senderId);
-
     Optional<SendPraise> findByUuid(String uuid);
 
+    List<SendPraise> findAllByGroupId(Long groupId);
 }

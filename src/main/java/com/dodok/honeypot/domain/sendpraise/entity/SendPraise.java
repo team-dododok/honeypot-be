@@ -62,4 +62,5 @@ public class SendPraise extends BaseTimeEntity {
     public void updateGroup(Group group) {
         this.group = group;
     }
+
 }

@@ -7,7 +7,9 @@ import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
 import com.dodok.honeypot.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import static com.dodok.honeypot.global.utils.UpdateValueUtils.updateValue;
 @Getter
 @Table(name = "tb_group")
 @Entity
+@SQLDelete(sql = "UPDATE tb_group SET deleted_at = CURRENT_TIMESTAMP WHERE group_id = ?")
 public class Group extends BaseTimeEntity {
 
     @Id
@@ -36,15 +39,19 @@ public class Group extends BaseTimeEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "group")
     private List<SendPraise> sendPraises = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ReceivePraise> receivePraises = new ArrayList<>();
 
+    @Column(name = "deleted_at", nullable = true)
+    private LocalDateTime deletedAt;
+
     public static Group createGroup(String name, Member member, Integer groupCount) {
+
         Group group = Group.builder()
                 .name(name)
                 .orderIdx(groupCount + 1)
