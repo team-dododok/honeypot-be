@@ -34,6 +34,10 @@ public class SendPraise extends BaseTimeEntity {
     @Column(name = "receiver_name",nullable = false)
     private String receiverName;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "send_status", nullable = false)
+    private SendStatus sendStatus = SendStatus.FAIL;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id", nullable = false)
     private Member sender;
@@ -62,5 +66,9 @@ public class SendPraise extends BaseTimeEntity {
     public void updateGroup(Group group) {
         this.group = group;
     }
+    public void updateSendStatus(SendStatus sendStatus) {
+        this.sendStatus = sendStatus;
+    }
+
 
 }
