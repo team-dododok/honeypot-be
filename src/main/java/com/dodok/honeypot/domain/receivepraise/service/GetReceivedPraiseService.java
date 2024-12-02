@@ -25,17 +25,22 @@ public class GetReceivedPraiseService {
     private final ReceivePraiseHelper receivePraiseHelper;
     public GetReceivedPraiseResDto execute(String praiseUuid, Optional<Long> memberId) {
         SendPraise sendPraise = sendPraiseHelper.findByUuidOrElseThrow(praiseUuid);
+
         Long savedGroupId = -1L; // 내가 칭찬을 이미 받은 경우, 칭찬이 저장된 그룹의 id
 
         if (memberId.isPresent()) {
+            // 내가 보낸 칭찬인지 확인
+            if (Objects.equals(sendPraise.getSender().getId(), memberId.get())) {
+                savedGroupId = -2L;
+                return ReceivePraiseMapper.getReceivedPraiseResDto(sendPraise, savedGroupId);
+            }
+
             Member receiver = memberHelper.findMemberByIdOrElseThrow(memberId.get());
             // 이미 내가 저장한 칭찬인지 확인
             List<ReceivePraise> allReceivedPraise = receivePraiseHelper.findAllReceivedPraise(sendPraise.getId());
-//            Boolean isAlreadySaved = false;
 
             for (ReceivePraise receivePraise : allReceivedPraise) {
                 if (Objects.equals(receivePraise.getReceiver().getId(), receiver.getId())) {
-//                    isAlreadySaved = true;
                     savedGroupId = receivePraise.getGroup().getId();
                     break;
                 }
