@@ -6,6 +6,7 @@ import com.dodok.honeypot.domain.receivepraise.dto.res.GetGroupReceivePraiseResD
 import com.dodok.honeypot.domain.receivepraise.dto.res.GetReceivedPraiseResDto;
 import com.dodok.honeypot.domain.receivepraise.dto.res.ReceivePraiseInfoResDto;
 import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
+import com.dodok.honeypot.domain.sendpraise.entity.SendStatus;
 import com.dodok.honeypot.global.dto.PageInfo;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +16,9 @@ import java.util.stream.Collectors;
 @Component
 public class ReceivePraiseMapper {
 
-    public static GetReceivedPraiseResDto getReceivedPraiseResDto(SendPraise sendPraise, Long savedGroupId) {
+    public static GetReceivedPraiseResDto getReceivedPraiseResDto(SendPraise sendPraise, SendStatus sendStatus, Long savedGroupId) {
         return GetReceivedPraiseResDto.of(sendPraise.getContent(), sendPraise.getSender().getName(), sendPraise.getReceiverName(),
-                sendPraise.getGroup().getName(), savedGroupId, sendPraise.getHoneyStamp().getImageUrl());
+                sendPraise.getGroup().getName(), savedGroupId, sendStatus, sendPraise.getHoneyStamp().getImageUrl());
     }
 
     public GetGroupReceivePraiseResDto toGetGroupReceivePraiseResDto(List<ReceivePraiseInfo> receivePraiseInfos, List<ProfileImage> profileImageUrlList, PageInfo pageInfo) {
