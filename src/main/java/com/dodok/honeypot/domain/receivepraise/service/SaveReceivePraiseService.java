@@ -9,18 +9,23 @@ import com.dodok.honeypot.domain.member.helper.MemberHelper;
 import com.dodok.honeypot.domain.receivepraise.dto.req.SaveReceivePraiseReqDto;
 import com.dodok.honeypot.domain.receivepraise.helper.ReceivePraiseHelper;
 import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
+import com.dodok.honeypot.domain.sendpraise.entity.SendStatus;
 import com.dodok.honeypot.domain.sendpraise.helper.SendPraiseHelper;
 import com.dodok.honeypot.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class SaveReceivePraiseService {
+    private final List<SendStatus> sendStatuses = Arrays.asList(SendStatus.DIRECT, SendStatus.GROUP, SendStatus.MYSELF);
+
     private final MemberHelper memberHelper;
     private final GroupHelper groupHelper;
     private final ReceivePraiseHelper receivePraiseHelper;
@@ -33,7 +38,7 @@ public class SaveReceivePraiseService {
      */
     public void execute(Long memberId, SaveReceivePraiseReqDto req) {
         Member receiver = memberHelper.findMemberByIdOrElseThrow(memberId);
-        SendPraise sendPraise = sendPraiseHelper.findByUuidOrElseThrow(req.praiseUuid());
+        SendPraise sendPraise = sendPraiseHelper.findByUuidAndSendStatusesOrElseThrow(req.praiseUuid(), sendStatuses);
         Group group = groupHelper.findGroupByIdOrElseThrow(req.groupId());
 
         // 저장하려는 그룹이 사용자가 만든 그룹이 아닌 경우

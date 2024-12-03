@@ -4,6 +4,7 @@ import com.dodok.honeypot.domain.group.entity.Group;
 import com.dodok.honeypot.domain.member.entity.Member;
 import com.dodok.honeypot.domain.sendpraise.dto.SendPraiseInfo;
 import com.dodok.honeypot.domain.sendpraise.entity.SendPraise;
+import com.dodok.honeypot.domain.sendpraise.entity.SendStatus;
 import com.dodok.honeypot.domain.sendpraise.error.SendPraiseErrorCode;
 import com.dodok.honeypot.domain.sendpraise.repository.SendPraiseRepository;
 import com.dodok.honeypot.domain.stamp.entity.HoneyStamp;
@@ -30,19 +31,23 @@ public class SendPraiseHelper {
 
     /**
      * 보낸 칭찬의 uuid를 통해 보낸 칭찬을 찾는 메서드
+     * SendStatus : ALL
      *
-     * @param uuid
-     * @return
      */
     public SendPraise findByUuidOrElseThrow(String uuid) {
         return sendPraiseRepository.findByUuid(uuid).orElseThrow(
                 () -> new EntityNotFoundException(SendPraiseErrorCode.SEND_PRAISE_ENTITY_NOT_FOUND)
         );
     }
+    public SendPraise findByUuidAndSendStatusesOrElseThrow(String uuid, List<SendStatus> sendStatuses) {
+        return sendPraiseRepository.findByUuidAndSendStatusIn(uuid,sendStatuses).orElseThrow(
+                () -> new EntityNotFoundException(SendPraiseErrorCode.SEND_PRAISE_ENTITY_NOT_FOUND)
+        );
+    }
 
 
     public Page<SendPraiseInfo> getGroupSendPraiseInfos(Long groupId, Pageable pageable) {
-        return sendPraiseRepository.findSendPraiseInfosByGroupId(groupId, pageable);
+        return sendPraiseRepository.findSendPraiseInfosByGroupIdAndSendStatusIsTrue(groupId, pageable);
     }
 
     public SendPraise findByIdOrElseThrow(Long sendPraiseId) {
