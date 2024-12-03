@@ -62,6 +62,7 @@ public class SendPraise extends BaseTimeEntity {
                 .sender(sender)
                 .group(group)
                 .honeyStamp(honeyStamp)
+                .sendStatus(SendStatus.FAIL)
                 .uuid(UUID.randomUUID().toString())
                 .build();
     }
