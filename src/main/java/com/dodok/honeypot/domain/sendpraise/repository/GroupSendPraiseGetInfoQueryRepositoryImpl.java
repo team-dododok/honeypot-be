@@ -1,6 +1,7 @@
 package com.dodok.honeypot.domain.sendpraise.repository;
 
 import com.dodok.honeypot.domain.sendpraise.dto.SendPraiseInfo;
+import com.dodok.honeypot.domain.sendpraise.entity.SendStatus;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -23,7 +24,7 @@ public class GroupSendPraiseGetInfoQueryRepositoryImpl implements GroupSendPrais
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<SendPraiseInfo> findSendPraiseInfosByGroupId(Long groupId, Pageable pageable) {
+    public Page<SendPraiseInfo> findSendPraiseInfosByGroupIdAndSendStatusIsTrue(Long groupId, Pageable pageable) {
         List<SendPraiseInfo> contents = queryFactory.
                 select(Projections.constructor(SendPraiseInfo.class,
                         sendPraise.id,
@@ -35,7 +36,7 @@ public class GroupSendPraiseGetInfoQueryRepositoryImpl implements GroupSendPrais
                 .from(sendPraise)
                 .join(sendPraise.group, group)
                 .join(sendPraise.honeyStamp, honeyStamp)
-                .where(eqGroupId(groupId))
+                .where(eqGroupId(groupId),eqSendPraiseStatusIsTrue())
                 .orderBy(CreatedAtDesc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -45,7 +46,7 @@ public class GroupSendPraiseGetInfoQueryRepositoryImpl implements GroupSendPrais
                 .select(sendPraise.id.countDistinct())
                 .from(sendPraise)
                 .join(sendPraise.group, group)
-                .where(eqGroupId(groupId));
+                .where(eqGroupId(groupId),eqSendPraiseStatusIsTrue());
 
         return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchCount);
     }
@@ -56,5 +57,8 @@ public class GroupSendPraiseGetInfoQueryRepositoryImpl implements GroupSendPrais
 
     private BooleanExpression eqGroupId(Long groupId) {
         return group.id.eq(groupId);
+    }
+    private BooleanExpression eqSendPraiseStatusIsTrue() {
+        return sendPraise.sendStatus.in(SendStatus.DIRECT, SendStatus.GROUP);
     }
 }

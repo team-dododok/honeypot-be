@@ -62,6 +62,12 @@ public class SendPraiseController {
 
     }
 
+    /**
+     *
+     * 칭찬 전송 상태를 갱신하는 폴링 api
+     * @param praiseUuid
+     * @return
+     */
     @GetMapping("/check")
     public ResponseEntity<SuccessResponse<?>> getSendPraiseSent(
             @RequestParam(name = "praise-uuid") String praiseUuid

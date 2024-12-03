@@ -29,7 +29,7 @@ public class CreateSendPraiseService {
     private final SendPraiseMapper sendPraiseMapper;
 
     /**
-     * 전송 할 보낸칭찬을 생성하는 로직g
+     * 전송 할 보낸칭찬을 생성하는 로직
      * @param req 보낸칭찬을 만들기 위한 정보들
      * @return 만들어진 보낸칭찬의 uuid
      */
