@@ -11,6 +11,6 @@ public class PraiseHelper {
     private final ReceivePraiseRepository receivePraiseRepository;
 
     public MemberPraiseInfo getMemberPraiseInfo(Long memberId) {
-        return receivePraiseRepository.findMemberPraiseInfosByMemberId(memberId);
+        return receivePraiseRepository.findMemberPraiseInfosByMemberIdAndSendStatusIsTrue(memberId);
     }
 }
