@@ -1,6 +1,7 @@
 package com.dodok.honeypot.domain.praise.repository;
 
 import com.dodok.honeypot.domain.praise.dto.info.MemberPraiseInfo;
+import com.dodok.honeypot.domain.sendpraise.entity.SendStatus;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,7 +17,7 @@ public class MemberPraiseInfoQueryRepositoryImpl implements MemberPraiseInfoQuer
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public MemberPraiseInfo findMemberPraiseInfosByMemberId(Long memberId) {
+    public MemberPraiseInfo findMemberPraiseInfosByMemberIdAndSendStatusIsTrue(Long memberId) {
         return queryFactory.
                 select(Projections.constructor(MemberPraiseInfo.class,
                         receivePraise.id.countDistinct(),
@@ -27,12 +28,15 @@ public class MemberPraiseInfoQueryRepositoryImpl implements MemberPraiseInfoQuer
                 .leftJoin(receivePraise).on(receivePraise.receiver.eq(member))
                 .leftJoin(sendPraise).on(sendPraise.sender.eq(member))
                 .leftJoin(receivePraise.sendPraise.honeyStamp, honeyStamp)
-                .where(eqMemberId(memberId))
+                .where(eqMemberId(memberId),eqSendPraiseStatusIsTrue())
                 .groupBy(member.id)
                 .fetchOne();
     }
 
     private BooleanExpression eqMemberId(Long memberId) {
         return member.id.eq(memberId);
+    }
+    private BooleanExpression eqSendPraiseStatusIsTrue() {
+        return sendPraise.sendStatus.in(SendStatus.DIRECT, SendStatus.GROUP);
     }
 }

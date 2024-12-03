@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface GroupSendPraiseGetInfoQueryRepository {
-    Page<SendPraiseInfo> findSendPraiseInfosByGroupId(Long groupId, Pageable pageable);
+    Page<SendPraiseInfo> findSendPraiseInfosByGroupIdAndSendStatusIsTrue(Long groupId, Pageable pageable);
 }
