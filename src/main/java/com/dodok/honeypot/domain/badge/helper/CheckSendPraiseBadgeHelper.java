@@ -39,6 +39,7 @@ public class CheckSendPraiseBadgeHelper {
      * @return // TODO : 배지 달성을 했을 때, 사용자(프론트)에게 어떻게 전달할 것인가?
      */
     public void updateSendPraiseBadge(Long memberId) {
+        // TODO : SendStatus == SUCCESS로 조건 걸기
         Long sendPraiseCount = sendPraiseRepository.countBySenderId(memberId);
 
         for (int badgeLevel = 0; badgeLevel < SEND_PRAISE_COUNTS.size(); badgeLevel++) {
