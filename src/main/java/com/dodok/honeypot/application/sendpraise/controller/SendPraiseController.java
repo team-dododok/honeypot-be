@@ -52,6 +52,9 @@ public class SendPraiseController {
      */
     @PostMapping("/check")
     public ResponseEntity<SuccessResponse<?>> checkSendPraiseSent(
+            @RequestHeader("Authorization") String authrozitaion,
+            @RequestHeader("X-Kakao-Resource-ID") String kakaoResourceId,
+            @RequestHeader("User-Agent") String userAgent,
             @RequestBody CheckSendPraiseSentReqDto req
     ) {
         checkSendPraiseSentService.execute(req);

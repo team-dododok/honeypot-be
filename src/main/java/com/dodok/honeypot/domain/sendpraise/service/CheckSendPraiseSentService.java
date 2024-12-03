@@ -17,5 +17,6 @@ public class CheckSendPraiseSentService {
         SendPraise sendPraise = sendPraiseHelper.findByUuidOrElseThrow(req.praiseUuid());
         sendPraise.updateSendStatus(SendStatus.SUCCESS);
         log.info("praise Uuid : "+req.praiseUuid() + "is Successfully Sent");
+        log.info("requestBody : " + req);
     }
 }
