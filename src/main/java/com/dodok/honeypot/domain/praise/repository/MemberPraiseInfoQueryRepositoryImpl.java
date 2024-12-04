@@ -28,8 +28,8 @@ public class MemberPraiseInfoQueryRepositoryImpl implements MemberPraiseInfoQuer
                 .leftJoin(receivePraise).on(receivePraise.receiver.eq(member))
                 .leftJoin(sendPraise).on(sendPraise.sender.eq(member))
                 .leftJoin(receivePraise.sendPraise.honeyStamp, honeyStamp)
-                .where(eqMemberId(memberId),eqSendPraiseStatusIsTrue())
-                .groupBy(member.id)
+                .where(eqMemberId(memberId),eqSendPraiseStatusIsTrue(),eqSendPraiseGroupIsNotDeleted())
+//                .groupBy(member.id)
                 .fetchOne();
     }
 
@@ -38,5 +38,8 @@ public class MemberPraiseInfoQueryRepositoryImpl implements MemberPraiseInfoQuer
     }
     private BooleanExpression eqSendPraiseStatusIsTrue() {
         return sendPraise.sendStatus.in(SendStatus.DIRECT, SendStatus.GROUP);
+    }
+    private BooleanExpression eqSendPraiseGroupIsNotDeleted() {
+        return sendPraise.group.deletedAt.isNull();
     }
 }
