@@ -59,6 +59,6 @@ public class GroupSendPraiseGetInfoQueryRepositoryImpl implements GroupSendPrais
         return group.id.eq(groupId);
     }
     private BooleanExpression eqSendPraiseStatusIsTrue() {
-        return sendPraise.sendStatus.in(SendStatus.DIRECT, SendStatus.GROUP);
+        return sendPraise.sendStatus.in(SendStatus.DIRECT, SendStatus.GROUP, SendStatus.MYSELF);
     }
 }
