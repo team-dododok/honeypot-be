@@ -36,7 +36,7 @@ public class MemberPraiseInfoQueryRepositoryImpl implements MemberPraiseInfoQuer
         return member.id.eq(memberId);
     }
     private BooleanExpression eqSendPraiseStatusIsTrue() {
-        return sendPraise.sendStatus.in(SendStatus.DIRECT, SendStatus.GROUP);
+        return sendPraise.sendStatus.in(SendStatus.DIRECT, SendStatus.GROUP, SendStatus.MYSELF);
     }
     private BooleanExpression eqSendPraiseGroupIsNotDeleted() {
         return sendPraise.group.deletedAt.isNull();
