@@ -29,7 +29,6 @@ public class MemberPraiseInfoQueryRepositoryImpl implements MemberPraiseInfoQuer
                 .leftJoin(sendPraise).on(sendPraise.sender.eq(member))
                 .leftJoin(receivePraise.sendPraise.honeyStamp, honeyStamp)
                 .where(eqMemberId(memberId),eqSendPraiseStatusIsTrue(),eqSendPraiseGroupIsNotDeleted())
-                .groupBy(member.id)
                 .fetchOne();
     }
 
