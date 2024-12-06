@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface StampRepository extends JpaRepository<HoneyStamp, Long>,
-        SentStampByGroupQueryRepository, ReceivedStampByGroupQueryRepository {
+        SentStampByGroupQueryRepository,
+        ReceivedStampByGroupQueryRepository,
+        ReceivedStampByMemberQueryRepository{
     List<StampDto> findAllBy();
 }

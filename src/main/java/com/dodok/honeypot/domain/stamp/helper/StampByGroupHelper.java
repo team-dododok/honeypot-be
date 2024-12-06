@@ -29,4 +29,13 @@ public class StampByGroupHelper {
     public List<StampDto> getReceivedStampByGroup(Long groupId) {
         return stampRepository.findAllReceivedStampByGroup(groupId);
     }
+
+    /**
+     * 멤버id를 기준으로 보낸 꿀도장을 전체 조회하는 헬퍼
+     * @param memberId 그룹id
+     * @return 보낸 꿀도장의 전체 정보
+     */
+    public List<StampDto> getReceivedStampByMember(Long memberId) {
+        return stampRepository.findAllReceivedStampByMember(memberId);
+    }
 }

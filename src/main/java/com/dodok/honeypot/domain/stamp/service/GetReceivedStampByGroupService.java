@@ -27,6 +27,7 @@ public class GetReceivedStampByGroupService {
 
     /**
      * 그룹을 기준으로 받은 꿀도장을 확인하는 로직
+     *
      * @param groupId 찾을 그룹의 id
      * @return 해당 그룹에서 받은 꿀도장 정보
      */
@@ -35,6 +36,7 @@ public class GetReceivedStampByGroupService {
         groupHelper.validateIsMemberGroup(member, groupId);
         List<StampDto> allStamp = stampHelper.getAllStamp();
         List<StampDto> receivedStampByGroup = stampByGroupHelper.getReceivedStampByGroup(groupId);
-        return stampByGroupMapper.toStampInfoByGroupResDto(allStamp,receivedStampByGroup);
+        List<StampDto> receivedStampByMember = stampByGroupHelper.getReceivedStampByMember(memberId);
+        return stampByGroupMapper.toStampInfoByGroupResDto(allStamp, receivedStampByGroup, receivedStampByMember);
     }
 }
