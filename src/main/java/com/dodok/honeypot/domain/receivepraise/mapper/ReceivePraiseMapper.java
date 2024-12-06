@@ -18,7 +18,7 @@ public class ReceivePraiseMapper {
 
     public static GetReceivedPraiseResDto getReceivedPraiseResDto(SendPraise sendPraise, SendStatus sendStatus, Long savedGroupId) {
         return GetReceivedPraiseResDto.of(sendPraise.getContent(), sendPraise.getSender().getName(), sendPraise.getReceiverName(),
-                sendPraise.getGroup().getName(), savedGroupId, sendStatus, sendPraise.getHoneyStamp().getImageUrl());
+                sendPraise.getGroup().getName(), savedGroupId, sendStatus, sendPraise.getHoneyStamp().getImageUrl(), sendPraise.getHoneyStamp().getStampName());
     }
 
     public GetGroupReceivePraiseResDto toGetGroupReceivePraiseResDto(List<ReceivePraiseInfo> receivePraiseInfos, List<ProfileImage> profileImageUrlList, PageInfo pageInfo) {

@@ -13,10 +13,11 @@ String receiverName,
 String groupName,
 Long groupId,
 SendStatus sendStatus,
-String imageUrl
+String imageUrl,
+String stampName
 ) {
     public static GetReceivedPraiseResDto of(
-            String content, String senderName, String receiverName, String groupName, Long groupId, SendStatus sendStatus,String imageUrl) {
+            String content, String senderName, String receiverName, String groupName, Long groupId, SendStatus sendStatus,String imageUrl, String stampName) {
         return GetReceivedPraiseResDto.builder()
                 .content(content)
                 .senderName(senderName)
@@ -25,6 +26,7 @@ String imageUrl
                 .groupId(groupId)
                 .sendStatus(sendStatus)
                 .imageUrl(imageUrl)
+                .stampName(stampName)
                 .build();
     }
 }
