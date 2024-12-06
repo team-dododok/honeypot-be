@@ -12,11 +12,18 @@ import org.springframework.stereotype.Component;
 public class MemberMapper {
 
     public MemberInfoResDto toMemberInfoResDto(MemberInfo memberInfo, MemberPraiseInfo memberPraiseInfo) {
+        if(isReceivePraiseCountGreaterThanThree(memberPraiseInfo)) {
+            memberPraiseInfo = MemberPraiseInfo.of(memberPraiseInfo.receivePraiseCount(), memberPraiseInfo.sendPraiseCount(), "");
+        }
         return MemberInfoResDto.of(memberInfo, memberPraiseInfo);
     }
 
     public MembersInfoResDto toMemberGetResDto(Page<MemberInfo> memberInfoPage) {
         PageInfo pageInfo = PageInfo.of(memberInfoPage);
         return MembersInfoResDto.of(memberInfoPage.getContent(), pageInfo);
+    }
+
+    private boolean isReceivePraiseCountGreaterThanThree(MemberPraiseInfo memberPraiseInfo) {
+        return memberPraiseInfo.receivePraiseCount() < 3L;
     }
 }
