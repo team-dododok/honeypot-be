@@ -47,20 +47,20 @@ public class SendPraiseController {
         return SuccessResponse.ok(response);
     }
 
-    /**
-     * 칭찬이 성공적으로 전송되었는지 확인할 수 있는 카카오 콜백 api
-     */
-    @PostMapping("/check")
-    public ResponseEntity<SuccessResponse<?>> checkSendPraiseSent(
-            @RequestHeader("Authorization") String authrozitaion,
-            @RequestHeader("X-Kakao-Resource-ID") String kakaoResourceId,
-            @RequestHeader("User-Agent") String userAgent,
-            @RequestBody CheckSendPraiseSentReqDto req
-    ) {
-        checkSendPraiseSentService.execute(req);
-        return SuccessResponse.ok(null);
+        /**
+         * 칭찬이 성공적으로 전송되었는지 확인할 수 있는 카카오 콜백 api
+         */
+        @PostMapping("/check")
+        public ResponseEntity<SuccessResponse<?>> checkSendPraiseSent(
+                @RequestHeader("Authorization") String authrozitaion,
+                @RequestHeader("X-Kakao-Resource-ID") String kakaoResourceId,
+                @RequestHeader("User-Agent") String userAgent,
+                @RequestBody CheckSendPraiseSentReqDto req
+        ) {
+            checkSendPraiseSentService.execute(req);
+            return SuccessResponse.ok(null);
 
-    }
+        }
 
     /**
      *

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 public class MemberMapper {
 
     public MemberInfoResDto toMemberInfoResDto(MemberInfo memberInfo, MemberPraiseInfo memberPraiseInfo) {
+        System.out.println("memberInfo = " + memberInfo);
+        System.out.println("memberPraiseInfo = " + memberPraiseInfo);
         if(isReceivePraiseCountGreaterThanThree(memberPraiseInfo)) {
             memberPraiseInfo = MemberPraiseInfo.of(memberPraiseInfo.receivePraiseCount(), memberPraiseInfo.sendPraiseCount(), "");
         }
